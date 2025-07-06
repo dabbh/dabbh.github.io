@@ -1,27 +1,38 @@
-<!-- filename: פתרון_תקלה_בלמדה.html -->
 <!DOCTYPE html>
 <html lang="he">
 
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>פתרון תקלה בלמדה</title>
+	<title>מערכת אבטחה ממשלתית | גישה מוגבלת</title>
 
 	<!-- Google Font -->
-	<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Inter:wght@400;600;700&display=swap"
+		rel="stylesheet">
 
 	<!-- Favicon -->
-	<link rel="icon" href="https://img.icons8.com/?size=100&id=11225&format=png&color=000000" type="image/png" />
+	<link rel="icon" href="https://img.icons8.com/?size=100&id=85500&format=png&color=000000" type="image/png" />
+
+	<!-- Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+		gtag('config', 'G-XXXXXXXXXX');
+	</script>
 
 	<style>
 		:root {
-			--bg: #1a1a2e;
-			--surface: #16213e;
-			--accent: #e94560;
-			--accent-light: #ff758f;
+			--bg: #0a0a0a;
+			--surface: #1a1a1a;
+			--accent: #00ff41;
+			--accent-dark: #00cc33;
+			--warning: #ff4444;
 			--text: #ffffff;
-			--muted: #c0c0c0;
-			--card: #0f3460;
+			--muted: #888888;
+			--border: #333333;
 		}
 
 		* {
@@ -30,272 +41,404 @@
 
 		body {
 			margin: 0;
-			font-family: 'Rubik', sans-serif;
-			background: linear-gradient(135deg, var(--bg), var(--surface));
+			font-family: 'Inter', sans-serif;
+			background: linear-gradient(135deg, var(--bg), #111111);
 			color: var(--text);
 			direction: rtl;
-			display: flex;
-			justify-content: center;
-			align-items: center;
 			min-height: 100vh;
-			padding: 20px;
-		}
-
-		.container {
-			background: var(--surface);
-			padding: 40px;
-			border-radius: 20px;
-			max-width: 750px;
-			width: 100%;
-			box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-			animation: fadeIn 1s ease;
-		}
-
-		@keyframes fadeIn {
-			from {
-				opacity: 0;
-				transform: translateY(20px);
-			}
-
-			to {
-				opacity: 1;
-				transform: translateY(0);
-			}
-		}
-
-		h1 {
-			color: var(--accent);
-			margin-bottom: 20px;
-			text-align: center;
-			text-shadow: 0 0 15px rgba(233, 69, 96, 0.5);
-		}
-
-		.button-group {
 			display: flex;
+			align-items: center;
 			justify-content: center;
-			gap: 10px;
-			flex-wrap: wrap;
-			margin-bottom: 30px;
+			padding: 20px;
+			overflow-x: hidden;
 		}
 
-		button {
-			background: none;
-			color: var(--accent-light);
-			border: 2px solid var(--accent);
-			padding: 12px 24px;
-			font-size: 1rem;
-			border-radius: 40px;
-			cursor: pointer;
-			transition: all 0.3s ease;
-			position: relative;
-			overflow: hidden;
-		}
-
-		button::before {
+		body::before {
 			content: '';
-			position: absolute;
+			position: fixed;
 			top: 0;
 			left: 0;
 			width: 100%;
 			height: 100%;
-			background: var(--accent);
-			z-index: 0;
-			transform: scaleX(0);
-			transform-origin: right;
-			transition: transform 0.3s ease;
-		}
-
-		button:hover::before {
-			transform: scaleX(1);
-			transform-origin: left;
-		}
-
-		button span {
-			position: relative;
+			background: repeating-linear-gradient(90deg,
+					transparent,
+					transparent 2px,
+					rgba(0, 255, 65, 0.03) 2px,
+					rgba(0, 255, 65, 0.03) 4px);
+			pointer-events: none;
 			z-index: 1;
 		}
 
-		button:hover {
-			color: white;
-			box-shadow: 0 0 20px var(--accent);
+		.container {
+			background: var(--surface);
+			border: 2px solid var(--accent);
+			border-radius: 10px;
+			padding: 40px;
+			max-width: 800px;
+			width: 100%;
+			box-shadow:
+				0 0 30px rgba(0, 255, 65, 0.3),
+				inset 0 0 20px rgba(0, 255, 65, 0.1);
+			position: relative;
+			z-index: 2;
+			animation: systemBoot 2s ease-out;
 		}
 
-		button.active {
-			background: var(--accent);
-			color: white;
-			box-shadow: 0 0 20px var(--accent);
-		}
-
-		.section {
-			display: none;
-			background: var(--card);
-			padding: 25px;
-			border-radius: 15px;
-			animation: popIn 0.5s ease-out;
-		}
-
-		@keyframes popIn {
-			from {
+		@keyframes systemBoot {
+			0% {
 				opacity: 0;
-				transform: scale(0.95);
+				transform: scale(0.9);
+				filter: brightness(2);
 			}
 
-			to {
+			50% {
+				filter: brightness(1.5);
+			}
+
+			100% {
 				opacity: 1;
 				transform: scale(1);
+				filter: brightness(1);
 			}
 		}
 
-		ol {
-			padding-right: 0;
-			list-style: none;
-			counter-reset: steps;
+		.header {
+			text-align: center;
+			margin-bottom: 30px;
+			border-bottom: 1px solid var(--border);
+			padding-bottom: 20px;
 		}
 
-		li {
-			counter-increment: steps;
-			margin-bottom: 15px;
-			background: rgba(255, 255, 255, 0.05);
-			padding: 15px 20px;
-			border-right: 5px solid var(--accent);
-			border-radius: 10px;
-			position: relative;
+		.logo {
+			font-size: 2.5rem;
+			color: var(--accent);
+			margin-bottom: 10px;
+			text-shadow: 0 0 10px var(--accent);
 		}
 
-		li::before {
-			content: counter(steps);
-			position: absolute;
-			right: -30px;
-			top: 50%;
-			transform: translateY(-50%);
-			background: var(--accent);
+		h1 {
+			color: var(--accent);
+			margin: 0;
+			font-size: 1.8rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 2px;
+			text-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
+		}
+
+		.classification {
+			background: var(--warning);
 			color: white;
-			width: 28px;
-			height: 28px;
-			border-radius: 50%;
-			display: flex;
-			align-items: center;
-			justify-content: center;
+			padding: 8px 20px;
+			margin: 20px 0;
+			text-align: center;
 			font-weight: bold;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			animation: blink 2s infinite;
+		}
+
+		@keyframes blink {
+
+			0%,
+			50% {
+				opacity: 1;
+			}
+
+			51%,
+			100% {
+				opacity: 0.7;
+			}
+		}
+
+		.warning-box {
+			background: rgba(255, 68, 68, 0.1);
+			border: 1px solid var(--warning);
+			border-radius: 5px;
+			padding: 20px;
+			margin: 20px 0;
+			text-align: center;
+		}
+
+		.access-form {
+			background: rgba(0, 255, 65, 0.05);
+			border: 1px solid var(--accent);
+			border-radius: 8px;
+			padding: 25px;
+			margin: 25px 0;
+		}
+
+		.form-group {
+			margin-bottom: 20px;
+		}
+
+		label {
+			display: block;
+			margin-bottom: 8px;
+			color: var(--accent);
+			font-weight: 600;
+			font-family: 'Roboto Mono', monospace;
+		}
+
+		input {
+			width: 100%;
+			padding: 12px;
+			background: var(--bg);
+			border: 1px solid var(--border);
+			border-radius: 4px;
+			color: var(--text);
+			font-family: 'Roboto Mono', monospace;
+			font-size: 14px;
+		}
+
+		input:focus {
+			outline: none;
+			border-color: var(--accent);
+			box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+		}
+
+		.access-btn {
+			width: 100%;
+			padding: 15px;
+			background: linear-gradient(45deg, var(--accent-dark), var(--accent));
+			border: none;
+			border-radius: 5px;
+			color: var(--bg);
+			font-weight: bold;
+			font-size: 16px;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			margin-top: 10px;
+		}
+
+		.access-btn:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 5px 20px rgba(0, 255, 65, 0.4);
+		}
+
+		.system-info {
+			margin-top: 30px;
+			padding: 20px;
+			background: rgba(0, 255, 65, 0.03);
+			border-radius: 5px;
+			font-family: 'Roboto Mono', monospace;
+			font-size: 12px;
+			color: var(--muted);
+			direction: ltr;
+			text-align: left;
+		}
+
+		.loading {
+			display: none;
+			text-align: center;
+			margin: 20px 0;
+			color: var(--accent);
+		}
+
+		.spinner {
+			border: 2px solid var(--border);
+			border-top: 2px solid var(--accent);
+			border-radius: 50%;
+			width: 30px;
+			height: 30px;
+			animation: spin 1s linear infinite;
+			margin: 0 auto 10px;
+		}
+
+		@keyframes spin {
+			0% {
+				transform: rotate(0deg);
+			}
+
+			100% {
+				transform: rotate(360deg);
+			}
 		}
 
 		.footer {
 			text-align: center;
 			margin-top: 30px;
+			font-size: 0.8em;
 			color: var(--muted);
-			font-size: 0.9em;
+			opacity: 0.7;
 		}
 	</style>
 </head>
 
 <body>
 	<div class="container">
-		<h1>נתקעת בלמדה? 😵‍💫</h1>
-		<div class="button-group">
-			<button onclick="showSection('pc', this)"><span>💻 כרום במחשב</span></button>
-			<button onclick="showSection('android', this)"><span>📱 כרום באנדרואיד</span></button>
-			<button onclick="showSection('ios', this)"><span>🍎 ספארי באייפון</span></button>
+		<div class="header">
+			<div class="logo">�</div>
+			<h1>מערכת אבטחת מידע ממשלתית</h1>
 		</div>
 
-		<div id="pc" class="section">
-			<h2>כרום במחשב</h2>
-			<ol>
-				<li>פתחו את דפדפן כרום.</li>
-				<li>לחצו על ⋮ בפינה העליונה.</li>
-				<li>נווטו אל היסטוריה &gt; היסטוריה (<code>Ctrl+H</code>).</li>
-				<li>לחצו על "ניקוי נתוני גלישה".</li>
-				<li>בחרו "כל הזמנים" וסמנו את שלושת האפשרויות.</li>
-				<li>לחצו על "ניקוי נתונים".</li>
-			</ol>
+		<div class="classification">
+			⚠️ חסוי ביותר - CLASSIFIED - חסוי ביותר ⚠️
 		</div>
 
-		<div id="android" class="section">
-			<h2>כרום באנדרואיד</h2>
-			<ol>
-				<li>פתחו את אפליקציית כרום.</li>
-				<li>לחצו על ⋮ בפינה העליונה.</li>
-				<li>לחצו על "היסטוריה".</li>
-				<li>בחרו "נקה נתוני גלישה".</li>
-				<li>בחרו טווח זמן וסמנו את האפשרויות.</li>
-				<li>לחצו על "נקה נתונים".</li>
-			</ol>
+		<div class="warning-box">
+			<h3>🚨 אזהרת אבטחה 🚨</h3>
+			<p><strong>גישה מוגבלת למורשים בלבד!</strong></p>
+			<p>מערכת זו מכילה מידע מסווג ברמת אבטחה גבוהה. כל פעילות במערכת מתועדת ומנוטרת 24/7.</p>
+			<p>שימוש לא מורשה עלול להוביל לתביעה פלילית!</p>
 		</div>
 
-		<div id="ios" class="section">
-			<h2>ספארי באייפון</h2>
-			<ol>
-				<li>פתחו את "הגדרות".</li>
-				<li>גללו אל Safari ולחצו.</li>
-				<li>לחצו על "נקה היסטוריה ונתוני אתרים".</li>
-				<li>אשרו את הפעולה.</li>
-				<li><strong>שימו לב:</strong> הפעולה תנתק אתכם מכל האתרים.</li>
-			</ol>
+		<div class="access-form">
+			<h3>🔐 כניסה למערכת</h3>
+			<div class="form-group">
+				<label for="username">קוד משתמש ממשלתי:</label>
+				<input type="text" id="username" placeholder="הכנס קוד זהות מסווג" />
+			</div>
+			<div class="form-group">
+				<label for="password">סיסמה ביומטרית:</label>
+				<input type="password" id="password" placeholder="******************" />
+			</div>
+			<div class="form-group">
+				<label for="clearance">רמת סיווג:</label>
+				<input type="text" id="clearance" placeholder="TOP SECRET / COSMIC / ULTRA" />
+			</div>
+			<button class="access-btn" onclick="attemptAccess()">
+				🚀 גישה למערכת המרכזית
+			</button>
 		</div>
 
-		<div class="footer">נוצר במיוחד בשבילך על ידי פיתי ✨</div>
+		<div class="loading" id="loading">
+			<div class="spinner"></div>
+			<p>מאמת פרטים באמצעות לוויין צבאי...</p>
+			<p id="loadingText">מתחבר לשרתים מוצפנים...</p>
+		</div>
+
+		<div class="system-info">
+			<strong>System Info:</strong><br>
+			Server: MOSSAD-MAIN-001.gov.il<br>
+			Encryption: AES-256-QUANTUM<br>
+			Last Access: CLASSIFIED<br>
+			Security Level: MAXIMUM<br>
+			Monitoring: ACTIVE<br>
+			Location: [REDACTED]
+		</div>
+
+		<div class="footer">
+			מערכת זו מופעלת על ידי יחידת 8200 | כל הזכויות שמורות למדינת ישראל<br>
+			⚡ Powered by Quantum Computing Technology ⚡
+		</div>
 	</div>
 
 	<script>
-		// פונקציה להצגת כמות הצפיות (נראה רק בקונסולה)
+		// מערכת מעקב מתקדמת
 		function trackPageViews() {
-			const STORAGE_KEY = 'lamda_page_views';
-			const SESSION_KEY = 'lamda_session_viewed';
-			
-			// בדיקה אם המשתמש כבר צפה בעמוד בסשן הנוכחי
-			if (sessionStorage.getItem(SESSION_KEY)) {
+			const STORAGE_KEY = 'gov_access_attempts';
+			const SESSION_KEY = 'gov_session_active';
+
+			if (!sessionStorage.getItem(SESSION_KEY)) {
+				let attempts = parseInt(localStorage.getItem(STORAGE_KEY) || '0');
+				attempts++;
+				localStorage.setItem(STORAGE_KEY, attempts.toString());
+				sessionStorage.setItem(SESSION_KEY, 'true');
+
+				console.log(`%c� GOV-SYSTEM: Access attempt #${attempts} logged`,
+					'background: #ff4444; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
+				console.log(`%c⚠️ WARNING: All activities are monitored by security services`,
+					'background: #000000; color: #00ff41; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
+			}
+
+			// פונקציות ניטור
+			window.getSystemLogs = function () {
+				const attempts = parseInt(localStorage.getItem(STORAGE_KEY) || '0');
+				console.log(`%c�️ SECURITY LOG:`,
+					'background: #000000; color: #00ff41; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
+				console.log(`- Total unauthorized access attempts: ${attempts}`);
+				console.log(`- System status: MONITORING ACTIVE`);
+				console.log(`- Location tracking: ENABLED`);
+				console.warn('⚠️ This session is being recorded for security purposes');
+			};
+		}
+
+		// הודעות טעינה מציאותיות
+		const loadingMessages = [
+			"מתחבר לשרתי הביטחון...",
+			"מאמת זהות דרך בסיס נתונים ממשלתי...",
+			"בודק רמת סיווג ביומטרי...",
+			"מעביר בקשה לאישור יחידת 8200...",
+			"מקבל אישור מהרמטכ״ל...",
+			"פותח ערוץ מוצפן...",
+			"ההטבעה במערכת נכשלה!",
+			"זוהתה פעילות חשודה!",
+			"מעביר דיווח לשב״כ..."
+		];
+
+		function attemptAccess() {
+			const username = document.getElementById('username').value;
+			const password = document.getElementById('password').value;
+			const clearance = document.getElementById('clearance').value;
+
+			if (!username || !password || !clearance) {
+				alert('⚠️ ERROR: כל השדות נדרשים לאימות ביטחוני!');
 				return;
 			}
-			
-			// קריאה של מספר הצפיות הנוכחי
-			let viewCount = parseInt(localStorage.getItem(STORAGE_KEY) || '0');
-			
-			// הוספת צפייה חדשה
-			viewCount++;
-			
-			// שמירה של המספר החדש
-			localStorage.setItem(STORAGE_KEY, viewCount.toString());
-			
-			// סימון שהמשתמש כבר צפה בעמוד בסשן הנוכחי
-			sessionStorage.setItem(SESSION_KEY, 'true');
-			
-			// הדפסה לקונסולה
-			console.log(`%c📊 מספר הצפיות באתר: ${viewCount}`, 
-				'background: #e94560; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
-			
-			// הוספת פונקציה גלובלית לצפייה בנתונים
-			window.getPageViews = function() {
-				const views = parseInt(localStorage.getItem(STORAGE_KEY) || '0');
-				console.log(`%c📈 סטטיסטיקות האתר:`, 
-					'background: #0f3460; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
-				console.log(`- סה"כ צפיות: ${views}`);
-				console.log(`- תאריך ראשון: ${localStorage.getItem('lamda_first_visit') || 'לא ידוע'}`);
-				return views;
-			};
-			
-			// שמירת תאריך הביקור הראשון
-			if (!localStorage.getItem('lamda_first_visit')) {
-				localStorage.setItem('lamda_first_visit', new Date().toLocaleDateString('he-IL'));
+
+			document.querySelector('.access-form').style.display = 'none';
+			document.getElementById('loading').style.display = 'block';
+
+			let messageIndex = 0;
+			const loadingInterval = setInterval(() => {
+				if (messageIndex < loadingMessages.length) {
+					document.getElementById('loadingText').textContent = loadingMessages[messageIndex];
+					messageIndex++;
+				} else {
+					clearInterval(loadingInterval);
+					// הכיוון המסתורי! 🎭
+					setTimeout(() => {
+						window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+					}, 1000);
+				}
+			}, 1500);
+
+			// שליחת "דיווח" ל-Google Analytics
+			if (typeof gtag !== 'undefined') {
+				gtag('event', 'unauthorized_access_attempt', {
+					'username_attempted': username.substring(0, 3) + '***',
+					'clearance_claimed': clearance,
+					'timestamp': new Date().toISOString()
+				});
 			}
 		}
-		
-		// פונקציה לאיפוס הצפיות (למקרה שצריך)
-		window.resetPageViews = function() {
-			localStorage.removeItem('lamda_page_views');
-			localStorage.removeItem('lamda_first_visit');
-			sessionStorage.removeItem('lamda_session_viewed');
-			console.log('%cהצפיות אופסו!', 'color: red; font-weight: bold;');
-		};
 
-		function showSection(id, btn) {
-			document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
-			document.getElementById(id).style.display = 'block';
+		// אפקטים נוספים
+		document.addEventListener('DOMContentLoaded', function () {
+			trackPageViews();
 
-			document.querySelectorAll('.button-group button').forEach(b => b.classList.remove('active'));
-			btn.classList.add('active');
-		}
-		
-		// הפעלת מעקב הצפיות כשהעמוד נטען
-		document.addEventListener('DOMContentLoaded', trackPageViews);
+			// הוספת אפקט הקלדה לכותרת
+			const title = document.querySelector('h1');
+			const originalText = title.textContent;
+			title.textContent = '';
+
+			let i = 0;
+			const typeWriter = setInterval(() => {
+				if (i < originalText.length) {
+					title.textContent += originalText.charAt(i);
+					i++;
+				} else {
+					clearInterval(typeWriter);
+				}
+			}, 100);
+
+			// אזהרה נוספת
+			console.warn('⚠️⚠️⚠️ GOVERNMENT WARNING ⚠️⚠️⚠️');
+			console.warn('This is a classified government system!');
+			console.warn('Unauthorized access is strictly prohibited!');
+			console.warn('All activities are logged and monitored!');
+		});
+
+		// חסימת F12 (בצחוק)
+		document.addEventListener('keydown', function (e) {
+			if (e.key === 'F12') {
+				e.preventDefault();
+				alert('🚨 ACCESS DENIED! 🚨\nConsole access blocked for security reasons!');
+			}
+		});
 	</script>
 </body>
 
