@@ -236,6 +236,56 @@
 	</div>
 
 	<script>
+		// פונקציה להצגת כמות הצפיות (נראה רק בקונסולה)
+		function trackPageViews() {
+			const STORAGE_KEY = 'lamda_page_views';
+			const SESSION_KEY = 'lamda_session_viewed';
+			
+			// בדיקה אם המשתמש כבר צפה בעמוד בסשן הנוכחי
+			if (sessionStorage.getItem(SESSION_KEY)) {
+				return;
+			}
+			
+			// קריאה של מספר הצפיות הנוכחי
+			let viewCount = parseInt(localStorage.getItem(STORAGE_KEY) || '0');
+			
+			// הוספת צפייה חדשה
+			viewCount++;
+			
+			// שמירה של המספר החדש
+			localStorage.setItem(STORAGE_KEY, viewCount.toString());
+			
+			// סימון שהמשתמש כבר צפה בעמוד בסשן הנוכחי
+			sessionStorage.setItem(SESSION_KEY, 'true');
+			
+			// הדפסה לקונסולה
+			console.log(`%c📊 מספר הצפיות באתר: ${viewCount}`, 
+				'background: #e94560; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
+			
+			// הוספת פונקציה גלובלית לצפייה בנתונים
+			window.getPageViews = function() {
+				const views = parseInt(localStorage.getItem(STORAGE_KEY) || '0');
+				console.log(`%c📈 סטטיסטיקות האתר:`, 
+					'background: #0f3460; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
+				console.log(`- סה"כ צפיות: ${views}`);
+				console.log(`- תאריך ראשון: ${localStorage.getItem('lamda_first_visit') || 'לא ידוע'}`);
+				return views;
+			};
+			
+			// שמירת תאריך הביקור הראשון
+			if (!localStorage.getItem('lamda_first_visit')) {
+				localStorage.setItem('lamda_first_visit', new Date().toLocaleDateString('he-IL'));
+			}
+		}
+		
+		// פונקציה לאיפוס הצפיות (למקרה שצריך)
+		window.resetPageViews = function() {
+			localStorage.removeItem('lamda_page_views');
+			localStorage.removeItem('lamda_first_visit');
+			sessionStorage.removeItem('lamda_session_viewed');
+			console.log('%cהצפיות אופסו!', 'color: red; font-weight: bold;');
+		};
+
 		function showSection(id, btn) {
 			document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
 			document.getElementById(id).style.display = 'block';
@@ -243,6 +293,9 @@
 			document.querySelectorAll('.button-group button').forEach(b => b.classList.remove('active'));
 			btn.classList.add('active');
 		}
+		
+		// הפעלת מעקב הצפיות כשהעמוד נטען
+		document.addEventListener('DOMContentLoaded', trackPageViews);
 	</script>
 </body>
 
