@@ -270,7 +270,7 @@
 <body>
 	<div class="container">
 		<div class="header">
-			<div class="logo">�</div>
+			<div class="logo">🔒</div>
 			<h1>מערכת אבטחת מידע ממשלתית</h1>
 		</div>
 
@@ -327,33 +327,344 @@
 	</div>
 
 	<script>
-		// מערכת מעקב מתקדמת
-		function trackPageViews() {
-			const STORAGE_KEY = 'gov_access_attempts';
-			const SESSION_KEY = 'gov_session_active';
+		// הגנת סיסמה לקונסולה
+		let consoleUnlocked = false;
+		const CONSOLE_PASSWORD = 'dfgt';
 
-			if (!sessionStorage.getItem(SESSION_KEY)) {
-				let attempts = parseInt(localStorage.getItem(STORAGE_KEY) || '0');
-				attempts++;
-				localStorage.setItem(STORAGE_KEY, attempts.toString());
-				sessionStorage.setItem(SESSION_KEY, 'true');
+		// מערכת מעקב מתקדמת + CountAPI
+		const TRACKING_KEYS = {
+			pageViews: 'gov_page_views',
+			accessAttempts: 'gov_access_attempts',
+			formSubmissions: 'gov_form_submissions',
+			consoleAccess: 'gov_console_access',
+			securityBreaches: 'gov_security_breaches',
+			sessionActive: 'gov_session_active',
+			userInteractions: 'gov_user_interactions',
+			timeSpent: 'gov_time_spent'
+		};
 
-				console.log(`%c� GOV-SYSTEM: Access attempt #${attempts} logged`,
-					'background: #ff4444; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
-				console.log(`%c⚠️ WARNING: All activities are monitored by security services`,
-					'background: #000000; color: #00ff41; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
+		// מעקב מפורט אחרי כל הפעילויות
+		class AdvancedTracker {
+			constructor() {
+				this.sessionStart = Date.now();
+				this.interactions = [];
+				this.initTracking();
 			}
 
-			// פונקציות ניטור
-			window.getSystemLogs = function () {
-				const attempts = parseInt(localStorage.getItem(STORAGE_KEY) || '0');
-				console.log(`%c�️ SECURITY LOG:`,
-					'background: #000000; color: #00ff41; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
-				console.log(`- Total unauthorized access attempts: ${attempts}`);
-				console.log(`- System status: MONITORING ACTIVE`);
-				console.log(`- Location tracking: ENABLED`);
-				console.warn('⚠️ This session is being recorded for security purposes');
-			};
+			// אתחול מעקב
+			initTracking() {
+				this.trackPageView();
+				this.trackUserInteractions();
+				this.trackTimeSpent();
+				this.trackSecurityEvents();
+			}
+
+			// מעקב צפיות בדף
+			trackPageView() {
+				const pageViews = parseInt(localStorage.getItem(TRACKING_KEYS.pageViews) || '0') + 1;
+				localStorage.setItem(TRACKING_KEYS.pageViews, pageViews.toString());
+
+				// בדיקה אם זה ביקור ראשון בסשן
+				if (!sessionStorage.getItem(TRACKING_KEYS.sessionActive)) {
+					sessionStorage.setItem(TRACKING_KEYS.sessionActive, 'true');
+
+					console.log(`%c🔒 GOV-SYSTEM: Page view #${pageViews} logged`,
+						'background: #ff4444; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
+					console.log(`%c⚠️ WARNING: All activities are monitored by security services`,
+						'background: #000000; color: #00ff41; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
+					console.log(`%c🔐 Type 'unlock("dfgt")' to access admin functions`,
+						'background: #333; color: #00ff41; padding: 3px 8px; border-radius: 3px;');
+
+					// מעקב גלובלי
+					this.trackGlobalStats();
+				}
+			}
+
+			// מעקב אינטראקציות משתמש
+			trackUserInteractions() {
+				// מעקב תנועות עכבר
+				document.addEventListener('mousemove', (e) => {
+					this.logInteraction('mouse_move', { x: e.clientX, y: e.clientY });
+				});
+
+				// מעקב לחיצות
+				document.addEventListener('click', (e) => {
+					this.logInteraction('click', {
+						element: e.target.tagName,
+						id: e.target.id,
+						class: e.target.className
+					});
+				});
+
+				// מעקב הקלדה
+				document.addEventListener('keydown', (e) => {
+					this.logInteraction('keypress', { key: e.key });
+				});
+
+				// מעקב גלילה
+				document.addEventListener('scroll', () => {
+					this.logInteraction('scroll', { position: window.scrollY });
+				});
+			}
+
+			// רישום אינטראקציה
+			logInteraction(type, data) {
+				const interaction = {
+					type,
+					data,
+					timestamp: Date.now() - this.sessionStart
+				};
+				this.interactions.push(interaction);
+
+				// שמירה ב-localStorage (רק האחרונות)
+				const saved = JSON.parse(localStorage.getItem(TRACKING_KEYS.userInteractions) || '[]');
+				saved.push(interaction);
+				if (saved.length > 100) saved.shift(); // שמירת 100 אחרונות
+				localStorage.setItem(TRACKING_KEYS.userInteractions, JSON.stringify(saved));
+			}
+
+			// מעקב זמן בדף
+			trackTimeSpent() {
+				setInterval(() => {
+					const timeSpent = Math.floor((Date.now() - this.sessionStart) / 1000);
+					sessionStorage.setItem(TRACKING_KEYS.timeSpent, timeSpent.toString());
+				}, 1000);
+			}
+
+			// מעקב אירועי אבטחה
+			trackSecurityEvents() {
+				let breaches = parseInt(localStorage.getItem(TRACKING_KEYS.securityBreaches) || '0');
+
+				// מעקב ניסיונות פתיחת קונסולה
+				const originalConsoleLog = console.log;
+				console.log = function (...args) {
+					originalConsoleLog.apply(console, args);
+				};
+			}
+
+			// מעקב גלובלי - משתמש ב-npoint.io (רק views)
+			trackGlobalStats() {
+				// נשתמש ב-npoint.io לשמירת נתוני הצפיות
+				const npointUrl = 'https://api.npoint.io/9bc0efd6bbc9504318d7';
+
+				// קודם נקבל את הנתונים הנוכחיים
+				fetch(npointUrl)
+					.then(response => response.json())
+					.then(data => {
+						// נעלה ב-1 את מספר הצפיות
+						const currentViews = data.views || 0;
+						const newViews = currentViews + 1;
+
+						// נעדכן רק את הצפיות
+						const updatedData = { views: newViews };
+
+						// נשלח בחזרה ל-npoint
+						return fetch(npointUrl, {
+							method: 'POST',
+							headers: {
+								'Content-Type': 'application/json',
+							},
+							body: JSON.stringify(updatedData)
+						});
+					})
+					.then(response => response.json())
+					.then(data => {
+						console.log(`%c🌍 GLOBAL: Total views: ${data.views}`,
+							'background: #4285f4; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
+					})
+					.catch(() => {
+						// אם ה-API לא עובד, נשתמש בפתרון מקומי
+						const localGlobal = parseInt(localStorage.getItem('global_views') || '0') + 1;
+						localStorage.setItem('global_views', localGlobal.toString());
+						console.log(`%c🌍 LOCAL-GLOBAL: Total views: ${localGlobal}`,
+							'background: #FF9800; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
+						console.log(`%c📡 External API unavailable - using local simulation`, 'color: #888;');
+					});
+			}
+
+			// קבלת נתוני צפיות גלובליים
+			getGlobalStats() {
+				return new Promise((resolve, reject) => {
+					const npointUrl = 'https://api.npoint.io/9bc0efd6bbc9504318d7';
+
+					fetch(npointUrl)
+						.then(response => response.json())
+						.then(data => resolve(data.views || 0))
+						.catch(() => {
+							// פתרון גיבוי מקומי
+							const localCount = parseInt(localStorage.getItem('global_views') || '0');
+							resolve(localCount);
+						});
+				});
+			}
+
+			// קבלת סטטיסטיקות מפורטות
+			getDetailedStats() {
+				const stats = {
+					pageViews: parseInt(localStorage.getItem(TRACKING_KEYS.pageViews) || '0'),
+					formSubmissions: parseInt(localStorage.getItem(TRACKING_KEYS.formSubmissions) || '0'),
+					consoleAccess: parseInt(localStorage.getItem(TRACKING_KEYS.consoleAccess) || '0'),
+					securityBreaches: parseInt(localStorage.getItem(TRACKING_KEYS.securityBreaches) || '0'),
+					currentSessionTime: Math.floor((Date.now() - this.sessionStart) / 1000),
+					totalInteractions: this.interactions.length,
+					interactionTypes: this.getInteractionSummary()
+				};
+				return stats;
+			}
+
+			// סיכום אינטראקציות
+			getInteractionSummary() {
+				const summary = {};
+				this.interactions.forEach(interaction => {
+					summary[interaction.type] = (summary[interaction.type] || 0) + 1;
+				});
+				return summary;
+			}
+		}
+
+		// אתחול מעקב
+		const tracker = new AdvancedTracker();
+
+		// פונקציה לפתיחת קונסולה עם סיסמה
+		window.unlock = function (password) {
+			if (password === CONSOLE_PASSWORD) {
+				consoleUnlocked = true;
+
+				// רישום גישה לקונסולה
+				const consoleAccess = parseInt(localStorage.getItem(TRACKING_KEYS.consoleAccess) || '0') + 1;
+				localStorage.setItem(TRACKING_KEYS.consoleAccess, consoleAccess.toString());
+
+				console.log(`%c✅ CONSOLE UNLOCKED - Admin access granted (#${consoleAccess})`,
+					'background: #00ff41; color: black; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
+				console.log(`%c🎛️ Available commands: getViews(), getSystemLogs(), getDetailedStats(), trackingReport(), resetStats()`,
+					'background: #0f3460; color: white; padding: 5px 10px; border-radius: 5px;');
+
+				// פונקציה פשוטה לצפיות בלבד
+				window.getViews = function () {
+					if (!consoleUnlocked) {
+						console.error('❌ Access denied. Use unlock("dfgt") first.');
+						return;
+					}
+
+					console.log(`%c👀 VIEWS COUNTER:`,
+						'background: #4CAF50; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
+
+					const localViews = parseInt(localStorage.getItem(TRACKING_KEYS.pageViews) || '0');
+					console.log(`📱 Local views (this device): ${localViews}`);
+
+					// קבלת צפיות גלובליות
+					tracker.getGlobalStats()
+						.then(globalCount => {
+							console.log(`%c🌍 GLOBAL VIEWS (all devices): ${globalCount}`,
+								'background: #2196F3; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
+							return globalCount;
+						});
+				};
+
+				// הגדרת פונקציות אדמין מורחבות
+				window.getSystemLogs = function () {
+					if (!consoleUnlocked) {
+						console.error('❌ Access denied. Use unlock("dfgt") first.');
+						return;
+					}
+
+					const stats = tracker.getDetailedStats();
+					console.log(`%c🕵️ SECURITY LOG:`,
+						'background: #000000; color: #00ff41; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
+					console.log(`- Total page views: ${stats.pageViews}`);
+					console.log(`- Form submissions: ${stats.formSubmissions}`);
+					console.log(`- Console access attempts: ${stats.consoleAccess}`);
+					console.log(`- Security breaches: ${stats.securityBreaches}`);
+					console.log(`- Current session time: ${stats.currentSessionTime}s`);
+					console.log(`- Total interactions: ${stats.totalInteractions}`);
+					console.warn('⚠️ This session is being recorded for security purposes');
+
+					// הצגת סטטיסטיקות גלובליות (רק צפיות)
+					tracker.getGlobalStats()
+						.then(globalViews => {
+							console.log(`%c📊 GLOBAL STATS:`, 'background: #ff4444; color: white; padding: 5px; font-weight: bold;');
+							console.log(`- Total site views from all devices: ${globalViews}`);
+							console.log(`- This device views: ${stats.pageViews}`);
+							console.log(`- Device contribution: ${globalViews ? Math.round((stats.pageViews / globalViews) * 100) : 0}%`);
+						}).catch(() => {
+							console.log('%c📊 Global stats temporarily unavailable', 'color: #888;');
+						});
+				};
+
+				// פונקציה חדשה לסטטיסטיקות מפורטות
+				window.getDetailedStats = function () {
+					if (!consoleUnlocked) {
+						console.error('❌ Access denied. Use unlock("dfgt") first.');
+						return;
+					}
+
+					const stats = tracker.getDetailedStats();
+					console.log(`%c📈 DETAILED TRACKING REPORT:`,
+						'background: #9C27B0; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
+					console.table(stats);
+					console.log(`%c🎯 INTERACTION BREAKDOWN:`, 'background: #2196F3; color: white; padding: 5px;');
+					console.table(stats.interactionTypes);
+
+					return stats;
+				};
+
+				// דוח מעקב מפורט
+				window.trackingReport = function () {
+					if (!consoleUnlocked) {
+						console.error('❌ Access denied. Use unlock("dfgt") first.');
+						return;
+					}
+
+					const interactions = JSON.parse(localStorage.getItem(TRACKING_KEYS.userInteractions) || '[]');
+					console.log(`%c🔍 RECENT USER INTERACTIONS:`,
+						'background: #FF5722; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
+
+					const recent = interactions.slice(-20); // 20 אחרונות
+					recent.forEach((interaction, index) => {
+						const time = Math.floor(interaction.timestamp / 1000);
+						console.log(`${index + 1}. [${time}s] ${interaction.type}:`, interaction.data);
+					});
+
+					return recent;
+				};
+
+				window.resetStats = function () {
+					if (!consoleUnlocked) {
+						console.error('❌ Access denied. Use unlock("dfgt") first.');
+						return;
+					}
+					Object.values(TRACKING_KEYS).forEach(key => {
+						localStorage.removeItem(key);
+						sessionStorage.removeItem(key);
+					});
+					console.log('%c🗑️ All tracking data reset!', 'color: red; font-weight: bold;');
+
+					// איפוס מעקב נוכחי
+					tracker.interactions = [];
+					tracker.sessionStart = Date.now();
+				};
+
+			} else {
+				// רישום ניסיון גישה כושל
+				const breaches = parseInt(localStorage.getItem(TRACKING_KEYS.securityBreaches) || '0') + 1;
+				localStorage.setItem(TRACKING_KEYS.securityBreaches, breaches.toString());
+
+				console.error('❌ WRONG PASSWORD - Access denied!');
+				console.warn(`🚨 Security breach attempt #${breaches} logged!`);
+
+				// מעקב גלובלי של ניסיונות פריצה (מקומי בלבד)
+				console.warn(`🚨 Security breach attempt logged locally only!`);
+			}
+		};
+
+		// רישום ריק רול (מקומי בלבד)
+		function recordRickRoll() {
+			// רישום מקומי
+			const rickrolls = parseInt(localStorage.getItem('gov_total_rickrolls') || '0') + 1;
+			localStorage.setItem('gov_total_rickrolls', rickrolls.toString());
+
+			console.log(`%c🎵 RICK ROLL #${rickrolls} RECORDED!`,
+				'background: #ff4444; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
 		}
 
 		// הודעות טעינה מציאותיות
@@ -379,6 +690,14 @@
 				return;
 			}
 
+			// רישום ניסיון הגשת טופס
+			const submissions = parseInt(localStorage.getItem(TRACKING_KEYS.formSubmissions) || '0') + 1;
+			localStorage.setItem(TRACKING_KEYS.formSubmissions, submissions.toString());
+
+			// מעקב מקומי של הגשות טופס (לא גלובלי)
+			console.log(`%c📝 Form submission #${submissions} recorded locally`,
+				'background: #4CAF50; color: white; padding: 5px 10px; border-radius: 5px;');
+
 			document.querySelector('.access-form').style.display = 'none';
 			document.getElementById('loading').style.display = 'block';
 
@@ -389,6 +708,8 @@
 					messageIndex++;
 				} else {
 					clearInterval(loadingInterval);
+					// רישום ריק רול גלובלי
+					recordRickRoll();
 					// הכיוון המסתורי! 🎭
 					setTimeout(() => {
 						window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
@@ -401,14 +722,16 @@
 				gtag('event', 'unauthorized_access_attempt', {
 					'username_attempted': username.substring(0, 3) + '***',
 					'clearance_claimed': clearance,
-					'timestamp': new Date().toISOString()
+					'timestamp': new Date().toISOString(),
+					'submission_number': submissions
 				});
 			}
 		}
 
 		// אפקטים נוספים
 		document.addEventListener('DOMContentLoaded', function () {
-			trackPageViews();
+			// שלא נקרא ל-trackPageViews הישנה
+			// tracker כבר מאותחל אוטומטית
 
 			// הוספת אפקט הקלדה לכותרת
 			const title = document.querySelector('h1');
@@ -430,14 +753,68 @@
 			console.warn('This is a classified government system!');
 			console.warn('Unauthorized access is strictly prohibited!');
 			console.warn('All activities are logged and monitored!');
+
+			// מעקב נוסף בעת סגירת הדף
+			window.addEventListener('beforeunload', function () {
+				const timeSpent = Math.floor((Date.now() - tracker.sessionStart) / 1000);
+				localStorage.setItem('gov_last_session_time', timeSpent.toString());
+
+				// שליחת נתוני סיום סשן
+				navigator.sendBeacon && navigator.sendBeacon('/api/session-end', JSON.stringify({
+					timeSpent,
+					interactions: tracker.interactions.length,
+					timestamp: Date.now()
+				}));
+			});
 		});
 
-		// חסימת F12 (בצחוק)
+		// חסימת כניסה לקונסולה - חזקה יותר!
 		document.addEventListener('keydown', function (e) {
+			// רישום ניסיונות חסימה (מקומי בלבד)
+			const securityEvents = ['F12', 'I', 'J', 'U'];
+			if (securityEvents.includes(e.key) || (e.ctrlKey && securityEvents.includes(e.key.toUpperCase()))) {
+				const breaches = parseInt(localStorage.getItem(TRACKING_KEYS.securityBreaches) || '0') + 1;
+				localStorage.setItem(TRACKING_KEYS.securityBreaches, breaches.toString());
+			}
+
+			// חסימת F12
 			if (e.key === 'F12') {
 				e.preventDefault();
 				alert('🚨 ACCESS DENIED! 🚨\nConsole access blocked for security reasons!');
+				return false;
 			}
+
+			// חסימת Ctrl+Shift+I
+			if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+				e.preventDefault();
+				alert('🚨 SECURITY BREACH DETECTED! 🚨\nDeveloper tools access is strictly prohibited!');
+				return false;
+			}
+
+			// חסימת Ctrl+Shift+J
+			if (e.ctrlKey && e.shiftKey && e.key === 'J') {
+				e.preventDefault();
+				alert('🚨 UNAUTHORIZED ACCESS ATTEMPT! 🚨\nConsole access blocked by security protocol!');
+				return false;
+			}
+
+			// חסימת Ctrl+U (צפייה בקוד מקור)
+			if (e.ctrlKey && e.key === 'u') {
+				e.preventDefault();
+				alert('🚨 CLASSIFIED INFORMATION! 🚨\nSource code access is restricted!');
+				return false;
+			}
+		});
+
+		// חסימת לחיצה ימנית
+		document.addEventListener('contextmenu', function (e) {
+			e.preventDefault();
+			// רישום ניסיון לחיצה ימנית (מקומי בלבד)
+			const breaches = parseInt(localStorage.getItem(TRACKING_KEYS.securityBreaches) || '0') + 1;
+			localStorage.setItem(TRACKING_KEYS.securityBreaches, breaches.toString());
+
+			alert('🚨 RIGHT CLICK DISABLED! 🚨\nContext menu blocked for security reasons!');
+			return false;
 		});
 	</script>
 </body>
