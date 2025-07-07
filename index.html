@@ -4,35 +4,33 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>מערכת אבטחה ממשלתית | גישה מוגבלת</title>
+	<title>LinkShort - קיצור קישורים מהיר ובטוח</title>
 
-	<!-- Google Font -->
+	<!-- Google Fonts -->
 	<link
-		href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Inter:wght@400;600;700&display=swap"
+		href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Assistant:wght@400;600;700&display=swap"
 		rel="stylesheet">
 
 	<!-- Favicon -->
-	<link rel="icon" href="https://img.icons8.com/?size=100&id=85500&format=png&color=000000" type="image/png" />
-
-	<!-- Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag() { dataLayer.push(arguments); }
-		gtag('js', new Date());
-		gtag('config', 'G-XXXXXXXXXX');
-	</script>
+	<link rel="icon"
+		href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔗</text></svg>"
+		type="image/svg+xml" />
 
 	<style>
 		:root {
-			--bg: #0a0a0a;
-			--surface: #1a1a1a;
-			--accent: #00ff41;
-			--accent-dark: #00cc33;
-			--warning: #ff4444;
-			--text: #ffffff;
-			--muted: #888888;
-			--border: #333333;
+			--primary: #3b82f6;
+			--primary-dark: #2563eb;
+			--secondary: #f1f5f9;
+			--accent: #10b981;
+			--danger: #ef4444;
+			--warning: #f59e0b;
+			--bg: #ffffff;
+			--surface: #f8fafc;
+			--border: #e2e8f0;
+			--text: #1e293b;
+			--text-secondary: #64748b;
+			--text-light: #94a3b8;
+			--shadow: rgba(0, 0, 0, 0.1);
 		}
 
 		* {
@@ -41,781 +39,582 @@
 
 		body {
 			margin: 0;
-			font-family: 'Inter', sans-serif;
-			background: linear-gradient(135deg, var(--bg), #111111);
+			padding: 0;
+			font-family: 'Assistant', 'Inter', sans-serif;
+			background: linear-gradient(135deg, var(--surface) 0%, #e0e7ff 100%);
 			color: var(--text);
 			direction: rtl;
 			min-height: 100vh;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			padding: 20px;
-			overflow-x: hidden;
-		}
-
-		body::before {
-			content: '';
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background: repeating-linear-gradient(90deg,
-					transparent,
-					transparent 2px,
-					rgba(0, 255, 65, 0.03) 2px,
-					rgba(0, 255, 65, 0.03) 4px);
-			pointer-events: none;
-			z-index: 1;
+			line-height: 1.6;
 		}
 
 		.container {
-			background: var(--surface);
-			border: 2px solid var(--accent);
-			border-radius: 10px;
-			padding: 40px;
 			max-width: 800px;
-			width: 100%;
-			box-shadow:
-				0 0 30px rgba(0, 255, 65, 0.3),
-				inset 0 0 20px rgba(0, 255, 65, 0.1);
-			position: relative;
-			z-index: 2;
-			animation: systemBoot 2s ease-out;
-		}
-
-		@keyframes systemBoot {
-			0% {
-				opacity: 0;
-				transform: scale(0.9);
-				filter: brightness(2);
-			}
-
-			50% {
-				filter: brightness(1.5);
-			}
-
-			100% {
-				opacity: 1;
-				transform: scale(1);
-				filter: brightness(1);
-			}
+			margin: 0 auto;
+			padding: 20px;
 		}
 
 		.header {
 			text-align: center;
-			margin-bottom: 30px;
-			border-bottom: 1px solid var(--border);
-			padding-bottom: 20px;
+			margin-bottom: 40px;
+			padding: 40px 20px;
+			background: white;
+			border-radius: 20px;
+			box-shadow: 0 4px 20px var(--shadow);
+			position: relative;
+			overflow: hidden;
+		}
+
+		.header::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			height: 4px;
+			background: linear-gradient(90deg, var(--primary), var(--accent), var(--primary));
 		}
 
 		.logo {
+			font-size: 3rem;
+			margin-bottom: 15px;
+			display: block;
+		}
+
+		.title {
 			font-size: 2.5rem;
-			color: var(--accent);
-			margin-bottom: 10px;
-			text-shadow: 0 0 10px var(--accent);
-		}
-
-		h1 {
-			color: var(--accent);
-			margin: 0;
-			font-size: 1.8rem;
 			font-weight: 700;
-			text-transform: uppercase;
-			letter-spacing: 2px;
-			text-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
+			color: var(--text);
+			margin: 0 0 10px;
+			font-family: 'Inter', sans-serif;
 		}
 
-		.classification {
-			background: var(--warning);
-			color: white;
-			padding: 8px 20px;
-			margin: 20px 0;
-			text-align: center;
-			font-weight: bold;
-			text-transform: uppercase;
-			letter-spacing: 1px;
-			animation: blink 2s infinite;
+		.subtitle {
+			color: var(--text-secondary);
+			font-size: 1.1rem;
+			margin: 0;
 		}
 
-		@keyframes blink {
-
-			0%,
-			50% {
-				opacity: 1;
-			}
-
-			51%,
-			100% {
-				opacity: 0.7;
-			}
-		}
-
-		.warning-box {
-			background: rgba(255, 68, 68, 0.1);
-			border: 1px solid var(--warning);
-			border-radius: 5px;
-			padding: 20px;
-			margin: 20px 0;
-			text-align: center;
-		}
-
-		.access-form {
-			background: rgba(0, 255, 65, 0.05);
-			border: 1px solid var(--accent);
-			border-radius: 8px;
-			padding: 25px;
-			margin: 25px 0;
+		.url-form {
+			background: white;
+			padding: 30px;
+			border-radius: 16px;
+			box-shadow: 0 4px 20px var(--shadow);
+			margin-bottom: 30px;
 		}
 
 		.form-group {
 			margin-bottom: 20px;
 		}
 
-		label {
+		.form-label {
 			display: block;
 			margin-bottom: 8px;
-			color: var(--accent);
 			font-weight: 600;
-			font-family: 'Roboto Mono', monospace;
-		}
-
-		input {
-			width: 100%;
-			padding: 12px;
-			background: var(--bg);
-			border: 1px solid var(--border);
-			border-radius: 4px;
 			color: var(--text);
-			font-family: 'Roboto Mono', monospace;
-			font-size: 14px;
 		}
 
-		input:focus {
-			outline: none;
-			border-color: var(--accent);
-			box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
-		}
-
-		.access-btn {
+		.form-input {
 			width: 100%;
-			padding: 15px;
-			background: linear-gradient(45deg, var(--accent-dark), var(--accent));
-			border: none;
-			border-radius: 5px;
-			color: var(--bg);
-			font-weight: bold;
+			padding: 12px 16px;
+			border: 2px solid var(--border);
+			border-radius: 10px;
 			font-size: 16px;
-			text-transform: uppercase;
-			letter-spacing: 1px;
-			cursor: pointer;
 			transition: all 0.3s ease;
-			margin-top: 10px;
-		}
-
-		.access-btn:hover {
-			transform: translateY(-2px);
-			box-shadow: 0 5px 20px rgba(0, 255, 65, 0.4);
-		}
-
-		.system-info {
-			margin-top: 30px;
-			padding: 20px;
-			background: rgba(0, 255, 65, 0.03);
-			border-radius: 5px;
-			font-family: 'Roboto Mono', monospace;
-			font-size: 12px;
-			color: var(--muted);
+			background: white;
 			direction: ltr;
 			text-align: left;
 		}
 
-		.loading {
-			display: none;
+		.form-input:focus {
+			outline: none;
+			border-color: var(--primary);
+			box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+		}
+
+		.btn {
+			background: var(--primary);
+			color: white;
+			border: none;
+			padding: 12px 24px;
+			border-radius: 10px;
+			font-size: 16px;
+			font-weight: 600;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+		}
+
+		.btn:hover {
+			background: var(--primary-dark);
+			transform: translateY(-2px);
+			box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+		}
+
+		.btn-full {
+			width: 100%;
+			justify-content: center;
+		}
+
+		.btn-sm {
+			padding: 6px 12px;
+			font-size: 14px;
+		}
+
+		.btn-danger {
+			background: var(--danger);
+		}
+
+		.btn-danger:hover {
+			background: #dc2626;
+		}
+
+		.links-section {
+			background: white;
+			padding: 30px;
+			border-radius: 16px;
+			box-shadow: 0 4px 20px var(--shadow);
+			margin-bottom: 30px;
+		}
+
+		.section-title {
+			font-size: 1.5rem;
+			font-weight: 700;
+			margin: 0 0 20px;
+			color: var(--text);
+		}
+
+		.link-item {
+			background: var(--surface);
+			border: 1px solid var(--border);
+			border-radius: 12px;
+			padding: 20px;
+			margin-bottom: 15px;
+			transition: all 0.3s ease;
+		}
+
+		.link-item:hover {
+			box-shadow: 0 2px 10px var(--shadow);
+		}
+
+		.link-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-start;
+			margin-bottom: 15px;
+		}
+
+		.link-info {
+			flex: 1;
+		}
+
+		.short-url {
+			font-size: 1.1rem;
+			font-weight: 600;
+			color: var(--primary);
+			margin-bottom: 5px;
+			word-break: break-all;
+			direction: ltr;
+			text-align: left;
+		}
+
+		.original-url {
+			color: var(--text-secondary);
+			font-size: 0.9rem;
+			word-break: break-all;
+			direction: ltr;
+			text-align: left;
+		}
+
+		.link-actions {
+			display: flex;
+			gap: 8px;
+		}
+
+		.link-stats {
+			display: flex;
+			gap: 20px;
+			margin-top: 10px;
+			font-size: 0.9rem;
+			color: var(--text-secondary);
+		}
+
+		.stat-item {
+			display: flex;
+			align-items: center;
+			gap: 5px;
+		}
+
+		.toast {
+			position: fixed;
+			top: 20px;
+			right: 20px;
+			background: var(--accent);
+			color: white;
+			padding: 12px 20px;
+			border-radius: 10px;
+			box-shadow: 0 4px 15px var(--shadow);
+			z-index: 1000;
+			transform: translateX(100%);
+			transition: transform 0.3s ease;
+		}
+
+		.toast.show {
+			transform: translateX(0);
+		}
+
+		.toast.error {
+			background: var(--danger);
+		}
+
+		.stats-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+			gap: 20px;
+			margin-bottom: 30px;
+		}
+
+		.stat-card {
+			background: white;
+			padding: 20px;
+			border-radius: 12px;
+			box-shadow: 0 2px 10px var(--shadow);
 			text-align: center;
-			margin: 20px 0;
-			color: var(--accent);
 		}
 
-		.spinner {
-			border: 2px solid var(--border);
-			border-top: 2px solid var(--accent);
-			border-radius: 50%;
-			width: 30px;
-			height: 30px;
-			animation: spin 1s linear infinite;
-			margin: 0 auto 10px;
+		.stat-number {
+			font-size: 2rem;
+			font-weight: 700;
+			color: var(--primary);
+			margin-bottom: 5px;
 		}
 
-		@keyframes spin {
-			0% {
-				transform: rotate(0deg);
+		.stat-label {
+			color: var(--text-secondary);
+			font-size: 0.9rem;
+		}
+
+		.empty-state {
+			text-align: center;
+			padding: 40px 20px;
+			color: var(--text-secondary);
+		}
+
+		.empty-icon {
+			font-size: 3rem;
+			margin-bottom: 15px;
+			opacity: 0.5;
+		}
+
+		@media (max-width: 768px) {
+			.container {
+				padding: 15px;
 			}
 
-			100% {
-				transform: rotate(360deg);
+			.title {
+				font-size: 2rem;
 			}
-		}
 
-		.footer {
-			text-align: center;
-			margin-top: 30px;
-			font-size: 0.8em;
-			color: var(--muted);
-			opacity: 0.7;
+			.link-header {
+				flex-direction: column;
+				gap: 15px;
+			}
+
+			.link-actions {
+				justify-content: flex-start;
+			}
+
+			.stats-grid {
+				grid-template-columns: repeat(2, 1fr);
+			}
 		}
 	</style>
 </head>
 
 <body>
 	<div class="container">
+		<!-- Header -->
 		<div class="header">
-			<div class="logo">🔒</div>
-			<h1>מערכת אבטחת מידע ממשלתית</h1>
+			<div class="logo">🔗</div>
+			<h1 class="title">LinkShort</h1>
+			<p class="subtitle">קיצור קישורים מהיר, בטוח ונוח - בקליק אחד</p>
 		</div>
 
-		<div class="classification">
-			⚠️ חסוי ביותר - CLASSIFIED - חסוי ביותר ⚠️
-		</div>
-
-		<div class="warning-box">
-			<h3>🚨 אזהרת אבטחה 🚨</h3>
-			<p><strong>גישה מוגבלת למורשים בלבד!</strong></p>
-			<p>מערכת זו מכילה מידע מסווג ברמת אבטחה גבוהה. כל פעילות במערכת מתועדת ומנוטרת 24/7.</p>
-			<p>שימוש לא מורשה עלול להוביל לתביעה פלילית!</p>
-		</div>
-
-		<div class="access-form">
-			<h3>🔐 כניסה למערכת</h3>
-			<div class="form-group">
-				<label for="username">קוד משתמש ממשלתי:</label>
-				<input type="text" id="username" placeholder="הכנס קוד זהות מסווג" />
+		<!-- Statistics -->
+		<div class="stats-grid">
+			<div class="stat-card">
+				<div class="stat-number" id="totalLinks">0</div>
+				<div class="stat-label">קישורים מקוצרים</div>
 			</div>
-			<div class="form-group">
-				<label for="password">סיסמה ביומטרית:</label>
-				<input type="password" id="password" placeholder="******************" />
+			<div class="stat-card">
+				<div class="stat-number" id="totalClicks">0</div>
+				<div class="stat-label">סה"כ קליקים</div>
 			</div>
-			<div class="form-group">
-				<label for="clearance">רמת סיווג:</label>
-				<input type="text" id="clearance" placeholder="TOP SECRET / COSMIC / ULTRA" />
+			<div class="stat-card">
+				<div class="stat-number" id="todayClicks">0</div>
+				<div class="stat-label">קליקים היום</div>
 			</div>
-			<button class="access-btn" onclick="attemptAccess()">
-				🚀 גישה למערכת המרכזית
-			</button>
 		</div>
 
-		<div class="loading" id="loading">
-			<div class="spinner"></div>
-			<p>מאמת פרטים באמצעות לוויין צבאי...</p>
-			<p id="loadingText">מתחבר לשרתים מוצפנים...</p>
+		<!-- URL Shortening Form -->
+		<div class="url-form">
+			<h2 class="section-title">📎 קצר קישור חדש</h2>
+			<form id="urlForm">
+				<div class="form-group">
+					<label class="form-label" for="originalUrl">🌐 הקישור המקורי</label>
+					<input type="url" id="originalUrl" class="form-input" placeholder="https://example.com" required>
+				</div>
+				<div class="form-group">
+					<label class="form-label" for="customCode">🎯 קוד מותאם (אופציונלי)</label>
+					<input type="text" id="customCode" class="form-input" placeholder="my-link" pattern="[a-zA-Z0-9_-]+"
+						maxlength="20">
+					<small style="color: var(--text-secondary); font-size: 0.8rem;">
+						ניתן להשתמש באותיות אנגליות, מספרים, מקף וקו תחתון בלבד
+					</small>
+				</div>
+				<button type="submit" class="btn btn-full">
+					✨ קצר קישור
+				</button>
+			</form>
 		</div>
 
-		<div class="system-info">
-			<strong>System Info:</strong><br>
-			Server: MOSSAD-MAIN-001.gov.il<br>
-			Encryption: AES-256-QUANTUM<br>
-			Last Access: CLASSIFIED<br>
-			Security Level: MAXIMUM<br>
-			Monitoring: ACTIVE<br>
-			Location: [REDACTED]
-		</div>
-
-		<div class="footer">
-			מערכת זו מופעלת על ידי יחידת 8200 | כל הזכויות שמורות למדינת ישראל<br>
-			⚡ Powered by Quantum Computing Technology ⚡
+		<!-- Links List -->
+		<div class="links-section">
+			<h2 class="section-title">📋 הקישורים שלי</h2>
+			<div id="linksList">
+				<div class="empty-state">
+					<div class="empty-icon">🔗</div>
+					<p>עדיין לא יצרת קישורים מקוצרים.<br>השתמש בטופס למעלה כדי ליצור את הראשון!</p>
+				</div>
+			</div>
 		</div>
 	</div>
 
+	<!-- Toast notification -->
+	<div id="toast" class="toast"></div>
+
 	<script>
-		// הגנת סיסמה לקונסולה
-		let consoleUnlocked = false;
-		const CONSOLE_PASSWORD = 'dfgt';
-
-		// מערכת מעקב מתקדמת + CountAPI
-		const TRACKING_KEYS = {
-			pageViews: 'gov_page_views',
-			accessAttempts: 'gov_access_attempts',
-			formSubmissions: 'gov_form_submissions',
-			consoleAccess: 'gov_console_access',
-			securityBreaches: 'gov_security_breaches',
-			sessionActive: 'gov_session_active',
-			userInteractions: 'gov_user_interactions',
-			timeSpent: 'gov_time_spent'
-		};
-
-		// מעקב מפורט אחרי כל הפעילויות
-		class AdvancedTracker {
+		class LinkShortener {
 			constructor() {
-				this.sessionStart = Date.now();
-				this.interactions = [];
-				this.initTracking();
+				this.links = this.loadLinks();
+				this.init();
+				this.handleRedirect();
 			}
 
-			// אתחול מעקב
-			initTracking() {
-				this.trackPageView();
-				this.trackUserInteractions();
-				this.trackTimeSpent();
-				this.trackSecurityEvents();
+			init() {
+				this.bindEvents();
+				this.renderLinks();
+				this.updateStats();
 			}
 
-			// מעקב צפיות בדף
-			trackPageView() {
-				const pageViews = parseInt(localStorage.getItem(TRACKING_KEYS.pageViews) || '0') + 1;
-				localStorage.setItem(TRACKING_KEYS.pageViews, pageViews.toString());
+			bindEvents() {
+				document.getElementById('urlForm').addEventListener('submit', (e) => {
+					e.preventDefault();
+					this.shortenUrl();
+				});
+			}
 
-				// בדיקה אם זה ביקור ראשון בסשן
-				if (!sessionStorage.getItem(TRACKING_KEYS.sessionActive)) {
-					sessionStorage.setItem(TRACKING_KEYS.sessionActive, 'true');
+			handleRedirect() {
+				const params = new URLSearchParams(window.location.search);
+				const code = params.get('r');
 
-					console.log(`%c🔒 GOV-SYSTEM: Page view #${pageViews} logged`,
-						'background: #ff4444; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
-					console.log(`%c⚠️ WARNING: All activities are monitored by security services`,
-						'background: #000000; color: #00ff41; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
-					console.log(`%c🔐 Type 'unlock("dfgt")' to access admin functions`,
-						'background: #333; color: #00ff41; padding: 3px 8px; border-radius: 3px;');
-
-					// מעקב גלובלי
-					this.trackGlobalStats();
+				if (code) {
+					const link = this.links.find(l => l.code === code);
+					if (link) {
+						link.clicks++;
+						link.lastClicked = new Date().toISOString();
+						this.saveLinks();
+						window.location.href = link.originalUrl;
+						return;
+					} else {
+						this.showToast('קישור לא נמצא', 'error');
+					}
 				}
 			}
 
-			// מעקב אינטראקציות משתמש
-			trackUserInteractions() {
-				// מעקב תנועות עכבר
-				document.addEventListener('mousemove', (e) => {
-					this.logInteraction('mouse_move', { x: e.clientX, y: e.clientY });
-				});
+			shortenUrl() {
+				const originalUrl = document.getElementById('originalUrl').value.trim();
+				const customCode = document.getElementById('customCode').value.trim();
 
-				// מעקב לחיצות
-				document.addEventListener('click', (e) => {
-					this.logInteraction('click', {
-						element: e.target.tagName,
-						id: e.target.id,
-						class: e.target.className
-					});
-				});
+				if (!this.isValidUrl(originalUrl)) {
+					this.showToast('נא להזין כתובת URL תקינה', 'error');
+					return;
+				}
 
-				// מעקב הקלדה
-				document.addEventListener('keydown', (e) => {
-					this.logInteraction('keypress', { key: e.key });
-				});
-
-				// מעקב גלילה
-				document.addEventListener('scroll', () => {
-					this.logInteraction('scroll', { position: window.scrollY });
-				});
-			}
-
-			// רישום אינטראקציה
-			logInteraction(type, data) {
-				const interaction = {
-					type,
-					data,
-					timestamp: Date.now() - this.sessionStart
-				};
-				this.interactions.push(interaction);
-
-				// שמירה ב-localStorage (רק האחרונות)
-				const saved = JSON.parse(localStorage.getItem(TRACKING_KEYS.userInteractions) || '[]');
-				saved.push(interaction);
-				if (saved.length > 100) saved.shift(); // שמירת 100 אחרונות
-				localStorage.setItem(TRACKING_KEYS.userInteractions, JSON.stringify(saved));
-			}
-
-			// מעקב זמן בדף
-			trackTimeSpent() {
-				setInterval(() => {
-					const timeSpent = Math.floor((Date.now() - this.sessionStart) / 1000);
-					sessionStorage.setItem(TRACKING_KEYS.timeSpent, timeSpent.toString());
-				}, 1000);
-			}
-
-			// מעקב אירועי אבטחה
-			trackSecurityEvents() {
-				let breaches = parseInt(localStorage.getItem(TRACKING_KEYS.securityBreaches) || '0');
-
-				// מעקב ניסיונות פתיחת קונסולה
-				const originalConsoleLog = console.log;
-				console.log = function (...args) {
-					originalConsoleLog.apply(console, args);
-				};
-			}
-
-			// מעקב גלובלי - משתמש ב-npoint.io (רק views)
-			trackGlobalStats() {
-				// נשתמש ב-npoint.io לשמירת נתוני הצפיות
-				const npointUrl = 'https://api.npoint.io/9bc0efd6bbc9504318d7';
-
-				// קודם נקבל את הנתונים הנוכחיים
-				fetch(npointUrl)
-					.then(response => response.json())
-					.then(data => {
-						// נעלה ב-1 את מספר הצפיות
-						const currentViews = data.views || 0;
-						const newViews = currentViews + 1;
-
-						// נעדכן רק את הצפיות
-						const updatedData = { views: newViews };
-
-						// נשלח בחזרה ל-npoint
-						return fetch(npointUrl, {
-							method: 'POST',
-							headers: {
-								'Content-Type': 'application/json',
-							},
-							body: JSON.stringify(updatedData)
-						});
-					})
-					.then(response => response.json())
-					.then(data => {
-						console.log(`%c🌍 GLOBAL: Total views: ${data.views}`,
-							'background: #4285f4; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
-					})
-					.catch(() => {
-						// אם ה-API לא עובד, נשתמש בפתרון מקומי
-						const localGlobal = parseInt(localStorage.getItem('global_views') || '0') + 1;
-						localStorage.setItem('global_views', localGlobal.toString());
-						console.log(`%c🌍 LOCAL-GLOBAL: Total views: ${localGlobal}`,
-							'background: #FF9800; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
-						console.log(`%c📡 External API unavailable - using local simulation`, 'color: #888;');
-					});
-			}
-
-			// קבלת נתוני צפיות גלובליים
-			getGlobalStats() {
-				return new Promise((resolve, reject) => {
-					const npointUrl = 'https://api.npoint.io/9bc0efd6bbc9504318d7';
-
-					fetch(npointUrl)
-						.then(response => response.json())
-						.then(data => resolve(data.views || 0))
-						.catch(() => {
-							// פתרון גיבוי מקומי
-							const localCount = parseInt(localStorage.getItem('global_views') || '0');
-							resolve(localCount);
-						});
-				});
-			}
-
-			// קבלת סטטיסטיקות מפורטות
-			getDetailedStats() {
-				const stats = {
-					pageViews: parseInt(localStorage.getItem(TRACKING_KEYS.pageViews) || '0'),
-					formSubmissions: parseInt(localStorage.getItem(TRACKING_KEYS.formSubmissions) || '0'),
-					consoleAccess: parseInt(localStorage.getItem(TRACKING_KEYS.consoleAccess) || '0'),
-					securityBreaches: parseInt(localStorage.getItem(TRACKING_KEYS.securityBreaches) || '0'),
-					currentSessionTime: Math.floor((Date.now() - this.sessionStart) / 1000),
-					totalInteractions: this.interactions.length,
-					interactionTypes: this.getInteractionSummary()
-				};
-				return stats;
-			}
-
-			// סיכום אינטראקציות
-			getInteractionSummary() {
-				const summary = {};
-				this.interactions.forEach(interaction => {
-					summary[interaction.type] = (summary[interaction.type] || 0) + 1;
-				});
-				return summary;
-			}
-		}
-
-		// אתחול מעקב
-		const tracker = new AdvancedTracker();
-
-		// פונקציה לפתיחת קונסולה עם סיסמה
-		window.unlock = function (password) {
-			if (password === CONSOLE_PASSWORD) {
-				consoleUnlocked = true;
-
-				// רישום גישה לקונסולה
-				const consoleAccess = parseInt(localStorage.getItem(TRACKING_KEYS.consoleAccess) || '0') + 1;
-				localStorage.setItem(TRACKING_KEYS.consoleAccess, consoleAccess.toString());
-
-				console.log(`%c✅ CONSOLE UNLOCKED - Admin access granted (#${consoleAccess})`,
-					'background: #00ff41; color: black; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
-				console.log(`%c🎛️ Available commands: getViews(), getSystemLogs(), getDetailedStats(), trackingReport(), resetStats()`,
-					'background: #0f3460; color: white; padding: 5px 10px; border-radius: 5px;');
-
-				// פונקציה פשוטה לצפיות בלבד
-				window.getViews = function () {
-					if (!consoleUnlocked) {
-						console.error('❌ Access denied. Use unlock("dfgt") first.');
+				let code = customCode;
+				if (code) {
+					if (this.links.find(l => l.code === code)) {
+						this.showToast('הקוד כבר קיים, נא לבחור קוד אחר', 'error');
 						return;
 					}
-
-					console.log(`%c👀 VIEWS COUNTER:`,
-						'background: #4CAF50; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
-
-					const localViews = parseInt(localStorage.getItem(TRACKING_KEYS.pageViews) || '0');
-					console.log(`📱 Local views (this device): ${localViews}`);
-
-					// קבלת צפיות גלובליות
-					tracker.getGlobalStats()
-						.then(globalCount => {
-							console.log(`%c🌍 GLOBAL VIEWS (all devices): ${globalCount}`,
-								'background: #2196F3; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
-							return globalCount;
-						});
-				};
-
-				// הגדרת פונקציות אדמין מורחבות
-				window.getSystemLogs = function () {
-					if (!consoleUnlocked) {
-						console.error('❌ Access denied. Use unlock("dfgt") first.');
-						return;
-					}
-
-					const stats = tracker.getDetailedStats();
-					console.log(`%c🕵️ SECURITY LOG:`,
-						'background: #000000; color: #00ff41; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
-					console.log(`- Total page views: ${stats.pageViews}`);
-					console.log(`- Form submissions: ${stats.formSubmissions}`);
-					console.log(`- Console access attempts: ${stats.consoleAccess}`);
-					console.log(`- Security breaches: ${stats.securityBreaches}`);
-					console.log(`- Current session time: ${stats.currentSessionTime}s`);
-					console.log(`- Total interactions: ${stats.totalInteractions}`);
-					console.warn('⚠️ This session is being recorded for security purposes');
-
-					// הצגת סטטיסטיקות גלובליות (רק צפיות)
-					tracker.getGlobalStats()
-						.then(globalViews => {
-							console.log(`%c📊 GLOBAL STATS:`, 'background: #ff4444; color: white; padding: 5px; font-weight: bold;');
-							console.log(`- Total site views from all devices: ${globalViews}`);
-							console.log(`- This device views: ${stats.pageViews}`);
-							console.log(`- Device contribution: ${globalViews ? Math.round((stats.pageViews / globalViews) * 100) : 0}%`);
-						}).catch(() => {
-							console.log('%c📊 Global stats temporarily unavailable', 'color: #888;');
-						});
-				};
-
-				// פונקציה חדשה לסטטיסטיקות מפורטות
-				window.getDetailedStats = function () {
-					if (!consoleUnlocked) {
-						console.error('❌ Access denied. Use unlock("dfgt") first.');
-						return;
-					}
-
-					const stats = tracker.getDetailedStats();
-					console.log(`%c📈 DETAILED TRACKING REPORT:`,
-						'background: #9C27B0; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
-					console.table(stats);
-					console.log(`%c🎯 INTERACTION BREAKDOWN:`, 'background: #2196F3; color: white; padding: 5px;');
-					console.table(stats.interactionTypes);
-
-					return stats;
-				};
-
-				// דוח מעקב מפורט
-				window.trackingReport = function () {
-					if (!consoleUnlocked) {
-						console.error('❌ Access denied. Use unlock("dfgt") first.');
-						return;
-					}
-
-					const interactions = JSON.parse(localStorage.getItem(TRACKING_KEYS.userInteractions) || '[]');
-					console.log(`%c🔍 RECENT USER INTERACTIONS:`,
-						'background: #FF5722; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
-
-					const recent = interactions.slice(-20); // 20 אחרונות
-					recent.forEach((interaction, index) => {
-						const time = Math.floor(interaction.timestamp / 1000);
-						console.log(`${index + 1}. [${time}s] ${interaction.type}:`, interaction.data);
-					});
-
-					return recent;
-				};
-
-				window.resetStats = function () {
-					if (!consoleUnlocked) {
-						console.error('❌ Access denied. Use unlock("dfgt") first.');
-						return;
-					}
-					Object.values(TRACKING_KEYS).forEach(key => {
-						localStorage.removeItem(key);
-						sessionStorage.removeItem(key);
-					});
-					console.log('%c🗑️ All tracking data reset!', 'color: red; font-weight: bold;');
-
-					// איפוס מעקב נוכחי
-					tracker.interactions = [];
-					tracker.sessionStart = Date.now();
-				};
-
-			} else {
-				// רישום ניסיון גישה כושל
-				const breaches = parseInt(localStorage.getItem(TRACKING_KEYS.securityBreaches) || '0') + 1;
-				localStorage.setItem(TRACKING_KEYS.securityBreaches, breaches.toString());
-
-				console.error('❌ WRONG PASSWORD - Access denied!');
-				console.warn(`🚨 Security breach attempt #${breaches} logged!`);
-
-				// מעקב גלובלי של ניסיונות פריצה (מקומי בלבד)
-				console.warn(`🚨 Security breach attempt logged locally only!`);
-			}
-		};
-
-		// רישום ריק רול (מקומי בלבד)
-		function recordRickRoll() {
-			// רישום מקומי
-			const rickrolls = parseInt(localStorage.getItem('gov_total_rickrolls') || '0') + 1;
-			localStorage.setItem('gov_total_rickrolls', rickrolls.toString());
-
-			console.log(`%c🎵 RICK ROLL #${rickrolls} RECORDED!`,
-				'background: #ff4444; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold;');
-		}
-
-		// הודעות טעינה מציאותיות
-		const loadingMessages = [
-			"מתחבר לשרתי הביטחון...",
-			"מאמת זהות דרך בסיס נתונים ממשלתי...",
-			"בודק רמת סיווג ביומטרי...",
-			"מעביר בקשה לאישור יחידת 8200...",
-			"מקבל אישור מהרמטכ״ל...",
-			"פותח ערוץ מוצפן...",
-			"ההטבעה במערכת נכשלה!",
-			"זוהתה פעילות חשודה!",
-			"מעביר דיווח לשב״כ..."
-		];
-
-		function attemptAccess() {
-			const username = document.getElementById('username').value;
-			const password = document.getElementById('password').value;
-			const clearance = document.getElementById('clearance').value;
-
-			if (!username || !password || !clearance) {
-				alert('⚠️ ERROR: כל השדות נדרשים לאימות ביטחוני!');
-				return;
-			}
-
-			// רישום ניסיון הגשת טופס
-			const submissions = parseInt(localStorage.getItem(TRACKING_KEYS.formSubmissions) || '0') + 1;
-			localStorage.setItem(TRACKING_KEYS.formSubmissions, submissions.toString());
-
-			// מעקב מקומי של הגשות טופס (לא גלובלי)
-			console.log(`%c📝 Form submission #${submissions} recorded locally`,
-				'background: #4CAF50; color: white; padding: 5px 10px; border-radius: 5px;');
-
-			document.querySelector('.access-form').style.display = 'none';
-			document.getElementById('loading').style.display = 'block';
-
-			let messageIndex = 0;
-			const loadingInterval = setInterval(() => {
-				if (messageIndex < loadingMessages.length) {
-					document.getElementById('loadingText').textContent = loadingMessages[messageIndex];
-					messageIndex++;
 				} else {
-					clearInterval(loadingInterval);
-					// רישום ריק רול גלובלי
-					recordRickRoll();
-					// הכיוון המסתורי! 🎭
-					setTimeout(() => {
-						window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
-					}, 1000);
+					code = this.generateRandomCode();
 				}
-			}, 1500);
 
-			// שליחת "דיווח" ל-Google Analytics
-			if (typeof gtag !== 'undefined') {
-				gtag('event', 'unauthorized_access_attempt', {
-					'username_attempted': username.substring(0, 3) + '***',
-					'clearance_claimed': clearance,
-					'timestamp': new Date().toISOString(),
-					'submission_number': submissions
+				const link = {
+					id: Date.now(),
+					originalUrl,
+					code,
+					shortUrl: `${window.location.origin}${window.location.pathname}?r=${code}`,
+					createdAt: new Date().toISOString(),
+					clicks: 0,
+					lastClicked: null
+				};
+
+				this.links.unshift(link);
+				this.saveLinks();
+				this.renderLinks();
+				this.updateStats();
+
+				// Clear form
+				document.getElementById('urlForm').reset();
+
+				this.showToast('קישור נוצר בהצלחה! 🎉');
+			}
+
+			generateRandomCode() {
+				const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+				let result = '';
+				for (let i = 0; i < 6; i++) {
+					result += chars.charAt(Math.floor(Math.random() * chars.length));
+				}
+				return result;
+			}
+
+			isValidUrl(string) {
+				try {
+					new URL(string);
+					return true;
+				} catch (_) {
+					return false;
+				}
+			}
+
+			deleteLink(id) {
+				if (confirm('האם אתה בטוח שברצונך למחוק את הקישור?')) {
+					this.links = this.links.filter(link => link.id !== id);
+					this.saveLinks();
+					this.renderLinks();
+					this.updateStats();
+					this.showToast('קישור נמחק בהצלחה');
+				}
+			}
+
+			copyToClipboard(text) {
+				navigator.clipboard.writeText(text).then(() => {
+					this.showToast('קישור הועתק ללוח! 📋');
+				}).catch(() => {
+					this.showToast('שגיאה בהעתקה', 'error');
 				});
+			}
+
+			renderLinks() {
+				const container = document.getElementById('linksList');
+
+				if (this.links.length === 0) {
+					container.innerHTML = `
+						<div class="empty-state">
+							<div class="empty-icon">🔗</div>
+							<p>עדיין לא יצרת קישורים מקוצרים.<br>השתמש בטופס למעלה כדי ליצור את הראשון!</p>
+						</div>
+					`;
+					return;
+				}
+
+				container.innerHTML = this.links.map(link => `
+					<div class="link-item">
+						<div class="link-header">
+							<div class="link-info">
+								<div class="short-url">${link.shortUrl}</div>
+								<div class="original-url">${link.originalUrl}</div>
+								<div class="link-stats">
+									<div class="stat-item">
+										<span>👆</span>
+										<span>${link.clicks} קליקים</span>
+									</div>
+									<div class="stat-item">
+										<span>📅</span>
+										<span>נוצר ב-${this.formatDate(link.createdAt)}</span>
+									</div>
+									${link.lastClicked ? `
+										<div class="stat-item">
+											<span>🕒</span>
+											<span>לאחרונה: ${this.formatDate(link.lastClicked)}</span>
+										</div>
+									` : ''}
+								</div>
+							</div>
+							<div class="link-actions">
+								<button class="btn btn-sm" onclick="linkShortener.copyToClipboard('${link.shortUrl}')">
+									📋 העתק
+								</button>
+								<button class="btn btn-sm" onclick="window.open('${link.originalUrl}', '_blank')">
+									🔗 פתח
+								</button>
+								<button class="btn btn-sm btn-danger" onclick="linkShortener.deleteLink(${link.id})">
+									🗑️ מחק
+								</button>
+							</div>
+						</div>
+					</div>
+				`).join('');
+			}
+
+			updateStats() {
+				const totalLinks = this.links.length;
+				const totalClicks = this.links.reduce((sum, link) => sum + link.clicks, 0);
+				const today = new Date().toDateString();
+				const todayClicks = this.links.reduce((sum, link) => {
+					if (link.lastClicked && new Date(link.lastClicked).toDateString() === today) {
+						return sum + 1;
+					}
+					return sum;
+				}, 0);
+
+				document.getElementById('totalLinks').textContent = totalLinks;
+				document.getElementById('totalClicks').textContent = totalClicks;
+				document.getElementById('todayClicks').textContent = todayClicks;
+			}
+
+			formatDate(dateString) {
+				const date = new Date(dateString);
+				return date.toLocaleDateString('he-IL', {
+					year: 'numeric',
+					month: 'short',
+					day: 'numeric',
+					hour: '2-digit',
+					minute: '2-digit'
+				});
+			}
+
+			showToast(message, type = 'success') {
+				const toast = document.getElementById('toast');
+				toast.textContent = message;
+				toast.className = `toast ${type}`;
+				toast.classList.add('show');
+
+				setTimeout(() => {
+					toast.classList.remove('show');
+				}, 3000);
+			}
+
+			loadLinks() {
+				try {
+					return JSON.parse(localStorage.getItem('linkShortener_links') || '[]');
+				} catch {
+					return [];
+				}
+			}
+
+			saveLinks() {
+				localStorage.setItem('linkShortener_links', JSON.stringify(this.links));
 			}
 		}
 
-		// אפקטים נוספים
-		document.addEventListener('DOMContentLoaded', function () {
-			// שלא נקרא ל-trackPageViews הישנה
-			// tracker כבר מאותחל אוטומטית
-
-			// הוספת אפקט הקלדה לכותרת
-			const title = document.querySelector('h1');
-			const originalText = title.textContent;
-			title.textContent = '';
-
-			let i = 0;
-			const typeWriter = setInterval(() => {
-				if (i < originalText.length) {
-					title.textContent += originalText.charAt(i);
-					i++;
-				} else {
-					clearInterval(typeWriter);
-				}
-			}, 100);
-
-			// אזהרה נוספת
-			console.warn('⚠️⚠️⚠️ GOVERNMENT WARNING ⚠️⚠️⚠️');
-			console.warn('This is a classified government system!');
-			console.warn('Unauthorized access is strictly prohibited!');
-			console.warn('All activities are logged and monitored!');
-
-			// מעקב נוסף בעת סגירת הדף
-			window.addEventListener('beforeunload', function () {
-				const timeSpent = Math.floor((Date.now() - tracker.sessionStart) / 1000);
-				localStorage.setItem('gov_last_session_time', timeSpent.toString());
-
-				// שליחת נתוני סיום סשן
-				navigator.sendBeacon && navigator.sendBeacon('/api/session-end', JSON.stringify({
-					timeSpent,
-					interactions: tracker.interactions.length,
-					timestamp: Date.now()
-				}));
-			});
-		});
-
-		// חסימת כניסה לקונסולה - חזקה יותר!
-		document.addEventListener('keydown', function (e) {
-			// רישום ניסיונות חסימה (מקומי בלבד)
-			const securityEvents = ['F12', 'I', 'J', 'U'];
-			if (securityEvents.includes(e.key) || (e.ctrlKey && securityEvents.includes(e.key.toUpperCase()))) {
-				const breaches = parseInt(localStorage.getItem(TRACKING_KEYS.securityBreaches) || '0') + 1;
-				localStorage.setItem(TRACKING_KEYS.securityBreaches, breaches.toString());
-			}
-
-			// חסימת F12
-			if (e.key === 'F12') {
-				e.preventDefault();
-				alert('🚨 ACCESS DENIED! 🚨\nConsole access blocked for security reasons!');
-				return false;
-			}
-
-			// חסימת Ctrl+Shift+I
-			if (e.ctrlKey && e.shiftKey && e.key === 'I') {
-				e.preventDefault();
-				alert('🚨 SECURITY BREACH DETECTED! 🚨\nDeveloper tools access is strictly prohibited!');
-				return false;
-			}
-
-			// חסימת Ctrl+Shift+J
-			if (e.ctrlKey && e.shiftKey && e.key === 'J') {
-				e.preventDefault();
-				alert('🚨 UNAUTHORIZED ACCESS ATTEMPT! 🚨\nConsole access blocked by security protocol!');
-				return false;
-			}
-
-			// חסימת Ctrl+U (צפייה בקוד מקור)
-			if (e.ctrlKey && e.key === 'u') {
-				e.preventDefault();
-				alert('🚨 CLASSIFIED INFORMATION! 🚨\nSource code access is restricted!');
-				return false;
-			}
-		});
-
-		// חסימת לחיצה ימנית
-		document.addEventListener('contextmenu', function (e) {
-			e.preventDefault();
-			// רישום ניסיון לחיצה ימנית (מקומי בלבד)
-			const breaches = parseInt(localStorage.getItem(TRACKING_KEYS.securityBreaches) || '0') + 1;
-			localStorage.setItem(TRACKING_KEYS.securityBreaches, breaches.toString());
-
-			alert('🚨 RIGHT CLICK DISABLED! 🚨\nContext menu blocked for security reasons!');
-			return false;
-		});
+		// Initialize the app
+		const linkShortener = new LinkShortener();
 	</script>
 </body>
 
