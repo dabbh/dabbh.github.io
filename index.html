@@ -2,782 +2,119 @@
 <html lang="he">
 
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>LinkShort - קיצור קישורים מהיר ובטוח</title>
-
-	<!-- Google Fonts -->
-	<link
-		href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Assistant:wght@400;600;700&display=swap"
-		rel="stylesheet">
-
-	<!-- Favicon -->
-	<link rel="icon
-		href=" data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em'
-		font-size='90'>🔗</text></svg>"
-	type="image/svg+xml" />
-
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>סקר דעת קהל</title>
 	<style>
-		:root {
-			--primary: #3b82f6;
-			--primary-dark: #2563eb;
-			--secondary: #f1f5f9;
-			--accent: #10b981;
-			--danger: #ef4444;
-			--warning: #f59e0b;
-			--bg: #ffffff;
-			--surface: #f8fafc;
-			--border: #e2e8f0;
-			--text: #1e293b;
-			--text-secondary: #64748b;
-			--text-light: #94a3b8;
-			--shadow: rgba(0, 0, 0, 0.1);
-		}
-
-		* {
-			box-sizing: border-box;
-		}
-
 		body {
+			font-family: Arial, sans-serif;
+			direction: rtl;
+			text-align: center;
+			background-color: #f9f9f9;
 			margin: 0;
 			padding: 0;
-			font-family: 'Assistant', 'Inter', sans-serif;
-			background: linear-gradient(135deg, var(--surface) 0%, #e0e7ff 100%);
-			color: var(--text);
-			direction: rtl;
-			min-height: 100vh;
-			line-height: 1.6;
 		}
 
 		.container {
-			max-width: 800px;
-			margin: 0 auto;
+			max-width: 600px;
+			margin: 50px auto;
+			background: #fff;
 			padding: 20px;
+			border-radius: 8px;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 		}
 
-		.header {
-			text-align: center;
-			margin-bottom: 40px;
-			padding: 40px 20px;
-			background: white;
-			border-radius: 20px;
-			box-shadow: 0 4px 20px var(--shadow);
-			position: relative;
-			overflow: hidden;
+		h1 {
+			color: #333;
 		}
 
-		.header::before {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			height: 4px;
-			background: linear-gradient(90deg, var(--primary), var(--accent), var(--primary));
+		.question {
+			margin: 20px 0;
 		}
 
-		.logo {
-			font-size: 3rem;
-			margin-bottom: 15px;
-			display: block;
+		.options {
+			list-style: none;
+			padding: 0;
 		}
 
-		.title {
-			font-size: 2.5rem;
-			font-weight: 700;
-			color: var(--text);
-			margin: 0 0 10px;
-			font-family: 'Inter', sans-serif;
+		.options li {
+			margin: 10px 0;
 		}
 
-		.subtitle {
-			color: var(--text-secondary);
-			font-size: 1.1rem;
-			margin: 0;
-		}
-
-		.url-form {
-			background: white;
-			padding: 30px;
-			border-radius: 16px;
-			box-shadow: 0 4px 20px var(--shadow);
-			margin-bottom: 30px;
-		}
-
-		.form-group {
-			margin-bottom: 20px;
-		}
-
-		.form-label {
-			display: block;
-			margin-bottom: 8px;
-			font-weight: 600;
-			color: var(--text);
-		}
-
-		.form-input {
-			width: 100%;
-			padding: 12px 16px;
-			border: 2px solid var(--border);
-			border-radius: 10px;
-			font-size: 16px;
-			transition: all 0.3s ease;
-			background: white;
-			direction: ltr;
-			text-align: left;
-		}
-
-		.form-input:focus {
-			outline: none;
-			border-color: var(--primary);
-			box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-		}
-
-		.btn {
-			background: var(--primary);
+		button {
+			background-color: #4CAF50;
 			color: white;
 			border: none;
-			padding: 12px 24px;
-			border-radius: 10px;
-			font-size: 16px;
-			font-weight: 600;
+			padding: 10px 20px;
+			border-radius: 5px;
 			cursor: pointer;
-			transition: all 0.3s ease;
-			display: inline-flex;
-			align-items: center;
-			gap: 8px;
 		}
 
-		.btn:hover {
-			background: var(--primary-dark);
-			transform: translateY(-2px);
-			box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+		button:disabled {
+			background-color: #ccc;
+			cursor: not-allowed;
 		}
 
-		.btn-full {
-			width: 100%;
-			justify-content: center;
-		}
-
-		.btn-sm {
-			padding: 6px 12px;
-			font-size: 14px;
-		}
-
-		.btn-danger {
-			background: var(--danger);
-		}
-
-		.btn-danger:hover {
-			background: #dc2626;
-		}
-
-		.links-section {
-			background: white;
-			padding: 30px;
-			border-radius: 16px;
-			box-shadow: 0 4px 20px var(--shadow);
-			margin-bottom: 30px;
-		}
-
-		.section-title {
-			font-size: 1.5rem;
-			font-weight: 700;
-			margin: 0 0 20px;
-			color: var(--text);
-		}
-
-		.link-item {
-			background: var(--surface);
-			border: 1px solid var(--border);
-			border-radius: 12px;
-			padding: 20px;
-			margin-bottom: 15px;
-			transition: all 0.3s ease;
-		}
-
-		.link-item:hover {
-			box-shadow: 0 2px 10px var(--shadow);
-		}
-
-		.link-header {
-			display: flex;
-			justify-content: space-between;
-			align-items: flex-start;
-			margin-bottom: 15px;
-		}
-
-		.link-info {
-			flex: 1;
-		}
-
-		.short-url {
-			font-size: 1.1rem;
-			font-weight: 600;
-			color: var(--primary);
-			margin-bottom: 5px;
-			word-break: break-all;
-			direction: ltr;
-			text-align: left;
-		}
-
-		.original-url {
-			color: var(--text-secondary);
-			font-size: 0.9rem;
-			word-break: break-all;
-			direction: ltr;
-			text-align: left;
-		}
-
-		.link-actions {
-			display: flex;
-			gap: 8px;
-		}
-
-		.link-stats {
-			display: flex;
-			gap: 20px;
-			margin-top: 10px;
-			font-size: 0.9rem;
-			color: var(--text-secondary);
-		}
-
-		.stat-item {
-			display: flex;
-			align-items: center;
-			gap: 5px;
-		}
-
-		.toast {
-			position: fixed;
-			top: 20px;
-			right: 20px;
-			background: var(--accent);
-			color: white;
-			padding: 12px 20px;
-			border-radius: 10px;
-			box-shadow: 0 4px 15px var(--shadow);
-			z-index: 1000;
-			transform: translateX(100%);
-			transition: transform 0.3s ease;
-		}
-
-		.toast.show {
-			transform: translateX(0);
-		}
-
-		.toast.error {
-			background: var(--danger);
-		}
-
-		.stats-grid {
-			display: grid;
-			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-			gap: 20px;
-			margin-bottom: 30px;
-		}
-
-		.stat-card {
-			background: white;
-			padding: 20px;
-			border-radius: 12px;
-			box-shadow: 0 2px 10px var(--shadow);
-			text-align: center;
-		}
-
-		.stat-number {
-			font-size: 2rem;
-			font-weight: 700;
-			color: var(--primary);
-			margin-bottom: 5px;
-		}
-
-		.stat-label {
-			color: var(--text-secondary);
-			font-size: 0.9rem;
-		}
-
-		.empty-state {
-			text-align: center;
-			padding: 40px 20px;
-			color: var(--text-secondary);
-		}
-
-		.empty-icon {
-			font-size: 3rem;
-			margin-bottom: 15px;
-			opacity: 0.5;
-		}
-
-		@media (max-width: 768px) {
-			.container {
-				padding: 15px;
-			}
-
-			.title {
-				font-size: 2rem;
-			}
-
-			.link-header {
-				flex-direction: column;
-				gap: 15px;
-			}
-
-			.link-actions {
-				justify-content: flex-start;
-			}
-
-			.stats-grid {
-				grid-template-columns: repeat(2, 1fr);
-			}
+		.message {
+			margin-top: 20px;
+			color: #d9534f;
 		}
 	</style>
 </head>
 
 <body>
 	<div class="container">
-		<!-- Header -->
-		<div class="header">
-			<div class="logo">🔗</div>
-			<h1 class="title">LinkShort</h1>
-			<p class="subtitle">קיצור קישורים מהיר, בטוח ונוח - בקליק אחד</p>
-		</div>
-
-		<!-- Statistics -->
-		<div class="stats-grid">
-			<div class="stat-card">
-				<div class="stat-number" id="totalLinks">0</div>
-				<div class="stat-label">קישורים מקוצרים</div>
+		<h1>סקר דעת קהל</h1>
+		<form id="surveyForm">
+			<div class="question">
+				<p>מה דעתך על השירות שלנו?</p>
+				<ul class="options">
+					<li><label><input type="radio" name="answer" value="מצוין"> מצוין</label></li>
+					<li><label><input type="radio" name="answer" value="טוב"> טוב</label></li>
+					<li><label><input type="radio" name="answer" value="סביר"> סביר</label></li>
+					<li><label><input type="radio" name="answer" value="גרוע"> גרוע</label></li>
+				</ul>
 			</div>
-			<div class="stat-card">
-				<div class="stat-number" id="totalClicks">0</div>
-				<div class="stat-label">סה"כ קליקים</div>
-			</div>
-			<div class="stat-card">
-				<div class="stat-number" id="todayClicks">0</div>
-				<div class="stat-label">קליקים היום</div>
-			</div>
-		</div>
-
-		<!-- URL Shortening Form -->
-		<div class="url-form">
-			<h2 class="section-title">📎 קצר קישור חדש</h2>
-			<form id="urlForm">
-				<div class="form-group">
-					<label class="form-label" for="originalUrl">🌐 הקישור המקורי</label>
-					<input type="url" id="originalUrl" class="form-input" placeholder="https://example.com" required>
-				</div>
-				<div class="form-group">
-					<label class="form-label" for="customCode">🎯 קוד מותאם (אופציונלי)</label>
-					<input type="text" id="customCode" class="form-input" placeholder="my-link" pattern="[a-zA-Z0-9_-]+"
-						maxlength="20">
-					<small style="color: var(--text-secondary); font-size: 0.8rem;">
-						ניתן להשתמש באותיות אנגליות, מספרים, מקף וקו תחתון בלבד
-					</small>
-				</div>
-				<button type="submit" class="btn btn-full">
-					✨ קצר קישור
-				</button>
-			</form>
-		</div>
-
-		<!-- Import/Export Section -->
-		<div class="links-section" style="margin-bottom: 20px;">
-			<h2 class="section-title">🔄 ניהול נתונים</h2>
-			<div style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
-				<button class="btn btn-sm" onclick="linkShortener.exportData()">
-					📤 ייצא נתונים
-				</button>
-				<button class="btn btn-sm" onclick="document.getElementById('importFile').click()">
-					📥 ייבא נתונים
-				</button>
-				<button class="btn btn-sm" onclick="linkShortener.syncToCloud()">
-					☁️ סנכרן לענן
-				</button>
-				<button class="btn btn-sm" onclick="linkShortener.loadFromCloud()">
-					⬇️ טען מהענן
-				</button>
-			</div>
-			<input type="file" id="importFile" accept=".json" style="display: none;"
-				onchange="linkShortener.importData(event)">
-			<div id="syncStatus" style="font-size: 0.85rem; color: var(--text-secondary);"></div>
-			<small style="color: var(--text-light); font-size: 0.8rem;">
-				💡 השתמש בייצוא/ייבוא כדי להעביר קישורים בין מכשירים, או בסנכרון לענן לגיבוי אוטומטי
-			</small>
-		</div>
-
-		<!-- Links List -->
-		<div class="links-section">
-			<h2 class="section-title">📋 הקישורים שלי</h2>
-			<div id="linksList">
-				<div class="empty-state">
-					<div class="empty-icon">🔗</div>
-					<p>עדיין לא יצרת קישורים מקוצרים.<br>השתמש בטופס למעלה כדי ליצור את הראשון!</p>
-				</div>
-			</div>
-		</div>
+			<button type="submit">הגש</button>
+		</form>
+		<div class="message" id="message"></div>
 	</div>
 
-	<!-- Toast notification -->
-	<div id="toast" class="toast"></div>
-
 	<script>
-		class LinkShortener {
-			constructor() {
-				this.links = this.loadLinks();
-				this.init();
-				this.handleRedirect();
+		document.getElementById('surveyForm').addEventListener('submit', async function (e) {
+			e.preventDefault();
+
+			const selectedOption = document.querySelector('input[name="answer"]:checked');
+			const messageDiv = document.getElementById('message');
+
+			if (!selectedOption) {
+				messageDiv.textContent = 'נא לבחור תשובה לפני שליחה';
+				return;
 			}
 
-			init() {
-				this.bindEvents();
-				this.renderLinks();
-				this.updateStats();
-			}
-
-			bindEvents() {
-				document.getElementById('urlForm').addEventListener('submit', (e) => {
-					e.preventDefault();
-					this.shortenUrl();
+			try {
+				const response = await fetch('https://your-server.com/api/submit-survey', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						answer: selectedOption.value
+					})
 				});
-			}
 
-			handleRedirect() {
-				const params = new URLSearchParams(window.location.search);
-				const code = params.get('r');
+				const result = await response.json();
 
-				if (code) {
-					const link = this.links.find(l => l.code === code);
-					if (link) {
-						link.clicks++;
-						link.lastClicked = new Date().toISOString();
-						this.saveLinks();
-						window.location.href = link.originalUrl;
-						return;
-					} else {
-						this.showToast('קישור לא נמצא', 'error');
-					}
-				}
-			}
-
-			shortenUrl() {
-				const originalUrl = document.getElementById('originalUrl').value.trim();
-				const customCode = document.getElementById('customCode').value.trim();
-
-				if (!this.isValidUrl(originalUrl)) {
-					this.showToast('נא להזין כתובת URL תקינה', 'error');
-					return;
-				}
-
-				let code = customCode;
-				if (code) {
-					if (this.links.find(l => l.code === code)) {
-						this.showToast('הקוד כבר קיים, נא לבחור קוד אחר', 'error');
-						return;
-					}
+				if (response.status === 200) {
+					messageDiv.textContent = 'תודה על השתתפותך בסקר!';
+					document.querySelector('button').disabled = true;
 				} else {
-					code = this.generateRandomCode();
+					messageDiv.textContent = result.message || 'שגיאה בהגשת הסקר';
 				}
-
-				const link = {
-					id: Date.now(),
-					originalUrl,
-					code,
-					shortUrl: `${window.location.origin}${window.location.pathname}?r=${code}`,
-					createdAt: new Date().toISOString(),
-					clicks: 0,
-					lastClicked: null
-				};
-
-				this.links.unshift(link);
-				this.saveLinks();
-				this.renderLinks();
-				this.updateStats();
-
-				// Clear form
-				document.getElementById('urlForm').reset();
-
-				this.showToast('קישור נוצר בהצלחה! 🎉');
+			} catch (error) {
+				messageDiv.textContent = 'שגיאה בחיבור לשרת';
 			}
-
-			generateRandomCode() {
-				const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-				let result = '';
-				for (let i = 0; i < 6; i++) {
-					result += chars.charAt(Math.floor(Math.random() * chars.length));
-				}
-				return result;
-			}
-
-			isValidUrl(string) {
-				try {
-					new URL(string);
-					return true;
-				} catch (_) {
-					return false;
-				}
-			}
-
-			deleteLink(id) {
-				if (confirm('האם אתה בטוח שברצונך למחוק את הקישור?')) {
-					this.links = this.links.filter(link => link.id !== id);
-					this.saveLinks();
-					this.renderLinks();
-					this.updateStats();
-					this.showToast('קישור נמחק בהצלחה');
-				}
-			}
-
-			copyToClipboard(text) {
-				navigator.clipboard.writeText(text).then(() => {
-					this.showToast('קישור הועתק ללוח! 📋');
-				}).catch(() => {
-					this.showToast('שגיאה בהעתקה', 'error');
-				});
-			}
-
-			renderLinks() {
-				const container = document.getElementById('linksList');
-
-				if (this.links.length === 0) {
-					container.innerHTML = `
-						<div class="empty-state">
-							<div class="empty-icon">🔗</div>
-							<p>עדיין לא יצרת קישורים מקוצרים.<br>השתמש בטופס למעלה כדי ליצור את הראשון!</p>
-						</div>
-					`;
-					return;
-				}
-
-				container.innerHTML = this.links.map(link => `
-					<div class="link-item">
-						<div class="link-header">
-							<div class="link-info">
-								<div class="short-url">${link.shortUrl}</div>
-								<div class="original-url">${link.originalUrl}</div>
-								<div class="link-stats">
-									<div class="stat-item">
-										<span>👆</span>
-										<span>${link.clicks} קליקים</span>
-									</div>
-									<div class="stat-item">
-										<span>📅</span>
-										<span>נוצר ב-${this.formatDate(link.createdAt)}</span>
-									</div>
-									${link.lastClicked ? `
-										<div class="stat-item">
-											<span>🕒</span>
-											<span>לאחרונה: ${this.formatDate(link.lastClicked)}</span>
-										</div>
-									` : ''}
-								</div>
-							</div>
-							<div class="link-actions">
-								<button class="btn btn-sm" onclick="linkShortener.copyToClipboard('${link.shortUrl}')">
-									📋 העתק
-								</button>
-								<button class="btn btn-sm" onclick="window.open('${link.originalUrl}', '_blank')">
-									🔗 פתח
-								</button>
-								<button class="btn btn-sm btn-danger" onclick="linkShortener.deleteLink(${link.id})">
-									🗑️ מחק
-								</button>
-							</div>
-						</div>
-					</div>
-				`).join('');
-			}
-
-			updateStats() {
-				const totalLinks = this.links.length;
-				const totalClicks = this.links.reduce((sum, link) => sum + link.clicks, 0);
-				const today = new Date().toDateString();
-				const todayClicks = this.links.reduce((sum, link) => {
-					if (link.lastClicked && new Date(link.lastClicked).toDateString() === today) {
-						return sum + 1;
-					}
-					return sum;
-				}, 0);
-
-				document.getElementById('totalLinks').textContent = totalLinks;
-				document.getElementById('totalClicks').textContent = totalClicks;
-				document.getElementById('todayClicks').textContent = todayClicks;
-			}
-
-			formatDate(dateString) {
-				const date = new Date(dateString);
-				return date.toLocaleDateString('he-IL', {
-					year: 'numeric',
-					month: 'short',
-					day: 'numeric',
-					hour: '2-digit',
-					minute: '2-digit'
-				});
-			}
-
-			showToast(message, type = 'success') {
-				const toast = document.getElementById('toast');
-				toast.textContent = message;
-				toast.className = `toast ${type}`;
-				toast.classList.add('show');
-
-				setTimeout(() => {
-					toast.classList.remove('show');
-				}, 3000);
-			}
-
-			loadLinks() {
-				try {
-					return JSON.parse(localStorage.getItem('linkShortener_links') || '[]');
-				} catch {
-					return [];
-				}
-			}
-
-			saveLinks() {
-				localStorage.setItem('linkShortener_links', JSON.stringify(this.links));
-			}
-
-			// New functions for import/export and cloud sync
-			exportData() {
-				const data = {
-					links: this.links,
-					exportDate: new Date().toISOString(),
-					version: '1.0'
-				};
-
-				const blob = new Blob([JSON.stringify(data, null, 2)], {
-					type: 'application/json'
-				});
-
-				const url = URL.createObjectURL(blob);
-				const a = document.createElement('a');
-				a.href = url;
-				a.download = `linkshort-backup-${new Date().toISOString().split('T')[0]}.json`;
-				document.body.appendChild(a);
-				a.click();
-				document.body.removeChild(a);
-				URL.revokeObjectURL(url);
-
-				this.showToast('נתונים יוצאו בהצלחה! 📁');
-			}
-
-			importData(event) {
-				const file = event.target.files[0];
-				if (!file) return;
-
-				const reader = new FileReader();
-				reader.onload = (e) => {
-					try {
-						const data = JSON.parse(e.target.result);
-
-						if (data.links && Array.isArray(data.links)) {
-							// Merge with existing links, avoiding duplicates
-							const existingCodes = this.links.map(l => l.code);
-							const newLinks = data.links.filter(l => !existingCodes.includes(l.code));
-
-							this.links = [...this.links, ...newLinks];
-							this.saveLinks();
-							this.renderLinks();
-							this.updateStats();
-
-							this.showToast(`יובאו ${newLinks.length} קישורים חדשים! 📥`);
-						} else {
-							this.showToast('פורמט קובץ לא תקין', 'error');
-						}
-					} catch (error) {
-						this.showToast('שגיאה בקריאת הקובץ', 'error');
-					}
-				};
-				reader.readAsText(file);
-
-				// Reset input
-				event.target.value = '';
-			}
-
-			async syncToCloud() {
-				try {
-					document.getElementById('syncStatus').textContent = 'מסנכרן לענן...';
-
-					const data = {
-						links: this.links,
-						lastSync: new Date().toISOString(),
-						deviceId: this.getDeviceId()
-					};
-
-					// Using jsonbin.io as a simple cloud storage
-					const response = await fetch('https://api.jsonbin.io/v3/b', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-							'X-Master-Key': '$2a$10$L5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5'
-						},
-						body: JSON.stringify(data)
-					});
-
-					if (response.ok) {
-						const result = await response.json();
-						localStorage.setItem('linkShortener_cloudId', result.metadata.id);
-						document.getElementById('syncStatus').textContent = `✅ סונכרן לענן ב-${this.formatDate(new Date().toISOString())}`;
-						this.showToast('סונכרן לענן בהצלחה! ☁️');
-					} else {
-						throw new Error('Cloud sync failed');
-					}
-				} catch (error) {
-					document.getElementById('syncStatus').textContent = '❌ שגיאה בסנכרון לענן';
-					this.showToast('שגיאה בסנכרון לענן - השתמש בייצוא/ייבוא במקום', 'error');
-				}
-			}
-
-			async loadFromCloud() {
-				try {
-					const cloudId = localStorage.getItem('linkShortener_cloudId');
-					if (!cloudId) {
-						this.showToast('לא נמצא גיבוי בענן. בצע סנכרון תחילה', 'error');
-						return;
-					}
-
-					document.getElementById('syncStatus').textContent = 'טוען מהענן...';
-
-					const response = await fetch(`https://api.jsonbin.io/v3/b/${cloudId}/latest`, {
-						headers: {
-							'X-Master-Key': '$2a$10$L5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5'
-						}
-					});
-
-					if (response.ok) {
-						const result = await response.json();
-						const data = result.record;
-
-						if (data.links) {
-							this.links = data.links;
-							this.saveLinks();
-							this.renderLinks();
-							this.updateStats();
-							document.getElementById('syncStatus').textContent = `✅ נטען מהענן ב-${this.formatDate(data.lastSync)}`;
-							this.showToast('נתונים נטענו מהענן בהצלחה! ⬇️');
-						}
-					} else {
-						throw new Error('Load from cloud failed');
-					}
-				} catch (error) {
-					document.getElementById('syncStatus').textContent = '❌ שגיאה בטעינה מהענן';
-					this.showToast('שגיאה בטעינה מהענן', 'error');
-				}
-			}
-
-			getDeviceId() {
-				let deviceId = localStorage.getItem('linkShortener_deviceId');
-				if (!deviceId) {
-					deviceId = 'device_' + Math.random().toString(36).substring(2, 15);
-					localStorage.setItem('linkShortener_deviceId', deviceId);
-				}
-				return deviceId;
-			}
-		}
-
-		// Initialize the app
-		const linkShortener = new LinkShortener();
+		});
 	</script>
 </body>
 
