@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=dev		code {
+			background: rgba(255,255,255,0.15);
+			color: white;
+			padding: 2px 6px;
+			border-radius: 4px;
+			font-family: monospace;
+			font-size: 0.9rem;
+		}
+
+		/* Sticky Table of Contents */
+		.sticky-toc {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			background: rgba(102, 126, 234, 0.95);
+			backdrop-filter: blur(10px);
+			border-bottom: 1px solid rgba(255,255,255,0.2);
+			z-index: 1000;
+			padding: 10px 0;
+			transform: translateY(-100%);
+			transition: transform 0.3s ease;
+		}
+
+		.sticky-toc.visible {
+			transform: translateY(0);
+		}
+
+		.toc-content {
+			max-width: 900px;
+			margin: 0 auto;
+			padding: 0 20px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.toc-logo {
+			display: flex;
+			align-items: center;
+			color: white;
+			font-weight: bold;
+			font-size: 1.1rem;
+		}
+
+		.toc-logo span {
+			margin-left: 10px;
+		}
+
+		.toc-nav {
+			display: flex;
+			gap: 15px;
+		}
+
+		.toc-nav a {
+			color: white;
+			text-decoration: none;
+			padding: 6px 12px;
+			border-radius: 15px;
+			transition: all 0.3s;
+			font-size: 0.9rem;
+		}
+
+		.toc-nav a:hover {
+			background: rgba(255,255,255,0.2);
+			transform: translateY(-2px);
+		}
+
+		@media (max-width: 768px) {
+			.toc-content {
+				flex-direction: column;
+				gap: 10px;
+			}
+
+			.toc-nav {
+				gap: 10px;
+				flex-wrap: wrap;
+				justify-content: center;
+			}
+
+			.toc-nav a {
+				font-size: 0.8rem;
+				padding: 5px 10px;
+			}
+		}
+	</style>, initial-scale=1.0">
+	<title>Troubleshooting - Run! Extension</title>
+	<style>
+		body {
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			line-height: 1.6;
+			color: #333;
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			min-height: 100vh;
+			margin: 0;
+		}
+
+		.container {
+			max-width: 900px;
+			margin: 0 auto;
+			padding: 20px;
+		}
+
+		.content {
+			background: white;
+			border-radius: 20px;
+			padding: 40px;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+		}
+
+		.guide-header {
+			text-align: center;
+			margin-bottom: 40px;
+			border-bottom: 3px solid #667eea;
+			padding-bottom: 20px;
+		}
+
+		.guide-title {
+			font-size: 2.5rem;
+			color: #667eea;
+			margin-bottom: 10px;
+		}
+
+		.problem {
+			background: #fff3cd;
+			border-left: 5px solid #ffc107;
+			padding: 20px;
+			margin: 20px 0;
+			border-radius: 5px;
+		}
+
+		.solution {
+			background: #d4edda;
+			border-left: 5px solid #28a745;
+			padding: 20px;
+			margin: 20px 0;
+			border-radius: 5px;
+		}
+
+		.code-example {
+			background: #2d3748;
+			color: #e2e8f0;
+			padding: 15px;
+			border-radius: 8px;
+			font-family: monospace;
+		}
+
+		.quick-fix,
+		.command-tip,
+		.terminal-fix {
+			background: linear-gradient(45deg, #17a2b8, #138496);
+			color: white;
+			padding: 12px;
+			border-radius: 8px;
+			margin: 15px 0;
+			border-left: 4px solid #0c5460;
+		}
+
+		.command-tip {
+			background: linear-gradient(45deg, #6f42c1, #563d7c);
+			border-left-color: #3d2b5c;
+		}
+
+		.terminal-fix {
+			background: linear-gradient(45deg, #fd7e14, #e55a00);
+			border-left-color: #cc4900;
+		}
+
+		.quick-fix strong,
+		.command-tip strong,
+		.terminal-fix strong {
+			display: block;
+			margin-bottom: 5px;
+		}
+
+		kbd {
+			background: rgba(255, 255, 255, 0.2);
+			color: white;
+			padding: 3px 6px;
+			border-radius: 3px;
+			font-size: 0.8rem;
+			font-family: monospace;
+			border: 1px solid rgba(255, 255, 255, 0.3);
+			font-weight: bold;
+		}
+
+		code {
+			background: rgba(255, 255, 255, 0.15);
+			color: white;
+			padding: 2px 6px;
+			border-radius: 4px;
+			font-family: monospace;
+			font-size: 0.9rem;
+		}
+	</style>
+</head>
+
+<body>
+	<!-- Sticky Table of Contents -->
+	<div class="sticky-toc" id="stickyToc">
+		<div class="toc-content">
+			<div class="toc-logo">
+				▶️ <span>Troubleshooting</span>
+			</div>
+			<nav class="toc-nav">
+				<a href="../index.html">🏠 Home</a>
+				<a href="#common-issues">Common Issues</a>
+				<a href="#solutions">Solutions</a>
+				<a href="#support">Get Help</a>
+				<a href="examples.html">Next Guide →</a>
+			</nav>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="content">
+			<div class="guide-header">
+				<h1 class="guide-title">🔧 Troubleshooting</h1>
+				<p>Common issues and their solutions</p>
+			</div>
+
+			<div class="problem">
+				<h3>❌ Problem: Run button not appearing</h3>
+				<p>The Run button doesn't show up in the status bar when I open a code file.</p>
+			</div>
+			<div class="solution">
+				<h3>✅ Solution:</h3>
+				<ul>
+					<li>Make sure your file has a supported extension (.py, .java, .c, etc.)</li>
+					<li>Check that the Run! extension is installed and enabled</li>
+					<li>Try reloading VS Code: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> → "Developer: Reload
+						Window"</li>
+				</ul>
+				<div class="quick-fix">
+					<strong>🔧 Quick Fix:</strong> Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> and type "Run!:
+					Run Code" to force execution
+				</div>
+			</div>
+
+			<div class="problem">
+				<h3>❌ Problem: Compilation errors</h3>
+				<p>My code doesn't compile or shows error messages.</p>
+			</div>
+			<div class="solution">
+				<h3>✅ Solution:</h3>
+				<ul>
+					<li>Check that you have the required compiler installed (gcc, javac, etc.)</li>
+					<li>Verify your code syntax is correct</li>
+					<li>Check file naming (Java class name must match filename)</li>
+					<li>Use custom .Run files to adjust compilation flags</li>
+				</ul>
+				<div class="command-tip">
+					<strong>💡 Pro Tip:</strong> Use <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> → "Run!: Create Run
+					file" to customize compilation settings
+				</div>
+			</div>
+
+			<div class="problem">
+				<h3>❌ Problem: Permission denied</h3>
+				<p>Getting permission errors when trying to run code.</p>
+			</div>
+			<div class="solution">
+				<h3>✅ Solution:</h3>
+				<ul>
+					<li>Enable Safe Mode in your .Run configuration</li>
+					<li>Check write permissions in your project directory</li>
+					<li>On Linux/macOS, ensure executables have proper permissions</li>
+				</ul>
+				<div class="code-example">
+					# Enable safe mode in .Run file<br>
+					[c]<br>
+					safeMode = true
+				</div>
+				<div class="terminal-fix">
+					<strong>🖥️ Terminal Fix:</strong> Press <kbd>Ctrl</kbd>+<kbd>`</kbd> to open terminal, then run:
+					<code>chmod +x filename</code>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

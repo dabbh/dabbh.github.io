@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Code Examples - Run! Extension</title>
+	<style>
+		body {
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			line-height: 1.6;
+			color: #333;
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			min-height: 100vh;
+			margin: 0;
+		}
+
+		.container {
+			max-width: 900px;
+			margin: 0 auto;
+			padding: 20px;
+		}
+
+		.content {
+			background: white;
+			border-radius: 20px;
+			padding: 40px;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+		}
+
+		.guide-header {
+			text-align: center;
+			margin-bottom: 40px;
+			border-bottom: 3px solid #667eea;
+			padding-bottom: 20px;
+		}
+
+		.guide-title {
+			font-size: 2.5rem;
+			color: #667eea;
+			margin-bottom: 10px;
+		}
+
+		.example {
+			background: #f8f9fa;
+			border-radius: 15px;
+			padding: 25px;
+			margin: 20px 0;
+		}
+
+		.code-example {
+			background: #2d3748;
+			color: #e2e8f0;
+			padding: 15px;
+			border-radius: 8px;
+			font-family: monospace;
+			margin: 15px 0;
+		}
+
+		.output {
+			background: #1a202c;
+			color: #4ade80;
+			padding: 15px;
+			border-radius: 8px;
+			font-family: monospace;
+			border-left: 4px solid #4ade80;
+		}
+
+		/* Sticky Table of Contents */
+		.sticky-toc {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			background: rgba(102, 126, 234, 0.95);
+			backdrop-filter: blur(10px);
+			border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+			z-index: 1000;
+			padding: 10px 0;
+			transform: translateY(-100%);
+			transition: transform 0.3s ease;
+		}
+
+		.sticky-toc.visible {
+			transform: translateY(0);
+		}
+
+		.toc-content {
+			max-width: 900px;
+			margin: 0 auto;
+			padding: 0 20px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.toc-logo {
+			display: flex;
+			align-items: center;
+			color: white;
+			font-weight: bold;
+			font-size: 1.1rem;
+		}
+
+		.toc-logo span {
+			margin-left: 10px;
+		}
+
+		.toc-nav {
+			display: flex;
+			gap: 15px;
+		}
+
+		.toc-nav a {
+			color: white;
+			text-decoration: none;
+			padding: 6px 12px;
+			border-radius: 15px;
+			transition: all 0.3s;
+			font-size: 0.9rem;
+		}
+
+		.toc-nav a:hover {
+			background: rgba(255, 255, 255, 0.2);
+			transform: translateY(-2px);
+		}
+
+		@media (max-width: 768px) {
+			.toc-content {
+				flex-direction: column;
+				gap: 10px;
+			}
+
+			.toc-nav {
+				gap: 10px;
+				flex-wrap: wrap;
+				justify-content: center;
+			}
+
+			.toc-nav a {
+				font-size: 0.8rem;
+				padding: 5px 10px;
+			}
+		}
+
+		.read-badge {
+			color: #4CAF50;
+			font-size: 0.8em;
+			margin-left: 10px;
+		}
+	</style>
+</head>
+
+<body>
+	<!-- Sticky Table of Contents -->
+	<div class="sticky-toc" id="stickyToc">
+		<div class="toc-content">
+			<div class="toc-logo">
+				▶️ <span>Examples</span>
+			</div>
+			<nav class="toc-nav">
+				<a href="../index.html">🏠 Home</a>
+				<a href="#python">Python</a>
+				<a href="#java">Java</a>
+				<a href="#c">C</a>
+			</nav>
+		</div>
+	</div>
+	<div class="container">
+		<div class="content">
+			<div class="guide-header">
+				<h1 class="guide-title">📝 Code Examples</h1>
+				<p>Real-world examples and best practices</p>
+			</div>
+
+			<div class="example" id="python">
+				<h3>🐍 Python: Data Processing</h3>
+				<div class="code-example">
+					# data_processor.py<br>
+					import json<br>
+					import csv<br><br>
+
+					def process_data(filename):<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;data = []<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;with open(filename, 'r') as f:<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reader = csv.reader(f)<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for row in reader:<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data.append({'name': row[0],
+					'score': int(row[1])})<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;return data<br><br>
+
+					# Test with sample data<br>
+					print("Processing CSV data...")<br>
+					result = process_data('sample.csv')<br>
+					print(f"Processed {len(result)} records")
+				</div>
+				<div class="output">
+					Processing CSV data...<br>
+					Processed 5 records
+				</div>
+			</div>
+
+			<div class="example">
+				<h3 id="java">☕ Java: Algorithm Implementation</h3>
+				<div class="code-example">
+					// QuickSort.java<br>
+					public class QuickSort {<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;public static void quickSort(int[] arr, int low, int high) {<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (low < high) {<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int pi = partition(arr,
+						low, high);<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quickSort(arr, low, pi -
+						1);<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quickSort(arr, pi + 1,
+						high);<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+						&nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) {<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int[] arr = {64, 34, 25, 12, 22, 11, 90};<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Original array: " +
+						Arrays.toString(arr));<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quickSort(arr, 0, arr.length - 1);<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Sorted array: " +
+						Arrays.toString(arr));<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+						}
+				</div>
+			</div>
+
+			<div class="example">
+				<h3 id="c">⚡ C: System Programming</h3>
+				<div class="code-example">
+					// file_manager.c<br>
+					#include &lt;stdio.h&gt;<br>
+					#include &lt;stdlib.h&gt;<br>
+					#include &lt;string.h&gt;<br><br>
+
+					int main() {<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;FILE *file;<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;char buffer[256];<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;char filename[] = "test.txt";<br><br>
+					&nbsp;&nbsp;&nbsp;&nbsp;// Write to file<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;file = fopen(filename, "w");<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;fprintf(file, "Hello from C! 🚀\n");<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;fprintf(file, "File operations made easy.\n");<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;fclose(file);<br><br>
+					&nbsp;&nbsp;&nbsp;&nbsp;// Read from file<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;file = fopen(filename, "r");<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;printf("File contents:\n");<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;while (fgets(buffer, sizeof(buffer), file)) {<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("%s", buffer);<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;fclose(file);<br><br>
+					&nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+	// Sticky Table of Contents functionality
+	window.addEventListener('scroll', function () {
+		const stickyToc = document.getElementById('stickyToc');
+		const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+		if (scrollTop > 200) {
+			stickyToc.classList.add('visible');
+		} else {
+			stickyToc.classList.remove('visible');
+		}
+	});
+	// Smooth scrolling for TOC links
+	document.querySelectorAll('.toc-nav a').forEach(link => {
+		link.addEventListener('click', function (e) {
+			const href = this.getAttribute('href');
+			if (href.startsWith('#')) {
+				e.preventDefault();
+				const targetId = href.substring(1);
+				const targetElement = document.getElementById(targetId);
+				if (targetElement) {
+					const offset = 100;
+					const targetPosition = targetElement.offsetTop - offset;
+					window.scrollTo({
+						top: targetPosition,
+						behavior: 'smooth'
+					});
+				}
+			}
+		});
+	});
+	// Mark this guide as read when page loads (if cookies are accepted)
+	window.addEventListener('load', function () {
+		function getCookie(name) {
+			const nameEQ = name + "=";
+			const ca = document.cookie.split(';');
+			for (let i = 0; i < ca.length; i++) {
+				let c = ca[i];
+				while (c.charAt(0) === ' ') {
+					c = c.substring(1, c.length);
+				}
+				if (c.indexOf(nameEQ) === 0) {
+					return c.substring(nameEQ.length, c.length);
+				}
+			}
+			return null;
+		}
+		function setCookie(name, value, days) {
+			const expires = new Date();
+			expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+			document.cookie = name + '=' + value + ';expires=' + expires.toUTCString() + ';path=/';
+		}
+		const consent = getCookie('cookieConsent');
+		if (consent === 'accepted') {
+			const currentUrl = 'guides/examples.html';
+			let readGuides = getCookie('readGuides');
+			readGuides = readGuides ? readGuides.split(',') : [];
+			if (!readGuides.includes(currentUrl)) {
+				readGuides.push(currentUrl);
+				setCookie('readGuides', readGuides.join(','), 365);
+			}
+			setTimeout(() => {
+				const pageTitle = document.querySelector('.guide-title');
+				if (pageTitle && !pageTitle.querySelector('.read-badge')) {
+					const readBadge = document.createElement('span');
+					readBadge.className = 'read-badge';
+					readBadge.innerHTML = ' ✅';
+					readBadge.title = 'מדריך נקרא';
+					pageTitle.appendChild(readBadge);
+				}
+			}, 500);
+		}
+	});
+</script>
+
+</html>

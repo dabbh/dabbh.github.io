@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Global Configuration - Run! Extension</title>
+	<style>
+		body {
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			line-height: 1.6;
+			color: #333;
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			min-height: 100vh;
+			margin: 0;
+		}
+
+		.container {
+			max-width: 900px;
+			margin: 0 auto;
+			padding: 20px;
+		}
+
+		.content {
+			background: white;
+			border-radius: 20px;
+			padding: 40px;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+		}
+
+		.guide-header {
+			text-align: center;
+			margin-bottom: 40px;
+			border-bottom: 3px solid #667eea;
+			padding-bottom: 20px;
+		}
+
+		.guide-title {
+			font-size: 2.5rem;
+			color: #667eea;
+			margin-bottom: 10px;
+		}
+
+		.code-example {
+			background: #2d3748;
+			color: #e2e8f0;
+			padding: 20px;
+			border-radius: 10px;
+			margin: 15px 0;
+			font-family: 'Courier New', monospace;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="content">
+			<div class="guide-header">
+				<h1 class="guide-title">🌍 Global Configuration</h1>
+				<p>Set up global settings that apply to all your projects</p>
+			</div>
+
+			<h2>Creating Global .Run Files</h2>
+			<p>Place a global configuration file at:</p>
+			<div class="code-example">
+				~/.vscode/global.Run # Linux/macOS<br>
+				C:\Users\{username}\.vscode\global.Run # Windows
+			</div>
+
+			<h2>Example Global Configuration</h2>
+			<div class="code-example">
+				# Global .Run configuration<br>
+				[c]<br>
+				compileFlags = -g -std=c99 -O2<br>
+				safeMode = true<br><br>
+				[python]<br>
+				runCommand = python3 {filenameWithExt}<br><br>
+				[java]<br>
+				compileFlags = -cp .
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

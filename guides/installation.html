@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Installation Guide - Run! Extension</title>
+	<link rel="stylesheet" href="../style.css">
+	<style>
+		body {
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			line-height: 1.6;
+			color: #333;
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			min-height: 100vh;
+			margin: 0;
+			padding: 0;
+		}
+
+		.container {
+			max-width: 900px;
+			margin: 0 auto;
+			padding: 20px;
+		}
+
+		.nav-bar {
+			background: rgba(255, 255, 255, 0.1);
+			backdrop-filter: blur(10px);
+			padding: 15px 0;
+			margin-bottom: 30px;
+			border-radius: 15px;
+		}
+
+		.nav-content {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			color: white;
+			padding: 0 30px;
+		}
+
+		.nav-logo {
+			font-size: 1.5rem;
+			font-weight: bold;
+		}
+
+		.nav-links a {
+			color: white;
+			text-decoration: none;
+			margin: 0 15px;
+			padding: 8px 16px;
+			border-radius: 20px;
+			transition: background 0.3s;
+		}
+
+		.nav-links a:hover {
+			background: rgba(255, 255, 255, 0.2);
+		}
+
+		/* Sticky Table of Contents */
+		.sticky-toc {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			background: rgba(102, 126, 234, 0.95);
+			backdrop-filter: blur(10px);
+			border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+			z-index: 1000;
+			padding: 10px 0;
+			transform: translateY(-100%);
+			transition: transform 0.3s ease;
+		}
+
+		.sticky-toc.visible {
+			transform: translateY(0);
+		}
+
+		.toc-content {
+			max-width: 900px;
+			margin: 0 auto;
+			padding: 0 20px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.toc-logo {
+			display: flex;
+			align-items: center;
+			color: white;
+			font-weight: bold;
+			font-size: 1.1rem;
+		}
+
+		.toc-logo span {
+			margin-left: 10px;
+		}
+
+		.toc-nav {
+			display: flex;
+			gap: 15px;
+		}
+
+		.toc-nav a {
+			color: white;
+			text-decoration: none;
+			padding: 6px 12px;
+			border-radius: 15px;
+			transition: all 0.3s;
+			font-size: 0.9rem;
+		}
+
+		.toc-nav a:hover {
+			background: rgba(255, 255, 255, 0.2);
+			transform: translateY(-2px);
+		}
+
+		/* Mobile responsive for TOC */
+		@media (max-width: 768px) {
+			.toc-content {
+				flex-direction: column;
+				gap: 10px;
+			}
+
+			.toc-nav {
+				gap: 10px;
+				flex-wrap: wrap;
+				justify-content: center;
+			}
+
+			.toc-nav a {
+				font-size: 0.8rem;
+				padding: 5px 10px;
+			}
+		}
+
+		.nav-links a:hover {
+			color: #4CAF50;
+		}
+
+		.content {
+			background: white;
+			border-radius: 20px;
+			padding: 40px;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+		}
+
+		.guide-header {
+			text-align: center;
+			margin-bottom: 40px;
+			padding-bottom: 20px;
+			border-bottom: 3px solid #667eea;
+		}
+
+		.guide-icon {
+			font-size: 4rem;
+			margin-bottom: 15px;
+		}
+
+		.guide-title {
+			font-size: 2.5rem;
+			color: #667eea;
+			margin-bottom: 10px;
+		}
+
+		.guide-subtitle {
+			color: #666;
+			font-size: 1.2rem;
+		}
+
+		.step {
+			background: #f8f9fa;
+			border-left: 5px solid #667eea;
+			padding: 25px;
+			margin: 30px 0;
+			border-radius: 10px;
+			position: relative;
+		}
+
+		.step-number {
+			position: absolute;
+			top: -15px;
+			left: 20px;
+			background: #667eea;
+			color: white;
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-weight: bold;
+			font-size: 1.2rem;
+		}
+
+		.step h3 {
+			margin-top: 10px;
+			color: #333;
+			font-size: 1.4rem;
+		}
+
+		.code-block {
+			background: #2d3748;
+			color: #e2e8f0;
+			padding: 20px;
+			border-radius: 10px;
+			margin: 15px 0;
+			font-family: 'Courier New', monospace;
+			overflow-x: auto;
+		}
+
+		.screenshot {
+			width: 100%;
+			max-width: 500px;
+			border-radius: 10px;
+			margin: 20px 0;
+			box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+		}
+
+		.tip {
+			background: linear-gradient(45deg, #4CAF50, #45a049);
+			color: white;
+			padding: 20px;
+			border-radius: 10px;
+			margin: 20px 0;
+		}
+
+		.tip::before {
+			content: "💡 ";
+			font-size: 1.2rem;
+		}
+
+		.warning {
+			background: linear-gradient(45deg, #FF9800, #F57C00);
+			color: white;
+			padding: 20px;
+			border-radius: 10px;
+			margin: 20px 0;
+		}
+
+		.warning::before {
+			content: "⚠️ ";
+			font-size: 1.2rem;
+		}
+
+		.next-guide {
+			background: linear-gradient(45deg, #667eea, #764ba2);
+			color: white;
+			padding: 30px;
+			border-radius: 15px;
+			text-align: center;
+			margin-top: 40px;
+		}
+
+		.next-guide a {
+			background: white;
+			color: #667eea;
+			padding: 15px 30px;
+			border-radius: 50px;
+			text-decoration: none;
+			font-weight: bold;
+			transition: all 0.3s;
+			display: inline-block;
+			margin-top: 15px;
+		}
+
+		.next-guide a:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+		}
+
+		.keyboard-shortcuts {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			margin: 15px 0;
+		}
+
+		.shortcut-option {
+			display: flex;
+			align-items: center;
+			gap: 15px;
+			padding: 10px;
+			background: #f8f9fa;
+			border-radius: 8px;
+			border-left: 4px solid #667eea;
+		}
+
+		.keys {
+			display: flex;
+			gap: 3px;
+			align-items: center;
+		}
+
+		kbd {
+			background: linear-gradient(145deg, #e9ecef, #dee2e6);
+			color: #333;
+			padding: 4px 8px;
+			border-radius: 4px;
+			font-size: 0.85rem;
+			font-family: monospace;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+			border: 1px solid #ced4da;
+			font-weight: bold;
+		}
+
+		.platform {
+			color: #666;
+			font-style: italic;
+			font-size: 0.9rem;
+		}
+
+		.command-example {
+			background: #2d3748;
+			color: #e2e8f0;
+			padding: 8px 12px;
+			border-radius: 6px;
+			font-family: monospace;
+			margin-top: 8px;
+			font-size: 0.9rem;
+		}
+
+		.shortcut-highlight {
+			background: linear-gradient(45deg, #667eea, #764ba2);
+			color: white;
+			padding: 20px;
+			border-radius: 15px;
+			margin: 25px 0;
+			text-align: center;
+		}
+
+		.shortcut-highlight h4 {
+			margin-bottom: 15px;
+			font-size: 1.2rem;
+		}
+
+		.shortcut-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+			gap: 15px;
+			margin-top: 15px;
+		}
+
+		.shortcut-item {
+			background: rgba(255, 255, 255, 0.1);
+			padding: 15px;
+			border-radius: 10px;
+			backdrop-filter: blur(10px);
+		}
+
+		.shortcut-item .keys {
+			justify-content: center;
+			margin-bottom: 8px;
+		}
+
+		.shortcut-item kbd {
+			background: rgba(255, 255, 255, 0.2);
+			color: white;
+			border: 1px solid rgba(255, 255, 255, 0.3);
+		}
+
+		.shortcut-description {
+			color: rgba(255, 255, 255, 0.9);
+			font-size: 0.9rem;
+			text-align: center;
+		}
+	</style>
+</head>
+
+<body>
+	<!-- Sticky Table of Contents -->
+	<div class="sticky-toc" id="stickyToc">
+		<div class="toc-content">
+			<div class="toc-logo">
+				▶️ <span>Installation Guide</span>
+			</div>
+			<nav class="toc-nav">
+				<a href="../index.html">🏠 Home</a>
+				<a href="#install-method">Installation</a>
+				<a href="#verification">Verification</a>
+				<a href="#first-run">First Run</a>
+				<a href="basic-usage.html">Next Guide →</a>
+			</nav>
+		</div>
+	</div>
+
+	<div class="container">
+		<nav class="nav-bar">
+			<div class="nav-content">
+				<div class="nav-logo">▶️ Run! Extension</div>
+				<div class="nav-links">
+					<a href="../index.html">🏠 Home</a>
+					<a href="basic-usage.html">🚀 Basic Usage</a>
+					<a href="run-files.html">⚙️ Configuration</a>
+					<a href="languages.html">💻 Languages</a>
+				</div>
+			</div>
+		</nav>
+
+		<div class="content">
+			<div class="guide-header">
+				<div class="guide-icon">📥</div>
+				<h1 class="guide-title">Installation Guide</h1>
+				<p class="guide-subtitle">Get the Run! extension up and running in 2 minutes</p>
+			</div>
+
+			<div class="step" id="install-method">
+				<div class="step-number">1</div>
+				<h3>Open VS Code Extensions</h3>
+				<p>Open Visual Studio Code and click on the Extensions icon in the sidebar, or use the keyboard
+					shortcut:</p>
+				<div class="keyboard-shortcuts">
+					<div class="shortcut-option">
+						<span class="keys">
+							<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd>
+						</span>
+						<span class="platform">(Windows/Linux)</span>
+					</div>
+					<div class="shortcut-option">
+						<span class="keys">
+							<kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd>
+						</span>
+						<span class="platform">(Mac)</span>
+					</div>
+				</div>
+				<div class="tip">
+					<strong>Alternative Method:</strong> Open Command Palette with
+					<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> and type:
+					<div class="command-example">Extensions: Install Extensions</div>
+				</div>
+			</div>
+
+			<div class="step">
+				<div class="step-number">2</div>
+				<h3>Search for Run! Extension</h3>
+				<p>In the Extensions search bar, type <strong>"Run!"</strong> or <strong>"Danbh.run-a-code"</strong></p>
+				<div class="code-block">Search: Run!</div>
+				<p>Look for the extension with the ▶️ icon and "Danbh" as the publisher.</p>
+			</div>
+
+			<div class="step">
+				<div class="step-number">3</div>
+				<h3>Install the Extension</h3>
+				<p>Click the <strong>"Install"</strong> button next to the Run! extension.</p>
+				<div class="tip">
+					<strong>Direct Install:</strong> You can also click this link to install directly:
+					<br><a href="vscode:extension/Danbh.run-a-code"
+						style="color: white; text-decoration: underline;">vscode:extension/Danbh.run-a-code</a>
+				</div>
+			</div>
+
+			<div class="step" id="verification">
+				<div class="step-number">4</div>
+				<h3>Verify Installation</h3>
+				<p>After installation, you should see:</p>
+				<ul>
+					<li>✅ A "Run" button in the status bar (bottom of VS Code)</li>
+					<li>✅ New commands in the Command Palette starting with "Run!:"</li>
+					<li>✅ Support for .Run configuration files</li>
+				</ul>
+				<div class="warning">
+					<strong>Note:</strong> The Run button will only appear when you have a supported file open (.c, .py,
+					.java, etc.)
+				</div>
+			</div>
+
+			<div class="step" id="first-run">
+				<div class="step-number">5</div>
+				<h3>Test Your Installation</h3>
+				<p>Let's test the installation with a simple Python script:</p>
+				<div class="code-block">
+					# Create a new file called test.py<br>
+					print("Hello from Run! Extension!")<br>
+					print("Installation successful! 🎉")
+				</div>
+				<p>Save the file and click the "▶️ Run" button in the status bar. You should see the output in the
+					terminal!</p>
+			</div>
+
+			<div class="shortcut-highlight" id="troubleshooting">
+				<h4>⚡ Essential Shortcuts After Installation</h4>
+				<div class="shortcut-grid">
+					<div class="shortcut-item">
+						<div class="keys">
+							<kbd>Ctrl</kbd>+<kbd>Cmd</kbd>+<kbd>R</kbd>
+						</div>
+						<div class="shortcut-description">Run current file instantly</div>
+					</div>
+					<div class="shortcut-item">
+						<div class="keys">
+							<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>
+						</div>
+						<div class="shortcut-description">Open Command Palette</div>
+					</div>
+					<div class="shortcut-item">
+						<div class="keys">
+							<kbd>F1</kbd>
+						</div>
+						<div class="shortcut-description">Alternative Command Palette</div>
+					</div>
+				</div>
+				<p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.9;">
+					💡 After installation, look for "Run!:" commands in the Command Palette
+				</p>
+			</div>
+
+			<div class="next-guide" id="next-steps">
+				<h2>🎉 Installation Complete!</h2>
+				<p>Great job! You've successfully installed the Run! extension. Ready to learn the basics?</p>
+				<a href="basic-usage.html">Next: Basic Usage Guide →</a>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// Sticky Table of Contents functionality
+		window.addEventListener('scroll', function () {
+			const stickyToc = document.getElementById('stickyToc');
+			const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+			// Show TOC after scrolling down 200px
+			if (scrollTop > 200) {
+				stickyToc.classList.add('visible');
+			} else {
+				stickyToc.classList.remove('visible');
+			}
+		});
+
+		// Smooth scrolling for TOC links
+		document.querySelectorAll('.toc-nav a').forEach(link => {
+			link.addEventListener('click', function (e) {
+				const href = this.getAttribute('href');
+
+				// Only prevent default for internal anchors (starting with #)
+				if (href.startsWith('#')) {
+					e.preventDefault();
+					const targetId = href.substring(1);
+					const targetElement = document.getElementById(targetId);
+
+					if (targetElement) {
+						const offset = 100; // Account for sticky header
+						const targetPosition = targetElement.offsetTop - offset;
+
+						window.scrollTo({
+							top: targetPosition,
+							behavior: 'smooth'
+						});
+					}
+				}
+				// For external links (../ or other pages), let default behavior happen
+			});
+		});
+
+		// Mark this guide as read when page loads (if cookies are accepted)
+		window.addEventListener('load', function () {
+			// Check if cookies are accepted
+			function getCookie(name) {
+				const nameEQ = name + "=";
+				const ca = document.cookie.split(';');
+				for (let i = 0; i < ca.length; i++) {
+					let c = ca[i];
+					while (c.charAt(0) === ' ') {
+						c = c.substring(1, c.length);
+					}
+					if (c.indexOf(nameEQ) === 0) {
+						return c.substring(nameEQ.length, c.length);
+					}
+				}
+				return null;
+			}
+
+			function setCookie(name, value, days) {
+				const expires = new Date();
+				expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+				document.cookie = name + '=' + value + ';expires=' + expires.toUTCString() + ';path=/';
+			}
+
+			const consent = getCookie('cookieConsent');
+			if (consent === 'accepted') {
+				const currentUrl = 'guides/installation.html';
+				let readGuides = getCookie('readGuides');
+				readGuides = readGuides ? readGuides.split(',') : [];
+
+				// Always mark this guide as read when visiting the page
+				if (!readGuides.includes(currentUrl)) {
+					readGuides.push(currentUrl);
+					setCookie('readGuides', readGuides.join(','), 365);
+				}
+
+				// Show visual indicator on this page that it's been read
+				setTimeout(() => {
+					const pageTitle = document.querySelector('.guide-title');
+					if (pageTitle && !pageTitle.querySelector('.read-badge')) {
+						const readBadge = document.createElement('span');
+						readBadge.className = 'read-badge';
+						readBadge.innerHTML = ' ✅';
+						readBadge.style.cssText = 'color: #4CAF50; font-size: 0.8em; margin-left: 10px;';
+						readBadge.title = 'מדריך נקרא';
+						pageTitle.appendChild(readBadge);
+					}
+				}, 500);
+			}
+		});
+	</script>
+</body>
+
+</html>

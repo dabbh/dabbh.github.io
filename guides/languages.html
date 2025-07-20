@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Supported Languages - Run! Extension</title>
+	<style>
+		body {
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			line-height: 1.6;
+			color: #333;
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			min-height: 100vh;
+			margin: 0;
+			padding: 0;
+		}
+
+		.container {
+			max-width: 1100px;
+			margin: 0 auto;
+			padding: 20px;
+		}
+
+		.nav-bar {
+			background: rgba(255, 255, 255, 0.1);
+			backdrop-filter: blur(10px);
+			padding: 15px 0;
+			margin-bottom: 30px;
+			border-radius: 15px;
+		}
+
+		.nav-content {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			color: white;
+			padding: 0 30px;
+		}
+
+		.nav-logo {
+			font-size: 1.5rem;
+			font-weight: bold;
+		}
+
+		.nav-links a {
+			color: white;
+			text-decoration: none;
+			margin: 0 15px;
+			transition: color 0.3s;
+		}
+
+		.nav-links a:hover {
+			color: #4CAF50;
+		}
+
+		.content {
+			background: white;
+			border-radius: 20px;
+			padding: 40px;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+		}
+
+		.guide-header {
+			text-align: center;
+			margin-bottom: 40px;
+			padding-bottom: 20px;
+			border-bottom: 3px solid #667eea;
+		}
+
+		.guide-icon {
+			font-size: 4rem;
+			margin-bottom: 15px;
+		}
+
+		.guide-title {
+			font-size: 2.5rem;
+			color: #667eea;
+			margin-bottom: 10px;
+		}
+
+		.guide-subtitle {
+			color: #666;
+			font-size: 1.2rem;
+		}
+
+		.languages-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+			gap: 25px;
+			margin: 40px 0;
+		}
+
+		.language-card {
+			background: #f8f9fa;
+			border-radius: 15px;
+			padding: 25px;
+			border-left: 5px solid;
+			transition: all 0.3s ease;
+		}
+
+		.language-card:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+		}
+
+		.language-header {
+			display: flex;
+			align-items: center;
+			margin-bottom: 20px;
+		}
+
+		.language-icon {
+			font-size: 3rem;
+			margin-right: 15px;
+		}
+
+		.language-title {
+			font-size: 1.8rem;
+			font-weight: bold;
+			color: #333;
+		}
+
+		.code-example {
+			background: #2d3748;
+			color: #e2e8f0;
+			padding: 15px;
+			border-radius: 8px;
+			margin: 15px 0;
+			font-family: 'Courier New', monospace;
+			overflow-x: auto;
+			font-size: 0.9rem;
+		}
+
+		/* Language-specific colors */
+		.python {
+			border-left-color: #3776ab;
+		}
+
+		.java {
+			border-left-color: #ed8b00;
+		}
+
+		.c {
+			border-left-color: #00599c;
+		}
+
+		.compilation-info {
+			background: linear-gradient(45deg, #4CAF50, #45a049);
+			color: white;
+			padding: 15px;
+			border-radius: 10px;
+			margin: 15px 0;
+		}
+
+		.interpretation-info {
+			background: linear-gradient(45deg, #2196F3, #1976D2);
+			color: white;
+			padding: 15px;
+			border-radius: 10px;
+			margin: 15px 0;
+		}
+
+		/* Sticky Table of Contents */
+		.sticky-toc {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			background: rgba(102, 126, 234, 0.95);
+			backdrop-filter: blur(10px);
+			border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+			z-index: 1000;
+			padding: 10px 0;
+			transform: translateY(-100%);
+			transition: transform 0.3s ease;
+		}
+
+		.sticky-toc.visible {
+			transform: translateY(0);
+		}
+
+		.toc-content {
+			max-width: 900px;
+			margin: 0 auto;
+			padding: 0 20px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			direction: rtl;
+		}
+
+		.toc-logo {
+			display: flex;
+			align-items: center;
+			color: white;
+			font-weight: bold;
+			font-size: 1.1rem;
+			direction: ltr;
+		}
+
+		.toc-logo span {
+			margin-right: 10px;
+		}
+
+		.toc-nav {
+			display: flex;
+			gap: 15px;
+			direction: ltr;
+		}
+
+		.toc-nav a {
+			color: white;
+			text-decoration: none;
+			padding: 6px 12px;
+			border-radius: 15px;
+			transition: all 0.3s;
+			font-size: 0.9rem;
+		}
+
+		.toc-nav a:hover {
+			background: rgba(255, 255, 255, 0.2);
+			transform: translateY(-2px);
+		}
+
+		@media (max-width: 768px) {
+			.toc-content {
+				flex-direction: column;
+				gap: 10px;
+				direction: rtl;
+			}
+
+			.toc-nav {
+				gap: 10px;
+				flex-wrap: wrap;
+				justify-content: center;
+				direction: ltr;
+			}
+
+			.toc-nav a {
+				font-size: 0.8rem;
+				padding: 5px 10px;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<!-- Sticky Table of Contents -->
+	<div class="sticky-toc" id="stickyToc">
+		<div class="toc-content">
+			<div class="toc-logo">
+				▶️ <span>Supported Languages</span>
+			</div>
+			<nav class="toc-nav">
+				<a href="../index.html">🏠 Home</a>
+				<a href="#python">Python</a>
+				<a href="#java">Java</a>
+				<a href="#c-cpp">C/C++</a>
+				<a href="advanced-features.html">Next Guide →</a>
+			</nav>
+		</div>
+	</div>
+
+	<div class="container">
+		<nav class="nav-bar">
+			<div class="nav-content">
+				<div class="nav-logo">▶️ Run! Extension</div>
+				<div class="nav-links">
+					<a href="../index.html">🏠 Home</a>
+					<a href="installation.html">📥 Installation</a>
+					<a href="basic-usage.html">🚀 Basic Usage</a>
+					<a href="run-files.html">⚙️ Configuration</a>
+				</div>
+			</div>
+		</nav>
+
+		<div class="content">
+			<div class="guide-header">
+				<div class="guide-icon">💻</div>
+				<h1 class="guide-title">Supported Languages</h1>
+				<p class="guide-subtitle">Complete guide for all 13+ programming languages supported by Run!</p>
+			</div>
+
+			<div class="languages-grid">
+				<div class="language-card python">
+					<div class="language-header">
+						<span class="language-icon">🐍</span>
+						<div class="language-title">Python</div>
+					</div>
+					<div class="interpretation-info">
+						<strong>Ready to run!</strong> No compilation needed - just execute directly.
+					</div>
+					<div class="code-example">
+						# hello.py<br>
+						print("Hello, Python! 🐍")<br>
+						for i in range(3):<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;print(f"Count: {i}")
+					</div>
+				</div>
+
+				<div class="language-card java">
+					<div class="language-header">
+						<span class="language-icon">☕</span>
+						<div class="language-title">Java</div>
+					</div>
+					<div class="compilation-info">
+						<strong>Auto-compiled!</strong> Compiles .java to .class, then executes automatically.
+					</div>
+					<div class="code-example">
+						// Hello.java<br>
+						public class Hello {<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) {<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Hello, Java! ☕");<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+						}
+					</div>
+				</div>
+
+				<div class="language-card c">
+					<div class="language-header">
+						<span class="language-icon">⚡</span>
+						<div class="language-title">C</div>
+					</div>
+					<div class="compilation-info">
+						<strong>Fast compilation!</strong> Uses GCC with modern C99 standard by default.
+					</div>
+					<div class="code-example">
+						// hello.c<br>
+						#include &lt;stdio.h&gt;<br><br>
+						int main() {<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;printf("Hello, C! ⚡\n");<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+						}
+					</div>
+				</div>
+			</div>
+
+			<div
+				style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 30px; border-radius: 15px; text-align: center; margin-top: 40px;">
+				<h2>🎯 Ready to Code?</h2>
+				<p>Choose your favorite language and start coding! The Run! extension handles the rest.</p>
+				<a href="../index.html"
+					style="background: white; color: #667eea; padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; display: inline-block; margin: 10px;">🏠
+					Back to Home</a>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// Sticky Table of Contents functionality
+		window.addEventListener('scroll', function () {
+			const stickyToc = document.getElementById('stickyToc');
+			const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+			if (scrollTop > 200) {
+				stickyToc.classList.add('visible');
+			} else {
+				stickyToc.classList.remove('visible');
+			}
+		});
+
+		// Smooth scrolling for TOC links
+		document.querySelectorAll('.toc-nav a').forEach(link => {
+			link.addEventListener('click', function (e) {
+				const href = this.getAttribute('href');
+				if (href.startsWith('#')) {
+					e.preventDefault();
+					const targetId = href.substring(1);
+					const targetElement = document.getElementById(targetId);
+
+					if (targetElement) {
+						const offset = 100;
+						const targetPosition = targetElement.offsetTop - offset;
+
+						window.scrollTo({
+							top: targetPosition,
+							behavior: 'smooth'
+						});
+					}
+				}
+			});
+		});
+
+		// Mark this guide as read when page loads (if cookies are accepted)
+		window.addEventListener('load', function () {
+			// Cookie helper functions
+			function getCookie(name) {
+				const nameEQ = name + "=";
+				const ca = document.cookie.split(';');
+				for (let i = 0; i < ca.length; i++) {
+					let c = ca[i];
+					while (c.charAt(0) === ' ') {
+						c = c.substring(1, c.length);
+					}
+					if (c.indexOf(nameEQ) === 0) {
+						return c.substring(nameEQ.length, c.length);
+					}
+				}
+				return null;
+			}
+
+			function setCookie(name, value, days) {
+				const expires = new Date();
+				expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+				document.cookie = name + '=' + value + ';expires=' + expires.toUTCString() + ';path=/';
+			}
+
+			const consent = getCookie('cookieConsent');
+			if (consent === 'accepted') {
+				const currentUrl = 'guides/languages.html';
+				let readGuides = getCookie('readGuides');
+				readGuides = readGuides ? readGuides.split(',') : [];
+
+				// Always mark this guide as read when visiting the page
+				if (!readGuides.includes(currentUrl)) {
+					readGuides.push(currentUrl);
+					setCookie('readGuides', readGuides.join(','), 365);
+				}
+
+				// Show visual indicator on this page that it's been read
+				setTimeout(() => {
+					const pageTitle = document.querySelector('.guide-title');
+					if (pageTitle && !pageTitle.querySelector('.read-badge')) {
+						const readBadge = document.createElement('span');
+						readBadge.className = 'read-badge';
+						readBadge.innerHTML = ' ✅';
+						readBadge.style.cssText = 'color: #4CAF50; font-size: 0.8em; margin-left: 10px;';
+						readBadge.title = 'מדריך נקרא';
+						pageTitle.appendChild(readBadge);
+					}
+				}, 500);
+			}
+		});
+	</script>
+</body>
+
+</html>

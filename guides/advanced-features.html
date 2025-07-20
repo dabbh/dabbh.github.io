@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Advanced Features - Run! Extension</title>
+	<style>
+		body {
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			line-height: 1.6;
+			color: #333;
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			min-height: 100vh;
+			margin: 0;
+		}
+
+		.container {
+			max-width: 900px;
+			margin: 0 auto;
+			padding: 20px;
+		}
+
+		.content {
+			background: white;
+			border-radius: 20px;
+			padding: 40px;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+		}
+
+		.guide-header {
+			text-align: center;
+			margin-bottom: 40px;
+			border-bottom: 3px solid #667eea;
+			padding-bottom: 20px;
+		}
+
+		.guide-title {
+			font-size: 2.5rem;
+			color: #667eea;
+			margin-bottom: 10px;
+		}
+
+		.feature {
+			background: #f8f9fa;
+			border-left: 5px solid #667eea;
+			padding: 25px;
+			margin: 20px 0;
+			border-radius: 10px;
+		}
+
+		.code-example {
+			background: #2d3748;
+			color: #e2e8f0;
+			padding: 15px;
+			border-radius: 8px;
+			font-family: monospace;
+			margin: 15px 0;
+		}
+
+		.shortcuts-section {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+			gap: 25px;
+			margin: 25px 0;
+		}
+
+		.shortcut-category {
+			background: white;
+			border-radius: 12px;
+			padding: 20px;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+			border-top: 4px solid #667eea;
+		}
+
+		.shortcut-category h4 {
+			color: #333;
+			margin-bottom: 15px;
+			text-align: center;
+			font-size: 1.1rem;
+		}
+
+		.shortcut-list,
+		.command-list-advanced {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+		}
+
+		.shortcut-row,
+		.command-row {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 12px;
+			background: #f8f9fa;
+			border-radius: 8px;
+			border-left: 3px solid #667eea;
+			transition: all 0.2s ease;
+		}
+
+		.shortcut-row:hover,
+		.command-row:hover {
+			background: #e9ecef;
+			transform: translateX(3px);
+		}
+
+		.keys {
+			display: flex;
+			gap: 2px;
+			align-items: center;
+		}
+
+		kbd {
+			background: linear-gradient(145deg, #e9ecef, #dee2e6);
+			color: #333;
+			padding: 4px 8px;
+			border-radius: 4px;
+			font-size: 0.8rem;
+			font-family: monospace;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+			border: 1px solid #ced4da;
+			font-weight: bold;
+		}
+
+		.command {
+			font-family: monospace;
+			font-weight: bold;
+			color: #667eea;
+			font-size: 0.9rem;
+		}
+
+		.description {
+			color: #666;
+			font-size: 0.9rem;
+			text-align: right;
+		}
+
+		.command-row .description {
+			font-style: italic;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="content">
+			<div class="guide-header">
+				<h1 class="guide-title">🎯 Advanced Features</h1>
+				<p>Master the powerful features of Run! extension</p>
+			</div>
+
+			<div class="feature">
+				<h3>🛡️ Safe Mode</h3>
+				<p>Safe mode creates temporary executable files and cleans them up automatically, keeping your workspace
+					tidy.</p>
+				<div class="code-example">
+					[c]<br>
+					safeMode = true # Creates temp files like ./temp_hello_123
+				</div>
+			</div>
+
+			<div class="feature">
+				<h3>🎯 Smart AutoComplete</h3>
+				<p>Get intelligent suggestions when editing .Run files:</p>
+				<ul>
+					<li>Section names: [c], [python], [java]</li>
+					<li>Properties: compileFlags, runCommand, safeMode</li>
+					<li>Placeholders: {filename}, {filenameWithExt}</li>
+				</ul>
+			</div>
+
+			<div class="feature">
+				<h3>🌍 Cross-Platform Support</h3>
+				<p>Automatically detects your platform and uses appropriate commands:</p>
+				<div class="code-example">
+					Windows: Uses PowerShell syntax (if ($?) {})<br>
+					Linux/macOS: Uses bash syntax (&&)
+				</div>
+			</div>
+
+			<div class="feature">
+				<h3>⌨️ Complete Keyboard Shortcuts & Commands</h3>
+				<p>Master all available shortcuts and commands for maximum productivity:</p>
+
+				<div class="shortcuts-section">
+					<div class="shortcut-category">
+						<h4>🔥 Essential Shortcuts</h4>
+						<div class="shortcut-list">
+							<div class="shortcut-row">
+								<span class="keys"><kbd>Ctrl</kbd>+<kbd>Cmd</kbd>+<kbd>R</kbd></span>
+								<span class="description">Run current file instantly</span>
+							</div>
+							<div class="shortcut-row">
+								<span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd></span>
+								<span class="description">Open Command Palette</span>
+							</div>
+							<div class="shortcut-row">
+								<span class="keys"><kbd>F1</kbd></span>
+								<span class="description">Alternative Command Palette access</span>
+							</div>
+							<div class="shortcut-row">
+								<span class="keys"><kbd>Ctrl</kbd>+<kbd>`</kbd></span>
+								<span class="description">Toggle integrated terminal</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="shortcut-category">
+						<h4>🎯 Command Palette Commands</h4>
+						<div class="command-list-advanced">
+							<div class="command-row">
+								<span class="command">Run!: Run Code</span>
+								<span class="description">Execute the current file</span>
+							</div>
+							<div class="command-row">
+								<span class="command">Run!: Create Run file</span>
+								<span class="description">Generate .Run configuration</span>
+							</div>
+							<div class="command-row">
+								<span class="command">Run!: Show Walkthrough</span>
+								<span class="description">Interactive tutorial</span>
+							</div>
+							<div class="command-row">
+								<span class="command">Extensions: Install Extensions</span>
+								<span class="description">Access extension marketplace</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
