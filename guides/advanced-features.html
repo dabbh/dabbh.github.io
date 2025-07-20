@@ -58,6 +58,88 @@
 			margin: 15px 0;
 		}
 
+		/* Sticky Table of Contents */
+		.sticky-toc {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			background: rgba(102, 126, 234, 0.95);
+			backdrop-filter: blur(10px);
+			border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+			z-index: 1000;
+			padding: 10px 0;
+			transform: translateY(-100%);
+			transition: transform 0.3s ease;
+		}
+
+		.sticky-toc.visible {
+			transform: translateY(0);
+		}
+
+		.toc-content {
+			max-width: 900px;
+			margin: 0 auto;
+			padding: 0 20px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			direction: rtl;
+		}
+
+		.toc-logo {
+			display: flex;
+			align-items: center;
+			color: white;
+			font-weight: bold;
+			font-size: 1.1rem;
+			direction: ltr;
+		}
+
+		.toc-logo span {
+			margin-right: 10px;
+		}
+
+		.toc-nav {
+			display: flex;
+			gap: 15px;
+			direction: ltr;
+		}
+
+		.toc-nav a {
+			color: white;
+			text-decoration: none;
+			padding: 6px 12px;
+			border-radius: 15px;
+			transition: all 0.3s;
+			font-size: 0.9rem;
+		}
+
+		.toc-nav a:hover {
+			background: rgba(255, 255, 255, 0.2);
+			transform: translateY(-2px);
+		}
+
+		@media (max-width: 768px) {
+			.toc-content {
+				flex-direction: column;
+				gap: 10px;
+				direction: rtl;
+			}
+
+			.toc-nav {
+				gap: 10px;
+				flex-wrap: wrap;
+				justify-content: center;
+				direction: ltr;
+			}
+
+			.toc-nav a {
+				font-size: 0.8rem;
+				padding: 5px 10px;
+			}
+		}
+
 		.shortcuts-section {
 			display: grid;
 			grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -143,6 +225,22 @@
 </head>
 
 <body>
+	<!-- Sticky Table of Contents -->
+	<div class="sticky-toc" id="stickyToc">
+		<div class="toc-content">
+			<div class="toc-logo">
+				⚡ <span>Advanced Features</span>
+			</div>
+			<nav class="toc-nav">
+				<a href="../index.html">🏠 Home</a>
+				<a href="#keyboard-shortcuts">⌨️ Shortcuts</a>
+				<a href="#command-palette">🎯 Commands</a>
+				<a href="#customization">⚙️ Customization</a>
+				<a href="global-config.html">Next Guide →</a>
+			</nav>
+		</div>
+	</div>
+
 	<div class="container">
 		<div class="content">
 			<div class="guide-header">
@@ -179,12 +277,12 @@
 				</div>
 			</div>
 
-			<div class="feature">
+			<div class="feature" id="keyboard-shortcuts">
 				<h3>⌨️ Complete Keyboard Shortcuts & Commands</h3>
 				<p>Master all available shortcuts and commands for maximum productivity:</p>
 
 				<div class="shortcuts-section">
-					<div class="shortcut-category">
+					<div class="shortcut-category" id="command-palette">
 						<h4>🔥 Essential Shortcuts</h4>
 						<div class="shortcut-list">
 							<div class="shortcut-row">
@@ -206,7 +304,7 @@
 						</div>
 					</div>
 
-					<div class="shortcut-category">
+					<div class="shortcut-category" id="customization">
 						<h4>🎯 Command Palette Commands</h4>
 						<div class="command-list-advanced">
 							<div class="command-row">
@@ -231,6 +329,93 @@
 			</div>
 		</div>
 	</div>
+
+	<script>
+		// Sticky Table of Contents functionality
+		window.addEventListener('scroll', function () {
+			const stickyToc = document.getElementById('stickyToc');
+			const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+			if (scrollTop > 200) {
+				stickyToc.classList.add('visible');
+			} else {
+				stickyToc.classList.remove('visible');
+			}
+		});
+
+		// Smooth scrolling for TOC links
+		document.querySelectorAll('.toc-nav a').forEach(link => {
+			link.addEventListener('click', function (e) {
+				const href = this.getAttribute('href');
+				if (href.startsWith('#')) {
+					e.preventDefault();
+					const targetId = href.substring(1);
+					const targetElement = document.getElementById(targetId);
+
+					if (targetElement) {
+						const offset = 100;
+						const targetPosition = targetElement.offsetTop - offset;
+
+						window.scrollTo({
+							top: targetPosition,
+							behavior: 'smooth'
+						});
+					}
+				}
+			});
+		});
+
+		// Mark this guide as read when page loads (if cookies are accepted)
+		window.addEventListener('load', function () {
+			// Cookie helper functions
+			function getCookie(name) {
+				const nameEQ = name + "=";
+				const ca = document.cookie.split(';');
+				for (let i = 0; i < ca.length; i++) {
+					let c = ca[i];
+					while (c.charAt(0) === ' ') {
+						c = c.substring(1, c.length);
+					}
+					if (c.indexOf(nameEQ) === 0) {
+						return c.substring(nameEQ.length, c.length);
+					}
+				}
+				return null;
+			}
+
+			function setCookie(name, value, days) {
+				const expires = new Date();
+				expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+				document.cookie = name + '=' + value + ';expires=' + expires.toUTCString() + ';path=/';
+			}
+
+			const consent = getCookie('cookieConsent');
+			if (consent === 'accepted') {
+				const currentUrl = 'guides/advanced-features.html';
+				let readGuides = getCookie('readGuides');
+				readGuides = readGuides ? readGuides.split(',') : [];
+
+				// Always mark this guide as read when visiting the page
+				if (!readGuides.includes(currentUrl)) {
+					readGuides.push(currentUrl);
+					setCookie('readGuides', readGuides.join(','), 365);
+				}
+
+				// Show visual indicator on this page that it's been read
+				setTimeout(() => {
+					const pageTitle = document.querySelector('.guide-title');
+					if (pageTitle && !pageTitle.querySelector('.read-badge')) {
+						const readBadge = document.createElement('span');
+						readBadge.className = 'read-badge';
+						readBadge.innerHTML = ' ✅';
+						readBadge.style.cssText = 'color: #4CAF50; font-size: 0.8em; margin-left: 10px;';
+						readBadge.title = 'מדריך נקרא';
+						pageTitle.appendChild(readBadge);
+					}
+				}, 500);
+			}
+		});
+	</script>
 </body>
 
 </html>

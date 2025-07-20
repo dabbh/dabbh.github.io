@@ -1,119 +1,1080 @@
 <!DOCTYPE html>
-<html lang="he">
+<html lang="en">
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>סקר דעת קהל</title>
+	<meta name="viewpo		.install-btn {
+			background: linear-gradient(45deg, #4CAF50, #45a049);
+			color: white;
+			padding: 15px 30px;
+			border: none;
+			border-radius: 50px;
+			font-size: 1.1rem;
+			cursor: pointer;
+			text-decoration: none;
+			display: inline-block;
+			transition: all 0.3s;
+			box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+			position: relative;
+			overflow: hidden;
+		}
+
+		.install-btn::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: -100%;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+			transition: left 0.5s;
+		}
+
+		.install-btn:hover::before {
+			left: 100%;
+		}
+
+		.install-btn:hover {
+			background: linear-gradient(45deg, #45a049, #4CAF50);
+			transform: translateY(-2px) scale(1.05);
+			box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+		}device-width, initial-scale=1.0">
+	<title>Run! Extension - VS Code Extension Guide</title>
 	<style>
-		body {
-			font-family: Arial, sans-serif;
-			direction: rtl;
-			text-align: center;
-			background-color: #f9f9f9;
+		* {
 			margin: 0;
 			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			line-height: 1.6;
+			color: #333;
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			min-height: 100vh;
+			position: relative;
+			overflow-x: hidden;
+		}
+
+		body::before {
+			content: '';
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background:
+				radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+				radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+				radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+			pointer-events: none;
+			z-index: -1;
 		}
 
 		.container {
-			max-width: 600px;
-			margin: 50px auto;
-			background: #fff;
+			max-width: 1200px;
+			margin: 0 auto;
 			padding: 20px;
-			border-radius: 8px;
-			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		}
+
+		header {
+			text-align: center;
+			color: white;
+			padding: 50px 0;
+		}
+
+		.logo {
+			width: 80px;
+			height: 80px;
+			background: linear-gradient(45deg, #fff, #f8f9fa);
+			border-radius: 20px;
+			margin: 0 auto 20px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 40px;
+			color: #667eea;
+			font-weight: bold;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+			animation: logoFloat 3s ease-in-out infinite;
+		}
+
+		@keyframes logoFloat {
+
+			0%,
+			100% {
+				transform: translateY(0px);
+			}
+
+			50% {
+				transform: translateY(-10px);
+			}
 		}
 
 		h1 {
-			color: #333;
+			font-size: 3rem;
+			margin-bottom: 10px;
+			text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 		}
 
-		.question {
+		.subtitle {
+			font-size: 1.2rem;
+			opacity: 0.9;
+			margin-bottom: 30px;
+		}
+
+		.install-btn {
+			background: #4CAF50;
+			color: white;
+			padding: 15px 30px;
+			border: none;
+			border-radius: 50px;
+			font-size: 1.1rem;
+			cursor: pointer;
+			text-decoration: none;
+			display: inline-block;
+			transition: all 0.3s;
+			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+		}
+
+		.install-btn:hover {
+			background: #45a049;
+			transform: translateY(-2px);
+			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+		}
+
+		.content {
+			background: white;
+			border-radius: 20px;
+			padding: 40px;
+			margin-top: 30px;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+		}
+
+		.features {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+			gap: 30px;
+			margin: 40px 0;
+		}
+
+		.feature {
+			text-align: center;
+			padding: 30px;
+			border-radius: 15px;
+			background: #f8f9fa;
+			border: 2px solid #e9ecef;
+			transition: all 0.3s;
+		}
+
+		.feature:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+			border-color: #667eea;
+		}
+
+		.feature-icon {
+			font-size: 3rem;
+			margin-bottom: 20px;
+		}
+
+		.feature h3 {
+			color: #667eea;
+			margin-bottom: 15px;
+			font-size: 1.4rem;
+		}
+
+		.quick-start {
+			background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
+			color: white;
+			padding: 40px;
+			border-radius: 20px;
+			margin: 40px 0;
+		}
+
+		.quick-start h2 {
+			text-align: center;
+			margin-bottom: 30px;
+			font-size: 2rem;
+		}
+
+		.steps {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+			gap: 20px;
+		}
+
+		.step {
+			background: rgba(255, 255, 255, 0.2);
+			padding: 20px;
+			border-radius: 15px;
+			backdrop-filter: blur(10px);
+		}
+
+		.step-number {
+			display: inline-block;
+			width: 30px;
+			height: 30px;
+			background: white;
+			color: #f5576c;
+			border-radius: 50%;
+			text-align: center;
+			line-height: 30px;
+			font-weight: bold;
+			margin-bottom: 15px;
+		}
+
+		.code-example {
+			background: #2d3748;
+			color: #e2e8f0;
+			padding: 20px;
+			border-radius: 10px;
+			margin: 20px 0;
+			font-family: 'Courier New', monospace;
+			overflow-x: auto;
+		}
+
+		.languages {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+			gap: 15px;
+			margin: 30px 0;
+		}
+
+		.language {
+			background: #667eea;
+			color: white;
+			padding: 15px;
+			border-radius: 10px;
+			text-align: center;
+			font-weight: bold;
+			transition: all 0.3s;
+		}
+
+		.language:hover {
+			background: #5a67d8;
+			transform: scale(1.05);
+		}
+
+		.footer {
+			text-align: center;
+			padding: 40px;
+			color: white;
+		}
+
+		.social-links {
 			margin: 20px 0;
 		}
 
-		.options {
-			list-style: none;
-			padding: 0;
+		.social-links a {
+			color: white;
+			text-decoration: none;
+			margin: 0 15px;
+			font-size: 1.5rem;
+			transition: all 0.3s;
 		}
 
-		.options li {
-			margin: 10px 0;
+		.social-links a:hover {
+			color: #4CAF50;
+			transform: scale(1.2);
 		}
 
-		button {
-			background-color: #4CAF50;
+		.guides-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+			gap: 25px;
+			margin: 40px 0;
+		}
+
+		.guide-card {
+			background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+			border-radius: 20px;
+			padding: 30px;
+			border: 2px solid transparent;
+			background-clip: padding-box;
+			transition: all 0.4s ease;
+			cursor: pointer;
+			text-decoration: none;
+			color: inherit;
+			display: block;
+			position: relative;
+			overflow: hidden;
+			box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+		}
+
+		.guide-card::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			height: 5px;
+			background: linear-gradient(90deg, #667eea, #764ba2, #4CAF50);
+			transform: scaleX(0);
+			transition: transform 0.4s ease;
+			border-radius: 20px 20px 0 0;
+		}
+
+		.guide-card::after {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+			opacity: 0;
+			transition: opacity 0.4s ease;
+			border-radius: 20px;
+		}
+
+		.guide-card:hover::before {
+			transform: scaleX(1);
+		}
+
+		.guide-card:hover::after {
+			opacity: 1;
+		}
+
+		.read-indicator {
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			background: #4CAF50;
+			color: white;
+			border-radius: 50%;
+			width: 30px;
+			height: 30px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 16px;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+			z-index: 10;
+		}
+
+		.guide-card.read {
+			border-color: #4CAF50;
+			box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+		}
+
+		.guide-card:hover {
+			transform: translateY(-12px) scale(1.02);
+			box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+			border-color: rgba(102, 126, 234, 0.2);
+		}
+
+		.guide-header {
+			display: flex;
+			align-items: center;
+			margin-bottom: 15px;
+		}
+
+		.guide-icon {
+			font-size: 2.8rem;
+			margin-right: 15px;
+			display: inline-block;
+			transition: all 0.3s ease;
+		}
+
+		.guide-card:hover .guide-icon {
+			transform: scale(1.2) rotate(5deg);
+			filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.2));
+		}
+
+		.guide-title {
+			font-size: 1.3rem;
+			font-weight: bold;
+			color: #333;
+			margin: 0;
+		}
+
+		.guide-description {
+			color: #666;
+			margin-bottom: 15px;
+			line-height: 1.5;
+		}
+
+		.guide-meta {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			font-size: 0.9rem;
+		}
+
+		.difficulty-badge {
+			padding: 4px 12px;
+			border-radius: 20px;
+			color: white;
+			font-weight: bold;
+			font-size: 0.8rem;
+		}
+
+		.time-estimate {
+			color: #888;
+			font-style: italic;
+		}
+
+		.quick-example {
+			background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+			padding: 40px;
+			border-radius: 20px;
+			margin: 40px 0;
+		}
+
+		.quick-example h2 {
+			color: white !important;
+		}
+
+		.quick-example .code-example {
+			background: rgba(255, 255, 255, 0.1);
+			border: 1px solid rgba(255, 255, 255, 0.2);
+			backdrop-filter: blur(10px);
+		}
+
+		.shortcuts-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+			gap: 25px;
+			margin: 30px 0;
+		}
+
+		.shortcut-card {
+			background: rgba(255, 255, 255, 0.15);
+			border-radius: 15px;
+			padding: 25px;
+			backdrop-filter: blur(15px);
+			border: 1px solid rgba(255, 255, 255, 0.2);
+			transition: all 0.3s ease;
+		}
+
+		.shortcut-card:hover {
+			transform: translateY(-5px);
+			background: rgba(255, 255, 255, 0.2);
+		}
+
+		.shortcut-icon {
+			font-size: 2.5rem;
+			text-align: center;
+			margin-bottom: 15px;
+		}
+
+		.shortcut-card h4 {
+			color: white;
+			text-align: center;
+			margin-bottom: 20px;
+			font-size: 1.3rem;
+		}
+
+		.shortcut-item,
+		.command-item {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin: 12px 0;
+			padding: 10px;
+			background: rgba(255, 255, 255, 0.1);
+			border-radius: 8px;
+			backdrop-filter: blur(5px);
+		}
+
+		.keys {
+			display: flex;
+			gap: 2px;
+			align-items: center;
+		}
+
+		kbd {
+			background: #333;
+			color: white;
+			padding: 4px 8px;
+			border-radius: 4px;
+			font-size: 0.9rem;
+			font-family: monospace;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+			border: 1px solid #555;
+		}
+
+		.action,
+		.desc {
+			color: rgba(255, 255, 255, 0.9);
+			font-size: 0.9rem;
+		}
+
+		.command {
+			font-family: monospace;
+			color: white;
+			font-weight: bold;
+			font-size: 0.9rem;
+		}
+
+		.command-item {
+			flex-direction: column;
+			align-items: flex-start;
+			text-align: left;
+		}
+
+		.command-item .desc {
+			margin-top: 5px;
+			font-style: italic;
+		}
+
+		@media (max-width: 768px) {
+			h1 {
+				font-size: 2rem;
+			}
+
+			.features {
+				grid-template-columns: 1fr;
+			}
+
+			.content {
+				padding: 20px;
+			}
+		}
+
+		/* Sticky Table of Contents */
+		.sticky-toc {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			background: rgba(102, 126, 234, 0.95);
+			backdrop-filter: blur(10px);
+			border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+			z-index: 1000;
+			padding: 10px 0;
+			transform: translateY(-100%);
+			transition: transform 0.3s ease;
+		}
+
+		.sticky-toc.visible {
+			transform: translateY(0);
+		}
+
+		.toc-content {
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 0 20px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.toc-logo {
+			display: flex;
+			align-items: center;
+			color: white;
+			font-weight: bold;
+			font-size: 1.1rem;
+		}
+
+		.toc-logo span {
+			margin-left: 10px;
+		}
+
+		.toc-nav {
+			display: flex;
+			gap: 20px;
+		}
+
+		.toc-nav a {
+			color: white;
+			text-decoration: none;
+			padding: 8px 16px;
+			border-radius: 20px;
+			transition: all 0.3s;
+			font-size: 0.9rem;
+		}
+
+		.toc-nav a:hover {
+			background: rgba(255, 255, 255, 0.2);
+			transform: translateY(-2px);
+		}
+
+		/* Mobile responsive for TOC */
+		@media (max-width: 768px) {
+			.toc-content {
+				flex-direction: column;
+				gap: 10px;
+			}
+
+			.toc-nav {
+				gap: 15px;
+				flex-wrap: wrap;
+				justify-content: center;
+			}
+
+			.toc-nav a {
+				font-size: 0.8rem;
+				padding: 6px 12px;
+			}
+		}
+
+		/* Cookie Consent Banner */
+		.cookie-banner {
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			background: rgba(0, 0, 0, 0.9);
+			color: white;
+			padding: 20px;
+			text-align: center;
+			z-index: 10000;
+			transform: translateY(100%);
+			transition: transform 0.3s ease;
+		}
+
+		.cookie-banner.show {
+			transform: translateY(0);
+		}
+
+		.cookie-banner p {
+			margin: 0 0 15px 0;
+			font-size: 0.9rem;
+		}
+
+		.cookie-banner button {
+			background: #4CAF50;
 			color: white;
 			border: none;
 			padding: 10px 20px;
 			border-radius: 5px;
 			cursor: pointer;
+			margin: 0 10px;
+			font-size: 0.9rem;
 		}
 
-		button:disabled {
-			background-color: #ccc;
-			cursor: not-allowed;
+		.cookie-banner button:hover {
+			background: #45a049;
 		}
 
-		.message {
-			margin-top: 20px;
-			color: #d9534f;
+		.cookie-banner button.decline {
+			background: #666;
+		}
+
+		.cookie-banner button.decline:hover {
+			background: #555;
+		}
+
+		/* Read indicator styles */
+		.read-indicator {
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			background: #4CAF50;
+			color: white;
+			border-radius: 50%;
+			width: 30px;
+			height: 30px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 16px;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+			z-index: 10;
+		}
+
+		.guide-card.read {
+			border-color: #4CAF50;
+			box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
 		}
 	</style>
 </head>
 
 <body>
-	<div class="container">
-		<h1>סקר דעת קהל</h1>
-		<form id="surveyForm">
-			<div class="question">
-				<p>מה דעתך על השירות שלנו?</p>
-				<ul class="options">
-					<li><label><input type="radio" name="answer" value="מצוין"> מצוין</label></li>
-					<li><label><input type="radio" name="answer" value="טוב"> טוב</label></li>
-					<li><label><input type="radio" name="answer" value="סביר"> סביר</label></li>
-					<li><label><input type="radio" name="answer" value="גרוע"> גרוע</label></li>
-				</ul>
+	<!-- Sticky Table of Contents -->
+	<div class="sticky-toc" id="stickyToc">
+		<div class="toc-content">
+			<div class="toc-logo">
+				▶️ <span>Run! Extension</span>
 			</div>
-			<button type="submit">הגש</button>
-		</form>
-		<div class="message" id="message"></div>
+			<nav class="toc-nav">
+				<a href="#features">Features</a>
+				<a href="#quick-start">Quick Start</a>
+				<a href="#keyboard-shortcuts">Shortcuts</a>
+				<a href="#guides">Guides</a>
+				<a href="#support">Support</a>
+			</nav>
+		</div>
+	</div>
+
+	<div class="container">
+		<header>
+			<div class="logo">▶️</div>
+			<h1>Run! Extension</h1>
+			<p class="subtitle">Run any code instantly from your VS Code editor. One click. Any language. Minimal setup.
+			</p>
+			<a href="vscode:extension/Danbh.run-a-code" class="install-btn">📥 Install in VS Code</a>
+		</header>
+
+		<div class="content">
+			<div class="features" id="features">
+				<div class="feature">
+					<div class="feature-icon">⚡</div>
+					<h3>Lightning Fast</h3>
+					<p>Execute your code with a single click. No complex setup or configuration needed. Just write and
+						run!</p>
+				</div>
+				<div class="feature">
+					<div class="feature-icon">🌍</div>
+					<h3>Multi-Language Support</h3>
+					<p>Supports 13+ programming languages including C, Python, Java, JavaScript, Go, Rust, and more.</p>
+				</div>
+				<div class="feature">
+					<div class="feature-icon">🛡️</div>
+					<h3>Safe Mode</h3>
+					<p>Advanced safe mode creates temporary executables and cleans up automatically, keeping your
+						workspace tidy.</p>
+				</div>
+				<div class="feature">
+					<div class="feature-icon">⚙️</div>
+					<h3>Custom Configuration</h3>
+					<p>Create .Run files for project-specific settings or global configurations for all your projects.
+					</p>
+				</div>
+				<div class="feature">
+					<div class="feature-icon">🖥️</div>
+					<h3>Cross-Platform</h3>
+					<p>Works seamlessly on Windows, macOS, and Linux with platform-specific optimizations.</p>
+				</div>
+				<div class="feature">
+					<div class="feature-icon">🎯</div>
+					<h3>Smart AutoComplete</h3>
+					<p>Intelligent code completion for .Run configuration files with context-aware suggestions.</p>
+				</div>
+			</div>
+
+			<div class="quick-start" id="quick-start">
+				<h2>🚀 Quick Start Guide</h2>
+				<div class="steps">
+					<div class="step">
+						<div class="step-number">1</div>
+						<h4>Install Extension</h4>
+						<p>Search for "Run!" in VS Code Extensions or click the install button above.</p>
+					</div>
+					<div class="step">
+						<div class="step-number">2</div>
+						<h4>Open Code File</h4>
+						<p>Open any supported code file (.py, .java, .c, .cpp, .js, etc.)</p>
+					</div>
+					<div class="step">
+						<div class="step-number">3</div>
+						<h4>Click Run Button</h4>
+						<p>Click the "▶️ Run" button in the status bar or use Ctrl+Cmd+R.</p>
+					</div>
+					<div class="step">
+						<div class="step-number">4</div>
+						<h4>See Magic!</h4>
+						<p>Your code compiles and runs automatically in the integrated terminal.</p>
+					</div>
+				</div>
+			</div>
+
+			<h2 style="text-align: center; color: #667eea; margin: 40px 0;">Supported Languages</h2>
+			<div class="languages">
+				<div class="language">C</div>
+				<div class="language">C++</div>
+				<div class="language">Python</div>
+				<div class="language">Java</div>
+				<div class="language">JavaScript</div>
+				<div class="language">TypeScript</div>
+				<div class="language">Go</div>
+				<div class="language">Rust</div>
+				<div class="language">PHP</div>
+				<div class="language">Ruby</div>
+				<div class="language">C#</div>
+				<div class="language">Dart</div>
+				<div class="language">LaTeX</div>
+			</div>
+
+			<h2 style="text-align: center; color: #667eea; margin: 40px 0;" id="guides">📚 Complete Learning Guides</h2>
+			<div class="guides-grid" id="guidesContainer">
+				<!-- Guides will be loaded dynamically from guides.json -->
+			</div>
+
+			<div class="quick-example" id="keyboard-shortcuts">
+				<h2 style="text-align: center; color: white !important; margin-bottom: 30px;">⚡ Quick Shortcuts &
+					Commands</h2>
+				<div class="shortcuts-grid">
+					<div class="shortcut-card">
+						<div class="shortcut-icon">⌨️</div>
+						<h4>Keyboard Shortcuts</h4>
+						<div class="shortcut-item">
+							<span class="keys"><kbd>Ctrl</kbd>+<kbd>Cmd</kbd>+<kbd>R</kbd></span>
+							<span class="action">Run current file</span>
+						</div>
+						<div class="shortcut-item">
+							<span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd></span>
+							<span class="action">Command Palette</span>
+						</div>
+					</div>
+					<div class="shortcut-card">
+						<div class="shortcut-icon">🎯</div>
+						<h4>Command Palette</h4>
+						<div class="command-item">
+							<span class="command">Run!: Run Code</span>
+							<span class="desc">Execute current file</span>
+						</div>
+						<div class="command-item">
+							<span class="command">Run!: Create Run file</span>
+							<span class="desc">Create .Run configuration</span>
+						</div>
+						<div class="command-item">
+							<span class="command">Run!: Show Walkthrough</span>
+							<span class="desc">Interactive tutorial</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="quick-example">
+				<h2 style="text-align: center; color: white !important; margin-bottom: 20px;">Quick Configuration
+					Example</h2>
+				<div class="code-example">
+					# .Run configuration file<br>
+					# Place this in your project root for custom settings<br><br>
+
+					[c]<br>
+					compileFlags: -g -std=c99<br>
+					runCommand: ./{filename}<br>
+					safeMode: true<br><br>
+
+					[python]<br>
+					runCommand: python3 {filenameWithExt}<br><br>
+
+					[java]<br>
+					compileFlags: -cp .<br>
+					runCommand: java {filename}
+				</div>
+			</div>
+
+			<div style="text-align: center; margin: 40px 0;" id="support">
+				<h2 style="color: #667eea; margin-bottom: 20px;">Ready to Get Started?</h2>
+				<p style="font-size: 1.1rem; margin-bottom: 20px;">Install the extension and follow our step-by-step
+					guides above!</p>
+				<a href="vscode:extension/Danbh.run-a-code" class="install-btn">📥 Install Run! Extension</a>
+			</div>
+		</div>
+
+		<footer class="footer">
+			<div class="social-links">
+				<a href="https://github.com/dabbh/Run" target="_blank">📁 GitHub</a>
+				<a href="https://github.com/dabbh/Run/issues" target="_blank">🐛 Report Issues</a>
+				<a href="https://marketplace.visualstudio.com/items?itemName=Danbh.run-a-code" target="_blank">📦 VS
+					Code Marketplace</a>
+			</div>
+			<p>&copy; 2025 Run! Extension - Made with ❤️ for developers</p>
+		</footer>
+	</div>
+
+	<!-- Cookie Consent Banner -->
+	<div class="cookie-banner" id="cookieBanner">
+		<p>🍪 האתר משתמש בעוגיות כדי לזכור איזה מדריכים קראת ולשפר את החוויה שלך. האם אתה מסכים?</p>
+		<button onclick="acceptCookies()">אני מסכים</button>
+		<button class="decline" onclick="declineCookies()">לא תודה</button>
 	</div>
 
 	<script>
-		document.getElementById('surveyForm').addEventListener('submit', async function (e) {
-			e.preventDefault();
+		// Cookie management
+		function setCookie(name, value, days) {
+			const expires = new Date();
+			expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+			document.cookie = name + "=" + value + ";expires=" + expires.toUTCString() + ";path=/";
+		}
 
-			const selectedOption = document.querySelector('input[name="answer"]:checked');
-			const messageDiv = document.getElementById('message');
-
-			if (!selectedOption) {
-				messageDiv.textContent = 'נא לבחור תשובה לפני שליחה';
-				return;
+		function getCookie(name) {
+			const nameEQ = name + "=";
+			const ca = document.cookie.split(";");
+			for (let i = 0; i < ca.length; i++) {
+				let c = ca[i];
+				while (c.charAt(0) === " ") c = c.substring(1, c.length);
+				if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
 			}
+			return null;
+		}
 
-			try {
-				const response = await fetch('https://your-server.com/api/submit-survey', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						answer: selectedOption.value
-					})
-				});
+		function acceptCookies() {
+			setCookie("cookieConsent", "accepted", 365);
+			document.getElementById("cookieBanner").classList.remove("show");
+			enableTracking();
+		}
 
-				const result = await response.json();
+		function declineCookies() {
+			setCookie("cookieConsent", "declined", 365);
+			document.getElementById("cookieBanner").classList.remove("show");
+		}
 
-				if (response.status === 200) {
-					messageDiv.textContent = 'תודה על השתתפותך בסקר!';
-					document.querySelector('button').disabled = true;
-				} else {
-					messageDiv.textContent = result.message || 'שגיאה בהגשת הסקר';
+		function enableTracking() {
+			function markGuideAsRead(guideUrl) {
+				let readGuides = getCookie("readGuides");
+				readGuides = readGuides ? readGuides.split(",") : [];
+				if (!readGuides.includes(guideUrl)) {
+					readGuides.push(guideUrl);
+					setCookie("readGuides", readGuides.join(","), 365);
+					updateGuideCards();
 				}
-			} catch (error) {
-				messageDiv.textContent = 'שגיאה בחיבור לשרת';
 			}
+
+			function updateGuideCards() {
+				let readGuides = getCookie("readGuides");
+				readGuides = readGuides ? readGuides.split(",") : [];
+				document.querySelectorAll(".guide-card").forEach(card => {
+					const href = card.getAttribute("href");
+					if (readGuides.includes(href)) {
+						card.classList.add("read");
+						if (!card.querySelector(".read-indicator")) {
+							const indicator = document.createElement("div");
+							indicator.className = "read-indicator";
+							indicator.innerHTML = "✅";
+							indicator.title = "נקרא";
+							card.appendChild(indicator);
+						}
+					}
+				});
+			}
+
+			document.addEventListener("click", function (e) {
+				if (e.target.closest(".guide-card")) {
+					const card = e.target.closest(".guide-card");
+					const href = card.getAttribute("href");
+					if (href && href.includes("guides/")) {
+						markGuideAsRead(href);
+					}
+				}
+			});
+
+			setTimeout(updateGuideCards, 500);
+		}
+
+		window.addEventListener("load", function () {
+			const consent = getCookie("cookieConsent");
+			if (!consent) {
+				setTimeout(() => {
+					document.getElementById("cookieBanner").classList.add("show");
+				}, 2000);
+			} else if (consent === "accepted") {
+				enableTracking();
+			}
+		});
+
+		// Add smooth scrolling and interactive elements
+		document.addEventListener('DOMContentLoaded', function () {
+			// Load guides from JSON
+			loadGuides();
+
+			// Animate features on scroll
+			const features = document.querySelectorAll('.feature');
+
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						entry.target.style.animation = 'fadeInUp 0.6s ease-out';
+					}
+				});
+			});
+
+			features.forEach(feature => {
+				observer.observe(feature);
+			});
+
+			// Add click analytics (optional)
+			document.querySelectorAll('.install-btn').forEach(btn => {
+				btn.addEventListener('click', () => {
+					console.log('Install button clicked');
+					// Add your analytics code here
+				});
+			});
+		});
+
+		async function loadGuides() {
+			try {
+				const response = await fetch('./guides.json');
+				const data = await response.json();
+
+				const guidesContainer = document.getElementById('guidesContainer');
+
+				data.guides.forEach(guide => {
+					const guideCard = createGuideCard(guide, data.categories[guide.difficulty]);
+					guidesContainer.appendChild(guideCard);
+				});
+			} catch (error) {
+				console.error('Error loading guides:', error);
+				document.getElementById('guidesContainer').innerHTML =
+					'<p style="text-align: center; color: #666;">Loading guides...</p>';
+			}
+		}
+
+		function createGuideCard(guide, category) {
+			const card = document.createElement('a');
+			card.className = 'guide-card';
+			card.href = guide.url;
+
+			card.innerHTML = `
+				<div class="guide-header">
+					<span class="guide-icon">${guide.icon}</span>
+					<h3 class="guide-title">${guide.title}</h3>
+				</div>
+				<p class="guide-description">${guide.description}</p>
+				<div class="guide-meta">
+					<span class="difficulty-badge" style="background-color: ${category.color}">
+						${category.name}
+					</span>
+					<span class="time-estimate">⏱️ ${guide.estimatedTime}</span>
+				</div>
+			`;
+
+			return card;
+		}
+
+		// Add CSS animation
+		const style = document.createElement('style');
+		style.textContent = `
+			@keyframes fadeInUp {
+				from {
+					opacity: 0;
+					transform: translateY(30px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+		`;
+		document.head.appendChild(style);
+
+		// Sticky Table of Contents functionality
+		window.addEventListener('scroll', function () {
+			const stickyToc = document.getElementById('stickyToc');
+			const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+			// Show TOC after scrolling down 200px
+			if (scrollTop > 200) {
+				stickyToc.classList.add('visible');
+			} else {
+				stickyToc.classList.remove('visible');
+			}
+		});
+
+		// Smooth scrolling for TOC links
+		document.querySelectorAll('.toc-nav a').forEach(link => {
+			link.addEventListener('click', function (e) {
+				e.preventDefault();
+				const targetId = this.getAttribute('href').substring(1);
+				const targetElement = document.getElementById(targetId);
+
+				if (targetElement) {
+					const offset = 100; // Account for sticky header
+					const targetPosition = targetElement.offsetTop - offset;
+
+					window.scrollTo({
+						top: targetPosition,
+						behavior: 'smooth'
+					});
+				}
+			});
 		});
 	</script>
 </body>
