@@ -269,6 +269,19 @@
 			</div>
 
 			<div class="feature">
+				<h3>📁 Automatic Directory Navigation</h3>
+				<p><strong>🔒 Built-in Security Feature:</strong> Every command automatically includes a <code>cd</code> to the file's directory before execution. This ensures your code runs in the correct location and cannot be overridden by custom configurations.</p>
+				<div class="code-example">
+					# Your command: python3 script.py<br>
+					# Actual execution:<br>
+					<strong>Windows:</strong> cd "C:\path\to\file"; if ($?) { python3 script.py }<br>
+					<strong>Linux/macOS:</strong> cd "/path/to/file" </div></div> python3 script.py
+				</div>
+				<div class="warning">
+					<strong>⚠️ Important:</strong> This cd command is mandatory and cannot be disabled or modified through .Run configurations for security and reliability.
+				</div>
+
+			<div class="feature">
 				<h3>🌍 Cross-Platform Support</h3>
 				<p>Automatically detects your platform and uses appropriate commands:</p>
 				<div class="code-example">

@@ -343,6 +343,23 @@
 					<li><strong>Verify Installation:</strong> Test your compiler/interpreter in terminal</li>
 				</ol>
 
+<h3>📁 Directory Navigation Behavior</h3>
+<div class="tip">
+<strong>💡 New Feature:</strong> The Run! extension automatically ensures your code runs from the correct directory.
+</div>
+<div class="solution">
+<h4>🔒 Built-in Security:</h4>
+<p>Every command is automatically prefixed with a <code>cd</code> to your file's directory:</p>
+<div class="code-example">
+# When you run: python3 script.py<br>
+# Actual execution:<br>
+<strong>Windows:</strong> cd "C:\\path\\to\\file"; if ($?) { python3 script.py }<br>
+<strong>Linux/macOS:</strong> cd "/path/to/file" && python3 script.py
+</div>
+<p><strong>⚠️ Important:</strong> This cannot be disabled or modified through .Run configurations for security and reliability.</p>
+</div>
+
+
 				<h3>⚙️ Configuration Issues</h3>
 				<div class="solution">
 					<h4>Custom .Run File Setup:</h4>
