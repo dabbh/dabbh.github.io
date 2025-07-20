@@ -554,12 +554,13 @@
 		}
 
 		.toc-content {
-			max-width: 1200px;
+			max-width: 900px;
 			margin: 0 auto;
 			padding: 0 20px;
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
+			direction: ltr;
 		}
 
 		.toc-logo {
@@ -872,11 +873,15 @@
 
 	<!-- Cookie Consent Banner -->
 	<div class="cookie-banner" id="cookieBanner">
-		<p>🍪 האתר משתמש בעוגיות כדי לזכור איזה מדריכים קראת ולשפר את החוויה שלך. האם אתה מסכים?</p>
-		<button onclick="acceptCookies()">אני מסכים</button>
-		<button class="decline" onclick="declineCookies()">לא תודה</button>
+		<div class="cookie-content">
+			<p>🍪 We use cookies to track your progress through the guides. This helps us know which guides you've read
+				and show you visual indicators of your progress.</p>
+			<div class="cookie-buttons">
+				<button onclick="acceptCookies()" class="cookie-accept">Accept Cookies</button>
+				<button onclick="declineCookies()" class="cookie-decline">Decline</button>
+			</div>
+		</div>
 	</div>
-
 	<script>
 		// Cookie management
 		function setCookie(name, value, days) {

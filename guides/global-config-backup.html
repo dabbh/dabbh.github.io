@@ -4,7 +4,60 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Global Configuration - Run! Extension</title>
+	<title>Global Configuration 		<h2 id="configuration">Example Global Configuration</h2>
+		<div class="code-example">
+			# Global .Run configuration<br>
+			[c]<br>
+			compileFlags = -g -std=c99 -O2<br>
+			safeMode = true<br><br>
+			[python]<br>
+			runCommand = python3 {filenameWithExt}<br><br>
+			[java]<br>
+			compileFlags = -cp .
+		</div>
+
+		<h2>🔧 Advanced Global Settings</h2>
+		<p>You can configure global settings for all your projects:</p>
+		
+		<h3>🛡️ Security Settings</h3>
+		<div class="code-example">
+			[global]<br>
+			safeMode = true<br>
+			confirmBeforeRun = true<br>
+			timeoutSeconds = 30
+		</div>
+
+		<h3>📁 Default Compilation</h3>
+		<div class="code-example">
+			[c]<br>
+			compileFlags = -Wall -Wextra -g<br>
+			outputDir = ./build<br><br>
+			[cpp]<br>
+			compileFlags = -std=c++17 -Wall<br>
+			runCommand = ./{filename}
+		</div>
+
+		<h3>🐍 Python Configuration</h3>
+		<div class="code-example">
+			[python]<br>
+			runCommand = python3 {filenameWithExt}<br>
+			virtualEnv = ./venv<br>
+			pipInstall = auto
+		</div>
+
+		<h3>☕ Java Settings</h3>
+		<div class="code-example">
+			[java]<br>
+			compileFlags = -cp .:./lib/*<br>
+			runCommand = java -cp . {filename}<br>
+			javaVersion = 11
+		</div>
+
+		<div style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 30px; border-radius: 15px; text-align: center; margin-top: 40px;">
+			<h2>✨ Pro Tips</h2>
+			<p>Global configurations apply to all projects. You can override them with local .Run files in specific projects.</p>
+			<a href="troubleshooting.html" style="background: white; color: #667eea; padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; display: inline-block; margin: 10px;">🔧 Troubleshooting Guide</a>
+		</div>nsion</title>
 	<style>
 		body {
 			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -145,7 +198,6 @@
 				<a href="../index.html">🏠 Home</a>
 				<a href="#global-files">📁 Global Files</a>
 				<a href="#configuration">⚙️ Configuration</a>
-				<a href="#advanced">🔧 Advanced</a>
 				<a href="troubleshooting.html">Next Guide →</a>
 			</nav>
 		</div>
@@ -176,53 +228,6 @@
 				[java]<br>
 				compileFlags = -cp .
 			</div>
-
-			<h2 id="advanced">🔧 Advanced Global Settings</h2>
-			<p>You can configure global settings for all your projects:</p>
-
-			<h3>🛡️ Security Settings</h3>
-			<div class="code-example">
-				[global]<br>
-				safeMode = true<br>
-				confirmBeforeRun = true<br>
-				timeoutSeconds = 30
-			</div>
-
-			<h3>📁 Default Compilation</h3>
-			<div class="code-example">
-				[c]<br>
-				compileFlags = -Wall -Wextra -g<br>
-				outputDir = ./build<br><br>
-				[cpp]<br>
-				compileFlags = -std=c++17 -Wall<br>
-				runCommand = ./{filename}
-			</div>
-
-			<h3>🐍 Python Configuration</h3>
-			<div class="code-example">
-				[python]<br>
-				runCommand = python3 {filenameWithExt}<br>
-				virtualEnv = ./venv<br>
-				pipInstall = auto
-			</div>
-
-			<h3>☕ Java Settings</h3>
-			<div class="code-example">
-				[java]<br>
-				compileFlags = -cp .:./lib/*<br>
-				runCommand = java -cp . {filename}<br>
-				javaVersion = 11
-			</div>
-
-			<div
-				style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 30px; border-radius: 15px; text-align: center; margin-top: 40px;">
-				<h2>✨ Pro Tips</h2>
-				<p>Global configurations apply to all projects. You can override them with local .Run files in specific
-					projects.</p>
-				<a href="troubleshooting.html"
-					style="background: white; color: #667eea; padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; display: inline-block; margin: 10px;">🔧
-					Troubleshooting Guide</a>
-			</div>
 		</div>
 	</div>
 
@@ -239,7 +244,7 @@
 			}
 		});
 
-		// Show TOC immediately on page load
+		// Show TOC immediately on page load and mark guide as read
 		window.addEventListener('load', function () {
 			const stickyToc = document.getElementById('stickyToc');
 			stickyToc.classList.add('visible');
@@ -286,33 +291,11 @@
 						readBadge.className = 'read-badge';
 						readBadge.innerHTML = ' ✅';
 						readBadge.style.cssText = 'color: #4CAF50; font-size: 0.8em; margin-left: 10px;';
-						readBadge.title = 'Guide completed';
+						readBadge.title = 'מדריך נקרא';
 						pageTitle.appendChild(readBadge);
 					}
 				}, 500);
 			}
-		});
-
-		// Smooth scrolling for TOC links
-		document.querySelectorAll('.toc-nav a').forEach(link => {
-			link.addEventListener('click', function (e) {
-				const href = this.getAttribute('href');
-				if (href.startsWith('#')) {
-					e.preventDefault();
-					const targetId = href.substring(1);
-					const targetElement = document.getElementById(targetId);
-
-					if (targetElement) {
-						const offset = 100;
-						const targetPosition = targetElement.offsetTop - offset;
-
-						window.scrollTo({
-							top: targetPosition,
-							behavior: 'smooth'
-						});
-					}
-				}
-			});
 		});
 	</script>
 </body>

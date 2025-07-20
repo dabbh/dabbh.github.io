@@ -80,6 +80,7 @@
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
+			direction: rtl;
 		}
 
 		.toc-logo {
@@ -88,15 +89,17 @@
 			color: white;
 			font-weight: bold;
 			font-size: 1.1rem;
+			direction: ltr;
 		}
 
 		.toc-logo span {
-			margin-left: 10px;
+			margin-right: 10px;
 		}
 
 		.toc-nav {
 			display: flex;
 			gap: 15px;
+			direction: ltr;
 		}
 
 		.toc-nav a {
@@ -117,12 +120,14 @@
 			.toc-content {
 				flex-direction: column;
 				gap: 10px;
+				direction: rtl;
 			}
 
 			.toc-nav {
 				gap: 10px;
 				flex-wrap: wrap;
 				justify-content: center;
+				direction: ltr;
 			}
 
 			.toc-nav a {
@@ -742,7 +747,7 @@
 					readBadge.className = 'read-badge';
 					readBadge.innerHTML = ' ✅';
 					readBadge.style.cssText = 'color: #4CAF50; font-size: 0.8em; margin-left: 10px;';
-					readBadge.title = 'מדריך נקרא';
+					readBadge.title = 'Guide completed';
 					pageTitle.appendChild(readBadge);
 				}
 			}, 500);

@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Basic Usage Guide - Run! Extension</title>
+	<title>Basic Usage - Run! Extension</title>
 	<style>
 		body {
 			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -80,6 +80,7 @@
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
+			direction: rtl;
 		}
 
 		.toc-logo {
@@ -88,15 +89,17 @@
 			color: white;
 			font-weight: bold;
 			font-size: 1.1rem;
+			direction: ltr;
 		}
 
 		.toc-logo span {
-			margin-left: 10px;
+			margin-right: 10px;
 		}
 
 		.toc-nav {
 			display: flex;
 			gap: 15px;
+			direction: ltr;
 		}
 
 		.toc-nav a {
@@ -113,27 +116,24 @@
 			transform: translateY(-2px);
 		}
 
-		/* Mobile responsive for TOC */
 		@media (max-width: 768px) {
 			.toc-content {
 				flex-direction: column;
 				gap: 10px;
+				direction: rtl;
 			}
 
 			.toc-nav {
 				gap: 10px;
 				flex-wrap: wrap;
 				justify-content: center;
+				direction: ltr;
 			}
 
 			.toc-nav a {
 				font-size: 0.8rem;
 				padding: 5px 10px;
 			}
-		}
-
-		.nav-links a:hover {
-			color: #4CAF50;
 		}
 
 		.content {
@@ -166,62 +166,12 @@
 			font-size: 1.2rem;
 		}
 
-		.example-section {
+		.step {
 			background: #f8f9fa;
 			border-radius: 15px;
 			padding: 30px;
 			margin: 30px 0;
-			border-left: 5px solid #4CAF50;
-		}
-
-		.language-example {
-			background: white;
-			border-radius: 10px;
-			padding: 20px;
-			margin: 20px 0;
-			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-		}
-
-		.language-title {
-			display: flex;
-			align-items: center;
-			margin-bottom: 15px;
-			font-size: 1.3rem;
-			font-weight: bold;
-			color: #333;
-		}
-
-		.language-icon {
-			font-size: 2rem;
-			margin-right: 10px;
-		}
-
-		.code-block {
-			background: #2d3748;
-			color: #e2e8f0;
-			padding: 20px;
-			border-radius: 10px;
-			margin: 15px 0;
-			font-family: 'Courier New', monospace;
-			overflow-x: auto;
-		}
-
-		.output-block {
-			background: #1a202c;
-			color: #4ade80;
-			padding: 15px;
-			border-radius: 10px;
-			margin: 15px 0;
-			font-family: 'Courier New', monospace;
-			border-left: 4px solid #4ade80;
-		}
-
-		.step {
-			background: #f8f9fa;
 			border-left: 5px solid #667eea;
-			padding: 25px;
-			margin: 30px 0;
-			border-radius: 10px;
 			position: relative;
 		}
 
@@ -241,52 +191,14 @@
 			font-size: 1.2rem;
 		}
 
-		.tip {
-			background: linear-gradient(45deg, #4CAF50, #45a049);
-			color: white;
+		.code-example {
+			background: #2d3748;
+			color: #e2e8f0;
 			padding: 20px;
 			border-radius: 10px;
 			margin: 20px 0;
-		}
-
-		.tip::before {
-			content: "💡 ";
-			font-size: 1.2rem;
-		}
-
-		.keyboard-shortcut {
-			background: #667eea;
-			color: white;
-			padding: 5px 10px;
-			border-radius: 5px;
-			font-family: monospace;
-			font-size: 0.9rem;
-		}
-
-		.next-guide {
-			background: linear-gradient(45deg, #667eea, #764ba2);
-			color: white;
-			padding: 30px;
-			border-radius: 15px;
-			text-align: center;
-			margin-top: 40px;
-		}
-
-		.next-guide a {
-			background: white;
-			color: #667eea;
-			padding: 15px 30px;
-			border-radius: 50px;
-			text-decoration: none;
-			font-weight: bold;
-			transition: all 0.3s;
-			display: inline-block;
-			margin: 10px;
-		}
-
-		.next-guide a:hover {
-			transform: translateY(-2px);
-			box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+			font-family: 'Courier New', monospace;
+			overflow-x: auto;
 		}
 
 		.shortcut-highlight {
@@ -317,15 +229,14 @@
 			backdrop-filter: blur(10px);
 		}
 
-		.shortcut-item .keys {
-			justify-content: center;
-			margin-bottom: 8px;
-		}
-
 		.shortcut-item kbd {
 			background: rgba(255, 255, 255, 0.2);
 			color: white;
 			border: 1px solid rgba(255, 255, 255, 0.3);
+			padding: 4px 8px;
+			border-radius: 4px;
+			font-size: 0.9rem;
+			font-family: monospace;
 		}
 
 		.shortcut-description {
@@ -348,9 +259,9 @@
 			border: 1px solid rgba(255, 255, 255, 0.3);
 		}
 
-		.command-list {
+		.command-grid {
 			display: grid;
-			grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+			grid-template-columns: 1fr;
 			gap: 15px;
 			margin-top: 20px;
 		}
@@ -373,19 +284,57 @@
 			font-family: monospace;
 			font-weight: bold;
 			font-size: 1rem;
-			margin-bottom: 8px;
-			color: #fff;
+			margin-bottom: 5px;
 		}
 
-		.command-desc {
+		.command-description {
+			color: rgba(255, 255, 255, 0.9);
 			font-size: 0.9rem;
-			color: rgba(255, 255, 255, 0.8);
-			line-height: 1.4;
+		}
+
+		.tip {
+			background: linear-gradient(45deg, #4CAF50, #45a049);
+			color: white;
+			padding: 20px;
+			border-radius: 10px;
+			margin: 20px 0;
+		}
+
+		.language-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+			gap: 10px;
+			margin: 15px 0;
+		}
+
+		.language-grid span {
+			background: #e9ecef;
+			padding: 8px 12px;
+			border-radius: 8px;
+			text-align: center;
+			font-weight: 500;
 		}
 	</style>
 </head>
 
 <body>
+	<!-- Sticky Table of Contents -->
+	<div class="sticky-toc" id="stickyToc">
+		<div class="toc-content">
+			<div class="toc-logo">
+				🚀 <span>Basic Usage</span>
+			</div>
+			<nav class="toc-nav">
+				<a href="../index.html">🏠 Home</a>
+				<a href="#getting-started">🏁 Getting Started</a>
+				<a href="#running-code">▶️ Running Code</a>
+				<a href="#keyboard-shortcuts">⌨️ Shortcuts</a>
+				<a href="#command-palette">🎯 Commands</a>
+				<a href="run-files.html">Next Guide →</a>
+			</nav>
+		</div>
+	</div>
+
 	<div class="container">
 		<nav class="nav-bar">
 			<div class="nav-content">
@@ -406,12 +355,11 @@
 				<p class="guide-subtitle">Learn how to run your code with a single click</p>
 			</div>
 
-			<div class="step">
+			<div class="step" id="getting-started">
 				<div class="step-number">1</div>
 				<h3>Open a Code File</h3>
 				<p>Open any supported code file in VS Code. The Run! extension supports:</p>
-				<div
-					style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin: 15px 0;">
+				<div class="language-grid">
 					<span>🐍 Python (.py)</span>
 					<span>☕ Java (.java)</span>
 					<span>⚡ C (.c)</span>
@@ -428,253 +376,185 @@
 				</div>
 			</div>
 
-			<div class="step">
+			<div class="step" id="running-code">
 				<div class="step-number">2</div>
-				<h3>Look for the Run Button</h3>
-				<p>Once you have a supported file open, you'll see a <strong>"▶️ Run"</strong> button appear in the
-					status bar at the bottom of VS Code.</p>
-				<div class="shortcut-highlight">
-					<h4>⚡ Quick Execution Methods</h4>
-					<div class="shortcut-grid">
-						<div class="shortcut-item">
-							<div class="keys">
-								<kbd>Ctrl</kbd>+<kbd>Cmd</kbd>+<kbd>R</kbd>
-							</div>
-							<div class="shortcut-description">Run current file (fastest)</div>
-						</div>
-						<div class="shortcut-item">
-							<div class="keys">
-								<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>
-							</div>
-							<div class="shortcut-description">Command Palette → "Run!: Run Code"</div>
-						</div>
-						<div class="shortcut-item">
-							<div class="keys">
-								<span
-									style="background: #667eea; color: white; padding: 4px 8px; border-radius: 4px;">▶️
-									Run</span>
-							</div>
-							<div class="shortcut-description">Click status bar button</div>
-						</div>
-					</div>
+				<h3>Find the Run Button</h3>
+				<p>Look for the <strong>"▶️ Run"</strong> button in the VS Code status bar (bottom of the screen). It
+					appears automatically when you open a supported file.</p>
+				<div class="tip">
+					<strong>💡 Pro Tip:</strong> If you don't see the button, make sure your file is saved with the
+					correct extension (.py, .java, .c, etc.)
 				</div>
 			</div>
 
 			<div class="step">
 				<div class="step-number">3</div>
 				<h3>Click and Run!</h3>
-				<p>Click the Run button and watch the magic happen. The extension will:</p>
+				<p>Simply click the "▶️ Run" button and watch your code execute in the integrated terminal. The
+					extension will:</p>
 				<ul>
-					<li>💾 Automatically save your file</li>
-					<li>🔧 Compile your code (if needed)</li>
+					<li>📝 Save your file automatically</li>
+					<li>🔧 Compile if needed (C, C++, Java)</li>
 					<li>▶️ Execute your program</li>
-					<li>📺 Show output in the integrated terminal</li>
-					<li>🧹 Clean up temporary files (in safe mode)</li>
+					<li>📊 Show output in the terminal</li>
 				</ul>
-			</div>
-
-			<div class="example-section">
-				<h2 style="color: #4CAF50; margin-bottom: 25px;">📝 Practical Examples</h2>
-
-				<div class="language-example">
-					<div class="language-title">
-						<span class="language-icon">🐍</span>
-						Python Example
-					</div>
-					<p>Create a file called <code>hello.py</code>:</p>
-					<div class="code-block">
-						# hello.py<br>
-						def greet(name):<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;return f"Hello, {name}! 👋"<br><br>
-
-						print(greet("World"))<br>
-						print("Python is running with Run! Extension! 🎉")
-					</div>
-					<p><strong>Expected Output:</strong></p>
-					<div class="output-block">
-						Hello, World! 👋<br>
-						Python is running with Run! Extension! 🎉
-					</div>
-				</div>
-
-				<div class="language-example">
-					<div class="language-title">
-						<span class="language-icon">⚡</span>
-						C Example
-					</div>
-					<p>Create a file called <code>hello.c</code>:</p>
-					<div class="code-block">
-						// hello.c<br>
-						#include &lt;stdio.h&gt;<br><br>
-
-						int main() {<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;printf("Hello from C! 🚀\n");<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;printf("Compilation and execution successful!\n");<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
-						}
-					</div>
-					<p><strong>Expected Output:</strong></p>
-					<div class="output-block">
-						Hello from C! 🚀<br>
-						Compilation and execution successful!
-					</div>
-				</div>
-
-				<div class="language-example">
-					<div class="language-title">
-						<span class="language-icon">☕</span>
-						Java Example
-					</div>
-					<p>Create a file called <code>Hello.java</code>:</p>
-					<div class="code-block">
-						// Hello.java<br>
-						public class Hello {<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) {<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Hello from Java! ☕");<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Run! Extension makes Java
-						easy!");<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;}<br>
-						}
-					</div>
-					<p><strong>Expected Output:</strong></p>
-					<div class="output-block">
-						Hello from Java! ☕<br>
-						Run! Extension makes Java easy!
-					</div>
-				</div>
 			</div>
 
 			<div class="step">
 				<div class="step-number">4</div>
-				<h3>Understanding the Output</h3>
-				<p>When you run your code, you'll see output in the VS Code integrated terminal:</p>
-				<ul>
-					<li>🔄 <strong>Compilation messages</strong> (for compiled languages)</li>
-					<li>✅ <strong>Success indicators</strong></li>
-					<li>📊 <strong>Your program's output</strong></li>
-					<li>❌ <strong>Error messages</strong> (if something goes wrong)</li>
-				</ul>
-				<div class="tip">
-					<strong>Pro Tip:</strong> The terminal stays open so you can see the output and any error messages.
-					Use this to debug your code!
+				<h3>View Results</h3>
+				<p>Your program output will appear in the VS Code integrated terminal. You can interact with your
+					program if it requires input.</p>
+				<div class="code-example">
+					# Example Python output:<br>
+					Running: python3 hello.py<br>
+					Hello, World!<br>
+					Process finished with exit code 0
 				</div>
 			</div>
 
-			<div class="command-palette-section">
-				<h2 style="text-align: center; margin-bottom: 20px;">🎯 Command Palette Commands</h2>
-				<p style="text-align: center; margin-bottom: 25px;">
-					Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> and type any of these commands:
-				</p>
-				<div class="command-list">
+			<div class="shortcut-highlight" id="keyboard-shortcuts">
+				<h4>⚡ Quick Keyboard Shortcuts</h4>
+				<div class="shortcut-grid">
+					<div class="shortcut-item">
+						<div><kbd>Ctrl</kbd>+<kbd>Cmd</kbd>+<kbd>R</kbd></div>
+						<div class="shortcut-description">Run current file</div>
+					</div>
+					<div class="shortcut-item">
+						<div><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd></div>
+						<div class="shortcut-description">Command Palette</div>
+					</div>
+					<div class="shortcut-item">
+						<div><kbd>Ctrl</kbd>+<kbd>`</kbd></div>
+						<div class="shortcut-description">Toggle Terminal</div>
+					</div>
+					<div class="shortcut-item">
+						<div><kbd>Ctrl</kbd>+<kbd>S</kbd></div>
+						<div class="shortcut-description">Save File</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="command-palette-section" id="command-palette">
+				<h3>🎯 Command Palette Commands</h3>
+				<p>Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> to open Command Palette and search for:</p>
+				<div class="command-grid">
 					<div class="command-card">
 						<div class="command-name">Run!: Run Code</div>
-						<div class="command-desc">Execute the current open file with appropriate compiler/interpreter
-						</div>
+						<div class="command-description">Execute the current file</div>
 					</div>
 					<div class="command-card">
 						<div class="command-name">Run!: Create Run file</div>
-						<div class="command-desc">Generate a .Run configuration file for your project</div>
+						<div class="command-description">Generate a .Run configuration file for custom settings</div>
 					</div>
 					<div class="command-card">
 						<div class="command-name">Run!: Show Walkthrough</div>
-						<div class="command-desc">Open interactive tutorial for beginners</div>
+						<div class="command-description">Launch the interactive tutorial</div>
 					</div>
 					<div class="command-card">
-						<div class="command-name">Extensions: Install Extensions</div>
-						<div class="command-desc">Open extension marketplace to install Run! extension</div>
+						<div class="command-name">Run!: Stop Running</div>
+						<div class="command-description">Stop the currently running process</div>
 					</div>
 				</div>
 			</div>
 
-			<div class="next-guide">
+			<div
+				style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 30px; border-radius: 15px; text-align: center; margin-top: 40px;">
 				<h2>🎯 Ready for More?</h2>
-				<p>Now that you know the basics, let's explore custom configurations and advanced features!</p>
-				<a href="run-files.html">📁 Learn .Run Files</a>
-				<a href="languages.html">💻 Language Details</a>
-				<a href="advanced-features.html">🎯 Advanced Features</a>
+				<p>Now that you know the basics, learn about advanced configuration options!</p>
+				<a href="run-files.html"
+					style="background: white; color: #667eea; padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; display: inline-block; margin: 10px;">⚙️
+					Configuration Guide</a>
 			</div>
 		</div>
-		<script>
-			// Sticky Table of Contents functionality
-			window.addEventListener("scroll", function () {
-				const stickyToc = document.getElementById("stickyToc");
-				const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-				if (scrollTop > 200) {
-					stickyToc.classList.add("visible");
-				} else {
-					stickyToc.classList.remove("visible");
-				}
-			});
-
-			// Smooth scrolling for TOC links
-			document.querySelectorAll(".toc-nav a").forEach(link => {
-				link.addEventListener("click", function (e) {
-					const href = this.getAttribute("href");
-					if (href.startsWith("#")) {
-						e.preventDefault();
-						const targetId = href.substring(1);
-						const targetElement = document.getElementById(targetId);
-						if (targetElement) {
-							const offset = 100;
-							const targetPosition = targetElement.offsetTop - offset;
-							window.scrollTo({top: targetPosition, behavior: "smooth"});
-						}
-					}
-				});
-			});
-
-			// Mark this guide as read
-			window.addEventListener("load", function () {
-				// Cookie helper functions
-				function getCookie(name) {
-					const nameEQ = name + "=";
-					const ca = document.cookie.split(';');
-					for (let i = 0; i < ca.length; i++) {
-						let c = ca[i];
-						while (c.charAt(0) === ' ') {
-							c = c.substring(1, c.length);
-						}
-						if (c.indexOf(nameEQ) === 0) {
-							return c.substring(nameEQ.length, c.length);
-						}
-					}
-					return null;
-				}
-
-				function setCookie(name, value, days) {
-					const expires = new Date();
-					expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
-					document.cookie = name + '=' + value + ';expires=' + expires.toUTCString() + ';path=/';
-				}
-
-				const consent = getCookie('cookieConsent');
-				if (consent === 'accepted') {
-					const currentUrl = "guides/basic-usage.html";
-					let readGuides = getCookie('readGuides');
-					readGuides = readGuides ? readGuides.split(',') : [];
-
-					// Always mark this guide as read when visiting the page
-					if (!readGuides.includes(currentUrl)) {
-						readGuides.push(currentUrl);
-						setCookie('readGuides', readGuides.join(','), 365);
-					}
-
-					// Show visual indicator on this page that it's been read
-					setTimeout(() => {
-						const pageTitle = document.querySelector('.guide-title');
-						if (pageTitle && !pageTitle.querySelector('.read-badge')) {
-							const readBadge = document.createElement('span');
-							readBadge.className = 'read-badge';
-							readBadge.innerHTML = ' ✅';
-							readBadge.style.cssText = 'color: #4CAF50; font-size: 0.8em; margin-left: 10px;';
-							readBadge.title = 'מדריך נקרא';
-							pageTitle.appendChild(readBadge);
-						}
-					}, 500);
-				}
-			});
-		</script>
 	</div>
+
+	<script>
+		// Sticky Table of Contents functionality
+		window.addEventListener('scroll', function () {
+			const stickyToc = document.getElementById('stickyToc');
+			const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+			if (scrollTop > 200) {
+				stickyToc.classList.add('visible');
+			} else {
+				stickyToc.classList.remove('visible');
+			}
+		});
+
+		// Smooth scrolling for TOC links
+		document.querySelectorAll('.toc-nav a').forEach(link => {
+			link.addEventListener('click', function (e) {
+				const href = this.getAttribute('href');
+				if (href.startsWith('#')) {
+					e.preventDefault();
+					const targetId = href.substring(1);
+					const targetElement = document.getElementById(targetId);
+
+					if (targetElement) {
+						const offset = 100;
+						const targetPosition = targetElement.offsetTop - offset;
+
+						window.scrollTo({
+							top: targetPosition,
+							behavior: 'smooth'
+						});
+					}
+				}
+			});
+		});
+
+		// Mark this guide as read when page loads (if cookies are accepted)
+		window.addEventListener('load', function () {
+			// Cookie helper functions
+			function getCookie(name) {
+				const nameEQ = name + "=";
+				const ca = document.cookie.split(';');
+				for (let i = 0; i < ca.length; i++) {
+					let c = ca[i];
+					while (c.charAt(0) === ' ') {
+						c = c.substring(1, c.length);
+					}
+					if (c.indexOf(nameEQ) === 0) {
+						return c.substring(nameEQ.length, c.length);
+					}
+				}
+				return null;
+			}
+
+			function setCookie(name, value, days) {
+				const expires = new Date();
+				expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+				document.cookie = name + '=' + value + ';expires=' + expires.toUTCString() + ';path=/';
+			}
+
+			const consent = getCookie('cookieConsent');
+			if (consent === 'accepted') {
+				const currentUrl = 'guides/basic-usage.html';
+				let readGuides = getCookie('readGuides');
+				readGuides = readGuides ? readGuides.split(',') : [];
+
+				// Always mark this guide as read when visiting the page
+				if (!readGuides.includes(currentUrl)) {
+					readGuides.push(currentUrl);
+					setCookie('readGuides', readGuides.join(','), 365);
+				}
+
+				// Show visual indicator on this page that it's been read
+				setTimeout(() => {
+					const pageTitle = document.querySelector('.guide-title');
+					if (pageTitle && !pageTitle.querySelector('.read-badge')) {
+						const readBadge = document.createElement('span');
+						readBadge.className = 'read-badge';
+						readBadge.innerHTML = ' ✅';
+						readBadge.style.cssText = 'color: #4CAF50; font-size: 0.8em; margin-left: 10px;';
+						readBadge.title = 'Guide completed';
+						pageTitle.appendChild(readBadge);
+					}
+				}, 500);
+			}
+		});
+	</script>
 </body>
 
 </html>

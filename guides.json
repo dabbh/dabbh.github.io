@@ -3,9 +3,7 @@
     {
       "id": "installation",
       "title": "Installation Guide",
-      "titleHe": "מדריך התקנה",
       "description": "Step-by-step installation process for the Run! extension",
-      "descriptionHe": "הוראות התקנה מלאות לתוסף Run! בשלבים קלים",
       "icon": "📥",
       "difficulty": "beginner",
       "estimatedTime": "2 minutes",
@@ -14,9 +12,7 @@
     {
       "id": "basic-usage",
       "title": "Basic Usage",
-      "titleHe": "שימוש בסיסי",
       "description": "Learn how to run your first code with the Run! extension",
-      "descriptionHe": "למד איך להריץ את הקוד הראשון שלך עם התוסף",
       "icon": "🚀",
       "difficulty": "beginner",
       "estimatedTime": "5 minutes",
@@ -25,9 +21,7 @@
     {
       "id": "run-files",
       "title": ".Run Configuration Files",
-      "titleHe": "קבצי הגדרות .Run",
       "description": "Create custom configurations for your projects",
-      "descriptionHe": "צור הגדרות מותאמות אישית לפרויקטים שלך",
       "icon": "⚙️",
       "difficulty": "intermediate",
       "estimatedTime": "10 minutes",
@@ -36,9 +30,7 @@
     {
       "id": "global-config",
       "title": "Global Configuration",
-      "titleHe": "הגדרות גלובליות",
       "description": "Set up global settings for all your projects",
-      "descriptionHe": "הגדר הגדרות כלליות לכל הפרויקטים שלך",
       "icon": "🌍",
       "difficulty": "intermediate",
       "estimatedTime": "8 minutes",
@@ -47,9 +39,7 @@
     {
       "id": "languages",
       "title": "Supported Languages",
-      "titleHe": "שפות נתמכות",
       "description": "Complete guide for all 13+ supported programming languages",
-      "descriptionHe": "מדריך מלא לכל 13+ שפות התכנות הנתמכות",
       "icon": "💻",
       "difficulty": "intermediate",
       "estimatedTime": "15 minutes",
@@ -58,9 +48,7 @@
     {
       "id": "troubleshooting",
       "title": "Troubleshooting",
-      "titleHe": "פתרון בעיות",
       "description": "Common issues and their solutions",
-      "descriptionHe": "בעיות נפוצות ופתרונות מהירים",
       "icon": "🔧",
       "difficulty": "intermediate",
       "estimatedTime": "12 minutes",
@@ -69,9 +57,7 @@
     {
       "id": "advanced-features",
       "title": "Advanced Features",
-      "titleHe": "תכונות מתקדמות",
       "description": "Safe mode, autocompletion, and cross-platform tips",
-      "descriptionHe": "מצב בטוח, השלמה אוטומטית וטיפים מתקדמים",
       "icon": "🎯",
       "difficulty": "advanced",
       "estimatedTime": "20 minutes",
@@ -80,9 +66,7 @@
     {
       "id": "examples",
       "title": "Code Examples",
-      "titleHe": "דוגמאות קוד",
       "description": "Real-world examples and best practices",
-      "descriptionHe": "דוגמאות מהעולם האמיתי ושיטות מומלצות",
       "icon": "📝",
       "difficulty": "beginner",
       "estimatedTime": "25 minutes",
@@ -92,17 +76,14 @@
   "categories": {
     "beginner": {
       "name": "Beginner",
-      "nameHe": "מתחילים",
       "color": "#4CAF50"
     },
     "intermediate": {
       "name": "Intermediate", 
-      "nameHe": "בינוני",
       "color": "#FF9800"
     },
     "advanced": {
       "name": "Advanced",
-      "nameHe": "מתקדם", 
       "color": "#F44336"
     }
   }
