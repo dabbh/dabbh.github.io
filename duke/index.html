@@ -85,7 +85,7 @@
 	<h2>Controls:</h2>
 	<div class="controls">
 		<button id="exportBtn">Export Image</button>
-		<div class="key-info"><span class="key-label">Click Duke</span>: Swap Duke's pose</div>
+		<div class="key-info"><span class="key-label">Left Click Duke</span>: Swap Duke's pose</div>
 		<div class="key-info"><span class="key-label">Drag Accessory</span>: Move it</div>
 		<div class="key-info"><span class="key-label">Select Accessory + R/L</span>: Rotate (Right/Left)</div>
 		<div class="key-info"><span class="key-label">Select Accessory + +/-</span>: Scale (Enlarge/Shrink)</div>
@@ -215,8 +215,8 @@
 			const mouseX = e.offsetX;
 			const mouseY = e.offsetY;
 
-			// Check if Duke is clicked
-			if (mouseX > dukeDrawX && mouseX < dukeDrawX + dukeNormalCanvas.width &&
+			// Check if Duke is clicked with left mouse button (button 0)
+			if (e.button === 0 && mouseX > dukeDrawX && mouseX < dukeDrawX + dukeNormalCanvas.width &&
 				mouseY > dukeDrawY && mouseY < dukeDrawY + dukeNormalCanvas.height) {
 				isDukeAlt = !isDukeAlt;
 				selectedAccessory = null; // Deselect any accessory
