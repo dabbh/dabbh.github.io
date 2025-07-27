@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Duke Dress-Up Deluxe - Web Version</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin: 20px;
+			background-color: #f0f0f0;
+		}
+
+		#app-container {
+			border: 2px solid #333;
+			width: 600px;
+			height: 400px;
+			position: relative;
+			background-color: white;
+			overflow: hidden;
+			touch-action: none;
+			/* Prevents default touch behaviors like scrolling/zooming */
+		}
+
+		canvas {
+			display: block;
+			/* Remove extra space below canvas */
+		}
+
+		.controls {
+			margin-top: 20px;
+			display: flex;
+			gap: 10px;
+			flex-wrap: wrap;
+			/* Allow controls to wrap on smaller screens */
+			justify-content: center;
+		}
+
+		button,
+		.key-info {
+			padding: 10px 15px;
+			font-size: 16px;
+			cursor: pointer;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			background-color: #e0e0e0;
+			color: #333;
+			text-align: center;
+		}
+
+		.key-info {
+			background-color: #f8f8f8;
+			border-color: #ddd;
+			font-size: 0.9em;
+			display: flex;
+			align-items: center;
+			gap: 5px;
+		}
+
+		.key-label {
+			font-weight: bold;
+			background-color: #ccf;
+			padding: 2px 5px;
+			border-radius: 3px;
+		}
+
+		h2 {
+			margin-top: 30px;
+			color: #555;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Duke Dress-Up Deluxe</h1>
+
+	<div id="app-container">
+		<canvas id="mainCanvas" width="600" height="400"></canvas>
+	</div>
+
+	<h2>Controls:</h2>
+	<div class="controls">
+		<button id="exportBtn">Export Image</button>
+		<div class="key-info"><span class="key-label">Click Duke</span>: Swap Duke's pose</div>
+		<div class="key-info"><span class="key-label">Drag Accessory</span>: Move it</div>
+		<div class="key-info"><span class="key-label">Select Accessory + R/L</span>: Rotate (Right/Left)</div>
+		<div class="key-info"><span class="key-label">Select Accessory + +/-</span>: Scale (Enlarge/Shrink)</div>
+		<div class="key-info"><span class="key-label">Select Accessory + H</span>: Next accessory mode</div>
+		<div class="key-info"><span class="key-label">Select Accessory + D</span>: Duplicate</div>
+		<div class="key-info"><span class="key-label">Select Accessory + Delete</span>: Delete</div>
+	</div>
+
+	<script>
+		const canvas = document.getElementById('mainCanvas');
+		const ctx = canvas.getContext('2d');
+		const exportBtn = document.getElementById('exportBtn');
+
+		// === Current Duke State ===
+		let isDukeAlt = false;
+
+		// === Memory for Accessories ===
+		let accessories = []; // Stores all accessory objects (including image, position, transform data)
+		let selectedAccessory = null;
+
+		// === Load Image from URL ===
+		async function loadImageFromUrl(url, size) {
+			try {
+				const response = await fetch(url);
+				const blob = await response.blob();
+				const img = await createImageBitmap(blob); // Use createImageBitmap for better performance
+
+				// Create a temporary canvas to resize the image
+				const tempCanvas = document.createElement('canvas');
+				const tempCtx = tempCanvas.getContext('2d');
+				tempCanvas.width = size[0];
+				tempCanvas.height = size[1];
+				tempCtx.drawImage(img, 0, 0, size[0], size[1]);
+				return tempCanvas; // Return the canvas element
+			} catch (error) {
+				console.error("Failed to load image from URL:", url, error);
+				// Return a blank canvas or placeholder on error
+				const errorCanvas = document.createElement('canvas');
+				errorCanvas.width = size[0];
+				errorCanvas.height = size[1];
+				const errorCtx = errorCanvas.getContext('2d');
+				errorCtx.fillStyle = 'lightgray';
+				errorCtx.fillRect(0, 0, size[0], size[1]);
+				errorCtx.fillStyle = 'red';
+				errorCtx.font = '10px Arial';
+				errorCtx.fillText('Error', 5, size[1] / 2);
+				return errorCanvas;
+			}
+		}
+
+		// === Load Duke ===
+		let dukeNormalCanvas, dukeAltCanvas;
+		let dukeDrawX, dukeDrawY; // Position where Duke is drawn
+
+		async function loadDukeImages() {
+			dukeNormalCanvas = await loadImageFromUrl("https://cr.openjdk.org/~jeff/Duke/png/Hips.png", [200, 200]);
+			dukeAltCanvas = await loadImageFromUrl("https://cr.openjdk.org/~jeff/Duke/png/Swing.png", [200, 200]);
+
+			// Calculate Duke's initial centered position
+			dukeDrawX = (canvas.width / 2) - (dukeNormalCanvas.width / 2);
+			dukeDrawY = (canvas.height / 2) - (dukeNormalCanvas.height / 2);
+			drawAll();
+		}
+
+		// === Drawing Function ===
+		function drawAll() {
+			ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+
+			// Draw Duke
+			const currentDukeImg = isDukeAlt ? dukeAltCanvas : dukeNormalCanvas;
+			if (currentDukeImg) {
+				ctx.drawImage(currentDukeImg, dukeDrawX, dukeDrawY);
+			}
+
+			// Draw Accessories
+			accessories.forEach(acc => {
+				const imgCanvas = acc.images[acc.mode_index];
+				if (!imgCanvas) return;
+
+				ctx.save(); // Save the current canvas state
+
+				// Translate to the accessory's center
+				ctx.translate(acc.x, acc.y);
+
+				// Rotate
+				ctx.rotate(acc.angle * Math.PI / 180);
+
+				// Scale (and draw)
+				const scaledWidth = imgCanvas.width * acc.scale;
+				const scaledHeight = imgCanvas.height * acc.scale;
+				ctx.drawImage(imgCanvas, -scaledWidth / 2, -scaledHeight / 2, scaledWidth, scaledHeight);
+
+				// Draw selection border if selected
+				if (acc === selectedAccessory) {
+					ctx.strokeStyle = 'blue';
+					ctx.lineWidth = 2;
+					ctx.strokeRect(-scaledWidth / 2, -scaledHeight / 2, scaledWidth, scaledHeight);
+				}
+
+				ctx.restore(); // Restore the canvas state
+			});
+		}
+
+
+		// === Load Accessory ===
+		async function loadAccessory(urls, x, y, size = [80, 80]) {
+			const imageCanvases = await Promise.all(urls.map(url => loadImageFromUrl(url, size)));
+			const newAccessory = {
+				images: imageCanvases, // Array of canvas elements
+				x: x,
+				y: y,
+				angle: 0,
+				scale: 1.0,
+				mode_index: 0,
+				source_urls: urls // Keep track of original URLs for duplication
+			};
+			accessories.push(newAccessory);
+			drawAll();
+			return newAccessory;
+		}
+
+		// === Event Handlers ===
+		let isDragging = false;
+		let dragOffsetX, dragOffsetY;
+
+		canvas.addEventListener('mousedown', (e) => {
+			const mouseX = e.offsetX;
+			const mouseY = e.offsetY;
+
+			// Check if Duke is clicked
+			if (mouseX > dukeDrawX && mouseX < dukeDrawX + dukeNormalCanvas.width &&
+				mouseY > dukeDrawY && mouseY < dukeDrawY + dukeNormalCanvas.height) {
+				isDukeAlt = !isDukeAlt;
+				selectedAccessory = null; // Deselect any accessory
+				drawAll();
+				return;
+			}
+
+			// Check if an accessory is clicked
+			selectedAccessory = null; // Deselect previous
+			// Iterate in reverse to select top-most accessory
+			for (let i = accessories.length - 1; i >= 0; i--) {
+				const acc = accessories[i];
+				const imgCanvas = acc.images[acc.mode_index];
+				if (!imgCanvas) continue;
+
+				// Create a temporary canvas for hit testing with rotation/scale
+				const tempCanvas = document.createElement('canvas');
+				const tempCtx = tempCanvas.getContext('2d');
+				const scaledWidth = imgCanvas.width * acc.scale;
+				const scaledHeight = imgCanvas.height * acc.scale;
+
+				// Adjust tempCanvas size to accommodate rotation
+				const maxDim = Math.max(scaledWidth, scaledHeight) * 1.5; // Extra padding
+				tempCanvas.width = maxDim;
+				tempCanvas.height = maxDim;
+
+				tempCtx.save();
+				tempCtx.translate(tempCanvas.width / 2, tempCanvas.height / 2);
+				tempCtx.rotate(acc.angle * Math.PI / 180);
+				tempCtx.drawImage(imgCanvas, -scaledWidth / 2, -scaledHeight / 2, scaledWidth, scaledHeight);
+				tempCtx.restore();
+
+				// Get pixel data at mouse click relative to tempCanvas
+				// Calculate mouse position relative to accessory's center
+				const relMouseX = mouseX - acc.x + tempCanvas.width / 2;
+				const relMouseY = mouseY - acc.y + tempCanvas.height / 2;
+
+				if (relMouseX >= 0 && relMouseX < tempCanvas.width &&
+					relMouseY >= 0 && relMouseY < tempCanvas.height) {
+					const pixel = tempCtx.getImageData(relMouseX, relMouseY, 1, 1).data;
+					if (pixel[3] > 0) { // Check alpha channel
+						selectedAccessory = acc;
+						isDragging = true;
+						dragOffsetX = mouseX - acc.x;
+						dragOffsetY = mouseY - acc.y;
+						canvas.style.cursor = 'grabbing';
+						drawAll();
+						return; // Found a clicked accessory
+					}
+				}
+			}
+			drawAll(); // Redraw to remove selection if nothing new selected
+		});
+
+		canvas.addEventListener('mousemove', (e) => {
+			if (isDragging && selectedAccessory) {
+				selectedAccessory.x = e.offsetX - dragOffsetX;
+				selectedAccessory.y = e.offsetY - dragOffsetY;
+				drawAll();
+			}
+		});
+
+		canvas.addEventListener('mouseup', () => {
+			isDragging = false;
+			canvas.style.cursor = 'default';
+		});
+
+		canvas.addEventListener('mouseleave', () => {
+			isDragging = false; // Stop dragging if mouse leaves canvas
+			canvas.style.cursor = 'default';
+		});
+
+
+		// === Keyboard Controls for Selected Accessory ===
+		document.addEventListener('keydown', (e) => {
+			if (!selectedAccessory) return;
+
+			const acc = selectedAccessory;
+			let redrawNeeded = true;
+
+			switch (e.key) {
+				case 'r': // Rotate clockwise
+					acc.angle = (acc.angle + 15) % 360;
+					break;
+				case 'l': // Rotate counter-clockwise
+					acc.angle = (acc.angle - 15 + 360) % 360;
+					break;
+				case '+': // Scale up
+				case '=':
+					acc.scale *= 1.1;
+					break;
+				case '-': // Scale down
+					acc.scale *= 0.9;
+					break;
+				case 'h': // Cycle mode
+					acc.mode_index = (acc.mode_index + 1) % acc.images.length;
+					break;
+				case 'd': // Duplicate
+					const newX = acc.x + 20;
+					const newY = acc.y + 20;
+					// Create a new accessory using the source URLs
+					const duplicatedAcc = {
+						images: acc.images, // Re-use the loaded image canvases
+						x: newX,
+						y: newY,
+						angle: acc.angle,
+						scale: acc.scale,
+						mode_index: acc.mode_index,
+						source_urls: acc.source_urls // Important for future duplication
+					};
+					accessories.push(duplicatedAcc);
+					selectedAccessory = duplicatedAcc; // Select the new one
+					break;
+				case 'Delete': // Delete
+					accessories = accessories.filter(item => item !== acc);
+					selectedAccessory = null;
+					break;
+				default:
+					redrawNeeded = false;
+					break;
+			}
+
+			if (redrawNeeded) {
+				drawAll();
+			}
+		});
+
+		// === Export Image ===
+		exportBtn.addEventListener('click', () => {
+			const finalCanvas = document.createElement('canvas');
+			finalCanvas.width = 600;
+			finalCanvas.height = 400;
+			const finalCtx = finalCanvas.getContext('2d');
+
+			// Draw Duke
+			const currentDukeImg = isDukeAlt ? dukeAltCanvas : dukeNormalCanvas;
+			if (currentDukeImg) {
+				finalCtx.drawImage(currentDukeImg, dukeDrawX, dukeDrawY);
+			}
+
+			// Draw Accessories
+			accessories.forEach(acc => {
+				const imgCanvas = acc.images[acc.mode_index];
+				if (!imgCanvas) return;
+
+				finalCtx.save();
+				finalCtx.translate(acc.x, acc.y);
+				finalCtx.rotate(acc.angle * Math.PI / 180);
+				const scaledWidth = imgCanvas.width * acc.scale;
+				const scaledHeight = imgCanvas.height * acc.scale;
+				finalCtx.drawImage(imgCanvas, -scaledWidth / 2, -scaledHeight / 2, scaledWidth, scaledHeight);
+				finalCtx.restore();
+			});
+
+			// Trigger download
+			const dataURL = finalCanvas.toDataURL('image/png');
+			const link = document.createElement('a');
+			link.href = dataURL;
+			link.download = 'duke_dressup_output.png';
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+			console.log("Image saved: duke_dressup_output.png");
+		});
+
+		// === Initial Load and Accessories ===
+		async function initializeApp() {
+			await loadDukeImages(); // Ensure Duke is loaded first
+
+			loadAccessory([
+				"https://img.icons8.com/?size=500&id=mSn4JmTx9s1s&format=png&color=000000",
+				"https://img.icons8.com/?size=500&id=TuoZ6pTmiTRp&format=png&color=000000"
+			], 100, 100);
+
+			loadAccessory([
+				"https://i.ibb.co/5hhyPJrR/d583541f8a669c3340eefef4627ffc2b.png",
+				"https://img.icons8.com/?size=500&id=2P4sSSsQbIM6&format=png&color=000000"
+			], 150, 100);
+
+			loadAccessory([
+				"https://img.icons8.com/?size=500&id=hRivggVgch0g&format=png&color=000000",
+				"https://img.icons8.com/?size=500&id=ueeb6trMymBm&format=png&color=000000"
+			], 200, 120);
+
+			// Glitter accessory
+			loadAccessory([
+				"https://img.icons8.com/?size=500&id=80355&format=png&color=000000",
+				"https://img.icons8.com/?size=500&id=8ggStxqyboK5&format=png&color=FFD700",
+				"https://img.icons8.com/?size=500&id=BPjMKoqijnQ0&format=png&color=000000"
+			], 250, 120);
+
+			loadAccessory([
+				"https://img.icons8.com/?size=500&id=IGmEntJbJeYP&format=png&color=000000",
+				"https://img.icons8.com/?size=500&id=NLyrwHtWLgPD&format=png&color=000000"
+			], 300, 120);
+		}
+
+		initializeApp(); // Start the application
+	</script>
+</body>
+
+</html>
